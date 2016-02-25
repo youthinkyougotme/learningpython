@@ -1,0 +1,3 @@
+Bandstra: 75, 92, 94
+Hagood: 80, 83, 77
+McFall: 100, 90, 95

@@ -1,0 +1,43 @@
+Day	Date	Topic	Student Preparation	Class Notes	Assign	Due Day	Due Date
+1	1/11/2016	Course Introduction	Complete survey	Link			
+2	1/13/2016	The Basic Structure of an HTML Document:  in class exercise using Brackets to examine and modify Professor's Lab 1 page	Read pages 1-26 of Foundation HTML5 with CSS3	Link			
+3	1/15/2016	Complete in class exercise	Read pages 69-90 of Foundation HTML 5 with CSS 3	Link	HW #1	5	1/20/2016
+4	1/18/2016	HTML Element review; phrasing and miscellaneous elements	"Read pages 97-123 of Foundation HTML5 with CSS3; skip the elements code, kdb, samp and var on pages 113-115, and the elements ruby, rp, bdo and bdi on pages 118-122"	Link			
+5	1/20/2016	More practice using CodePen to edit HTML; adding some simple CSS	Read pages 27-36 of Foundation HTML5 with CSS3	Link			
+6	1/22/2016	Introduction to CSS; examining a CSS Zen Garden Stylesheet	Read pages 58-67 of Foundation HTML5 with CSS3				
+7	1/25/2016	Practice using Bootstrap to format an HTML document	Read pages 125 (starting at the heading Styling Content with CSS) through page 139 of Foundation HTML5 with CSS3		HW #2	10	2/1/2016
+8	1/27/2016	Understanding selectors	Read pages 141 through 153 (stop at the heading Obsolete Presentation Attributes) of Foundation HTML5 with CSS3	Link			
+9	1/29/2016	Question and Answer Day					
+10	2/1/2016	Specificity in CSS	Read pages 187 through 205 of Foundation HTML5 with CSS3				
+11	2/3/2016	Bootstrap's Grid System	Read pages 299 through 329 of Foundation HTML5 with CSS3				
+12	2/5/2016	Bootstrap Grid Exercise					
+13	2/8/2016	"Bootstrap navigational aids: tabs, collapsible content"					
+14	2/10/2016	Exam #1					
+15	2/12/2016						
+16	2/17/2016						
+17	2/19/2016						
+18	2/22/2016						
+19	2/24/2016						
+20	2/26/2016						
+21	2/29/2016						
+22	3/2/2016						
+23	3/4/2016						
+24	3/7/2016						
+25	3/9/2016						
+26	3/11/2016						
+27	3/14/2016						
+28	3/16/2016						
+29	3/30/2016						
+30	4/1/2016						
+31	4/4/2016						
+32	4/6/2016						
+33	4/8/2016						
+34	4/11/2016						
+35	4/13/2016						
+36	4/15/2016						
+37	4/18/2016						
+38	4/20/2016						
+39	4/22/2016						
+40	4/25/2016						
+41	4/27/2016						
+42	4/29/2016						

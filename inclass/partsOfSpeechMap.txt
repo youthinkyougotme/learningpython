@@ -1,0 +1,22 @@
+partsOfSpeech = {
+"JJ": "adj",
+"JJR": "adj",
+"JJS": "adj",
+"NN": "noun",
+"NNS": "noun",
+"NNP": "noun",
+"NNPS": "noun",
+"PRP": "noun",
+"PRPS": "noun",
+"PRP$": "noun",
+"RB": "adverb",
+"WRB": "adverb",
+"RBR": "adverb",
+"RBS": "adverb",
+"VB": "verb",
+"VBD": "verb",
+"VBG": "verb",
+"VBN": "verb",
+"VBP": "verb",
+"VBZ": "verb"
+}
