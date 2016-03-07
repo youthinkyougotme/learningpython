@@ -1,0 +1,2 @@
+Changing the comparison operator from = to <= would allow the code within the if block to run in the case where there is a book that contains the same number of chapters as the current fewest.
+In the case that the above scenario presents itself, i.e. there are multiple books that have the fewest number of chapters, the book that last in the sequence or order of the books will be the book that is noted to be the book with the fewest chapters. This would then be an incorrect statement.
