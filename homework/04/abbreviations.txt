@@ -1,0 +1,66 @@
+Ge : Genesis
+Exo : Exodus
+Lev : Leviticus
+Num : Numbers
+Deu : Deuteronomy
+Josh : Joshua
+Jdgs : Judges
+Ruth : Ruth
+1Sm : I Samuel
+2Sm : II Samuel
+1Ki : I Kings
+2Ki : II Kings
+1Chr : I Chronicles
+2Chr : II Chronicles
+Ezra : Ezra
+Neh : Nehemiah
+Est : Esther
+Job : Job
+Psa : Psalms
+Prv : Proverbs
+Eccl : Ecclesiastes
+SSol : Song of Solomon
+Isa : Isaiah
+Jer : Jeremiah
+Lam : Lamentations
+Eze : Ezekiel
+Dan : Daniel
+Hos : Hosea
+Joel : Joel
+Amos : Amos
+Obad : Obadiah
+Jonah : Jonah
+Mic : Micah
+Nahum : Nahum
+Hab : Habbakuk
+Zep : Sephaniah
+Hag : Haggai
+Zec : Zechariah
+Mal : Malachi
+Mat : Matthew
+Mark : Mark
+Luke : Luke
+John : John
+Acts : Acts
+Rom : Romans
+1Cor : I Corinthians
+2Cor : II Corinthians
+Gal : Galations
+Eph : Ephesians
+Phi : Phillipians
+Col : Colossions
+1Th : I Thessolonians
+2Th : II Thessolonians
+1Tim : I Timothy
+2Tim : II Timothy
+Titus : Titus
+Phmn : Philemon
+Heb : Hebrews
+Jas : James
+1Pet : I Peter
+2Pet : II Peter
+1Jn : I John
+2Jn : II John
+3Jn : III John
+Jude : Jude
+Rev : Revelation
