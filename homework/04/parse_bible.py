@@ -1,5 +1,5 @@
 bible = dict()
-
+abbreviations = dict()
 books = []
 
 with open("kjv.atv") as bible_file:
@@ -10,7 +10,7 @@ with open("kjv.atv") as bible_file:
         reference = parts[1]
         verse_text = parts[2]
 
-        (chapter, verse) = reference.split(":") 
+        (chapter, verse) = reference.split(":")
 	chapter = int(chapter)
 	verse = int(verse)
 
@@ -25,6 +25,18 @@ with open("kjv.atv") as bible_file:
             book_chapters[chapter-1].append(verse_text)
         else:
             book_chapters.append ([verse_text])
+
+
+with open("abbreviations.txt") as abbre_file :
+
+    for line in abbre_file :
+
+        book_abbr_name = line.rstrip().split(':')
+        book_abbreviation = book_abbr_name[0].replace(" ", "")
+        book_fullname = book_abbr_name[1].replace(" ", "")
+
+        for each in book_abbr_name :
+            abbreviations[book_abbreviation] = book_fullname
 
 '''
 fewest_chapters = len(bible["Ge"])

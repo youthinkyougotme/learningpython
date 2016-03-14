@@ -1,6 +1,8 @@
+import sys
 from random import random
 
 sentiment = dict()
+
 
 scores = {
   "positive": 1,
@@ -14,6 +16,8 @@ multipliers = {
   "strongsubj": 2
 }
 
+
+
 with open("sentiment-dictionary.txt") as sentimentFile:
     for line in sentimentFile:
         line = line.rstrip()
@@ -24,7 +28,7 @@ with open("sentiment-dictionary.txt") as sentimentFile:
             key = part.split("=")[0]
             value = part.split("=")[1]
             entry[key] = value
-        
+
 
         pos = entry["pos1"]
         word = entry["word1"]
@@ -43,5 +47,8 @@ with open("sentiment-dictionary.txt") as sentimentFile:
           sentiment[pos] = pos_dict
         else:
           pos_dict = sentiment[pos]
-	
+
         pos_dict[word] = score * multiplier
+
+        print sentiment
+        raw_input('asf')
