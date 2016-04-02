@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <meta name="citation_title" content="Georeferencing in QGIS 2.0" />
+
+<meta name="citation_author" content="Jim Clifford" />
+
+<meta name="citation_author" content="Josh MacFadyen" />
+
+<meta name="citation_author" content="Daniel Macfarlane" />
+
+<meta name="citation_publication_date" content="2013-12-13" />
+<meta name="citation_journal_title" content="Programming Historian" />
+<meta name="citation_public_url" content="http://programminghistorian.org/lessons/georeferencing-qgis" />
+
+
+    <!-- Mobile viewport optimized: h5bp.com/viewport -->
+    <meta name="viewport" content="width=device-width">
+    
+    <!--Font awesome CDN -->
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,700%7CCrete+Round' rel='stylesheet' type='text/css'>
+    <link href="../css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/github.css">
+    <link href='../feed.xml.rss' rel='alternate' type='application/atom+xml'>
+    <title>Georeferencing in QGIS 2.0 | Programming Historian</title>
+        
+    <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="../js/ui.js"></script>
+    <script type="text/javascript" src="../js/ext_links.js"></script>
+    <script type="text/javascript" src="../js/header_links.js"></script>
+    <script>
+      $(document).ready(function(){
+        $('.slide-trigger').collapsable();
+      });
+    </script>
+
+    <script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-2752866-8']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+  </head>
+
+
+
+  
+  
+  
+
+  <body>
+
+    <header role="banner">
+    <h1><a href="../index.html">The Programming Historian</a></h1>
+
+	        <div class="additional">
+          <ul id="menu-main-menu" class="additional">
+            <li class="menu-item"><a href="../index.html">About</a></li>
+            <li class="menu-item"><a href="index.html">Lessons</a></li>
+            <li class="menu-item"><a href="../contribute.html">Contribute</a></li>
+            <li class="menu-item"><a href="../project-team.html">Project Team</a></li>
+            <li class="menu-item"><a href="../blog.html">Blog</a></li>
+          </ul>
+        </div>
+
+	</header>
+
+	<div role="main">
+		<article>
+			<header>
+
+                
+				
+			    <p class="kicker">December 13, 2013</p>
+				<h1><a href="georeferencing-qgis.html">Georeferencing in QGIS 2.0</a></h1>
+                <p class="byline">By 
+  
+        
+             
+                   Jim Clifford
+             
+        
+             
+  		         , Josh MacFadyen
+             
+        
+             
+                   and Daniel Macfarlane
+             
+        
+  
+  </p>
+
+				
+				
+				<ul class="credits">Reviewed by
+				
+                      
+                           
+                                 Finn Arne Jørgensen
+                           
+                      
+                           
+						         , Peter Webster
+                           
+                      
+                           
+						         , Abby Schreiber
+                           
+                      
+                           
+                                 and Adam Crymble
+                           
+                      
+                
+                <br/>
+                
+                Recommended for 
+                
+                Intermediate
+                
+                 Users
+                
+                </ul>
+                
+				
+			</header>
+
+            
+
+			<div class="content">
+	              <h2 id="lesson-goals">Lesson Goals</h2>
+
+<p>In this lesson, you will learn how to georeference historical maps so
+that they may be added to a GIS as a raster layer. Georeferencing is
+required for anyone who wants to accurately digitize data found on a
+paper map, and since historians work mostly in the realm of paper,
+georeferencing is one of our most commonly used tools. The technique
+uses a series of control points to give a two-dimensional object like a
+paper map the real world coordinates it needs to align with the
+three-dimensional features of the earth in GIS software (in <a href="googlemaps-googleearth.html">Intro to
+Google Maps and Google Earth</a> we saw an ‘overlay’ which is a Google
+Earth shortcut version of georeferencing).</p>
+
+<p>Georeferencing a historical map requires a knowledge of both the
+geography and the history of the place you are studying to ensure
+accuracy. The built and natural landscapes change over time, and it is
+important to confirm that the location of your control points — whether
+they be houses, intersections, or even towns — have remained constant.
+Entering control points in a GIS is easy, but behind the scenes,
+georeferencing uses complex transformation and compression processes.
+These are used to correct the distortions and inaccuracies found in many
+historical maps and stretch the maps so that they fit geographic
+coordinates. In cartography this is known as <a href="http://en.wikipedia.org/wiki/Rubbersheeting">rubber-sheeting</a> because
+it treats the map as if it were made of rubber and the control points as
+if they were tacks ‘pinning’ the historical document to a three
+dimensional surface like the globe.</p>
+
+<p>To offer some examples of georeferenced historical maps, we prepared
+some National Topographic Series maps hosted on the University of
+Toronto Map Library website courtesy of Marcel Fortin, and we overlaid
+them on a Google web map. Viewers can adjust the transparency with the
+slider bar on the top right, view the historical map as an overlay on
+terrain or satellite images, or click ‘Earth’ to switch into Google
+Earth mode and see 3D elevation and modern buildings (in Halifax and
+Dartmouth). Note: these historical images are large and will appear on
+the screen slowly, especially as you zoom into the Google map.</p>
+
+<ul>
+  <li><a href="http://maps.library.utoronto.ca/datapub/digital/3400s_63_1929/maptile/Halifax/googlemaps.html">National Topographic System Maps</a> – Halifax, 1920s</li>
+  <li><a href="http://maps.library.utoronto.ca/datapub/PEI/NTS/west/">National Topographic System Maps</a> – Western PEI, 1939-1944</li>
+  <li><a href="http://maps.library.utoronto.ca/datapub/PEI/NTS/east/">National Topographic System Maps</a> – Eastern PEI 1939-1944</li>
+</ul>
+
+<h2 id="getting-started">Getting Started</h2>
+
+<p>Before proceeding with georeferencing in Quantum GIS, we need to
+activate the appropriate Plugins. On the toolbar go to Plugins -&gt;
+Manage and Install Plugins</p>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/geo110.png">
+		<img src="../images/geo110.png" alt="Figure 1" />
+	</a>
+<figcaption>
+    <p>Figure 1</p>
+
+</figcaption>
+</figure>
+
+<p>A window titled Plugin Manager will open. Scroll down to Georeference
+GDAL and check the box beside it, and click OK.</p>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/geo210.png">
+		<img src="../images/geo210.png" alt="Figure 2" />
+	</a>
+<figcaption>
+    <p>Figure 2</p>
+
+</figcaption>
+</figure>
+
+<ul>
+  <li>At this point, you need to shut down and relaunch QGIS. For the
+purposes of this example, and to keep things as simple as possible,
+don’t reload your existing project but instead start a new project.</li>
+  <li>Set up the <a href="http://en.wikipedia.org/wiki/Spatial_reference_system">Coordinate Reference System</a> (CRS) correctly (see
+<a href="qgis-layers.html">Installing QGIS 2.0 and adding Layers</a> for a reminder)</li>
+  <li>Save this new project (under File menu, select Save Project) and
+call it ‘georeferencing.’</li>
+  <li>Add the ‘coastline_polygon’ layer (see <a href="qgis-layers.html">Installing QGIS 2.0 and
+adding Layers</a> for a reminder)</li>
+</ul>
+
+<h2 id="open-the-necessary-gis-layers">Open the Necessary GIS Layers</h2>
+
+<p>For the Prince Edward Island case study, we are going to use the
+township boundaries as control points because they were established in
+1764 by Samuel Holland, they are identified on most maps of PEI, and
+they have changed very minimally since then.</p>
+
+<p><em>Download lot_township_polygon:</em></p>
+
+<p>This is the shapefile containing the modern vector layer we are going to
+use to georeference the historical map. Note that townships were not
+given names but rather a lot number in 1764, so they are usually
+referred to as ‘Lots’ in PEI. Hence the file name
+‘lot_township_polygon’.</p>
+
+<ul>
+  <li>Navigate to the link below in your web browser, read/accept the
+license agreement, and then download the following (they will ask
+for your name and email before you can download the file).</li>
+</ul>
+
+<p><a href="http://www.gov.pe.ca/gis/license_agreement.php3?name=lot_town&amp;file_format=SHP">http://www.gov.pe.ca/gis/license_agreement.php3?name=lot_town&amp;file_format=SHP</a></p>
+
+<ul>
+  <li>After downloading the file called ‘lot_township_polygon’, move it
+into a folder that you can find later and unzip the file. (Remember
+to keep the files together as they are all required to open this
+layer in your GIS)</li>
+</ul>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/geo310.png">
+		<img src="../images/geo310.png" alt="Figure 3" />
+	</a>
+<figcaption>
+    <p>Figure 3</p>
+
+</figcaption>
+</figure>
+
+<p><em>Add lot_township_polygon to QGIS:</em></p>
+
+<ul>
+  <li>under Layer on the toolbar, choose Add Vector Layer (alternatively
+the same icon you see next to ‘Add Vector Layer’ can also be
+selected from the tool bar)</li>
+  <li>Click Browse. Navigate to your unzipped file and select the file
+titled ‘lot_township_polygon.shp’</li>
+  <li>Click Open</li>
+</ul>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/geo41.png">
+		<img src="../images/geo41.png" alt="Figure 4" />
+	</a>
+<figcaption>
+    <p>Figure 4</p>
+
+</figcaption>
+</figure>
+
+<p>For more information on adding and visualizing layers see <a href="qgis-layers.html">Installing
+QGIS 2.0 and adding Layers</a>.</p>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/geo51.png">
+		<img src="../images/geo51.png" alt="Figure 5" />
+	</a>
+<figcaption>
+    <p>Figure 5</p>
+
+</figcaption>
+</figure>
+
+<h2 id="open-the-georeferencer-tool">Open the Georeferencer Tool</h2>
+
+<p>Georeferencer is now available under the Raster menu on the toolbar –
+select it.</p>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/geo61.png">
+		<img src="../images/geo61.png" alt="Figure 6" />
+	</a>
+<figcaption>
+    <p>Figure 6</p>
+
+</figcaption>
+</figure>
+
+<p><em>Add your historical map:</em></p>
+
+<ul>
+  <li>In the resulting window, click on the Open Raster button on the top
+left (which looks identical to the Add Raster layer).</li>
+</ul>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/geo71.png">
+		<img src="../images/geo71.png" alt="Figure 7" />
+	</a>
+<figcaption>
+    <p>Figure 7</p>
+
+</figcaption>
+</figure>
+
+<ul>
+  <li>Find the file titled ‘PEI_LakeMap1863.jpg’ on your computer and
+select Open (the file <a href="http://geospatialhistorian.files.wordpress.com/2013/02/pei_lakemap1863.jpg">can be downloaded here</a> or in its original
+location at the <a href="http://www.islandimagined.ca/fedora/repository/imagined%3A208687">Island Imagined</a> online map repository)</li>
+  <li>You will be prompted to define this layer’s coordinate system. In
+the Filter box search for ‘2291′, then in the box below select
+‘NAD83(CSRS98) / Prince Edward …’</li>
+</ul>
+
+<p>The result will look like this:</p>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/geo81.png">
+		<img src="../images/geo81.png" alt="Figure 8" />
+	</a>
+<figcaption>
+    <p>Figure 8</p>
+
+</figcaption>
+</figure>
+
+<p><em>Adding control points:</em></p>
+
+<p>Plan the locations you are going to use as control points in advance of
+the steps that follow. It is much easier to navigate around the
+historical map first, so get a good idea of the best points to use and
+keep them in mind.</p>
+
+<p>Some tips for choosing control points:</p>
+
+<ul>
+  <li><strong>How many</strong> points do you need? Usually the more points you assign
+the more accurate your georeferenced map will be. Two control points
+will tell the GIS to scale and rotate the map to those two points,
+but in order to truly rubber-sheet the historical document you need
+to add more points.</li>
+  <li><strong>Where</strong> should you put control points? Select areas as close as
+possible to the four corners of your map so that these outer areas
+do not get omitted in the rubber-sheeting.</li>
+  <li>Select additional control points close to your area of interest.
+Everything in between the four corner control points should
+georeference evenly, but if you are concerned about the accuracy of
+one place in particular, make sure to select additional control
+points in that area.</li>
+  <li>Select the middle of intersections and roads, because the edges of
+roads changed a certain amount over time as road improvements were
+made.</li>
+  <li>Check that your control points did not change location over time.
+Roads were often re-routed, and even houses and other buildings were
+moved, especially <a href="http://books.google.ca/books?id=TqCNZYXWXAUC&amp;dq=tilting&amp;source=gbs_navlinks_s">in Atlantic Canada</a>!</li>
+</ul>
+
+<p><em>Add your first control point:</em></p>
+
+<p><strong>First</strong>, navigate to the location of your first control point on the
+<strong>historical map</strong>.</p>
+
+<ul>
+  <li>click on Zoom In Magnifying Glass on the window tool bar or use the
+mouse roller wheel to zoom in</li>
+</ul>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/geo91.png">
+		<img src="../images/geo91.png" alt="Figure 9" />
+	</a>
+<figcaption>
+    <p>Figure 9</p>
+
+</figcaption>
+</figure>
+
+<ul>
+  <li>
+    <p>zoom in to a point which you can recognize on both your printed map
+and your GIS</p>
+  </li>
+  <li>
+    <p>Click on Add Point on toolbar</p>
+  </li>
+</ul>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/geo101.png">
+		<img src="../images/geo101.png" alt="Figure 10" />
+	</a>
+<figcaption>
+    <p>Figure 10</p>
+
+</figcaption>
+</figure>
+
+<ul>
+  <li>Click on the place in the printed map that you can locate in your
+GIS (i.e. the control point). The Georeferencer window will now
+minimize automatically. If it does not (some versions have a bug in
+this plugin) manually minimize the window</li>
+  <li>Click on the place in the GIS which matches the control point</li>
+</ul>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/geo111.png">
+		<img src="../images/geo111.png" alt="Figure 11" />
+	</a>
+<figcaption>
+    <p>Figure 11</p>
+
+</figcaption>
+</figure>
+
+<ul>
+  <li>At this stage we identified a problem in lot boundaries. We planned
+to use the location where the southern border of Lot 1 at the West
+end of the Province contains a “dog leg” near the middle of the land
+mass. However, it was clear that not all the dog legs on these lots
+matched the historical map. It is possible that lot boundaries have
+changed somewhat in the 250 years since they were established, so it
+is best to choose the point you are most sure of. In this case the
+dog leg between Lot 2 and Lot 3 was fine (see arrow). It was the
+border of Lots 3 and 4 that has changed. The discrepancy at the
+border of 1 and 2 shows that more control points are needed to
+properly rubber-sheet this somewhat distorted 1863 map to the
+Provincial GIS layer</li>
+</ul>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/geo121.png">
+		<img src="../images/geo121.png" alt="Figure 12" />
+	</a>
+<figcaption>
+    <p>Figure 12</p>
+
+</figcaption>
+</figure>
+
+<p><em>Add at least one more control point:</em></p>
+
+<ul>
+  <li>return to the Georeferencer window and repeat the steps under ‘<em>Add
+your first control point</em>’ above, to add additional control points.</li>
+  <li>Add a point close to the opposite side of your printed map (the
+further apart your control points are placed the more accurate the
+georeferencing process) and another one near Charlottetown</li>
+  <li>return to the Georeferencer window. You should see three red dots on
+the printed map, and three records in the GCP table at the bottom of
+your window (outlined in red on the following image)</li>
+</ul>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/geo131.png">
+		<img src="../images/geo131.png" alt="Figure 13" />
+	</a>
+<figcaption>
+    <p>Figure 13</p>
+
+</figcaption>
+</figure>
+
+<p><em>Determine the transformation settings:</em></p>
+
+<p>Before you click Play and start the automated georeferencing process you
+need to tell QGIS where to save the new file (this will be a raster
+file), how it should interpret your control points, and how it should
+compress the image.</p>
+
+<ul>
+  <li>Click on the Transformation Settings button</li>
+</ul>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/geo141.png">
+		<img src="../images/geo141.png" alt="Figure 14" />
+	</a>
+<figcaption>
+    <p>Figure 14</p>
+
+</figcaption>
+</figure>
+
+<p>Most of these settings can be left as default: linear transformation
+type, nearest neighbour resampling method, and LZW compression. (The
+<a href="http://en.wikipedia.org/wiki/World_file">world file</a> is not necessary, unless you want to georeference the
+same image again in another GIS or if someone else needs to georeference
+the image and does not have access to your GIS data, coordinate
+reference system, etc.) The target SRS is not important, but you could
+use this feature to give the new raster a different reference system.</p>
+
+<ul>
+  <li>Assign a folder for your new georeferenced raster file. <a href="http://en.wikipedia.org/wiki/Tagged_Image_File_Format">Tif</a> is
+the default format for rasters georeferenced in QGIS.</li>
+  <li>Be aware that a Tif file is going to be much larger than your original map,
+even with LZW compression, so make sure you have adequate space if you are
+using a jump drive. (<em>warning:</em> the Tif file produced from this 6.8 Mb .jpg
+will be <strong>over 1GB</strong> once georeferenced. One way to manage the size of the
+georeferenced raster file while maintaining a high enough resolution for
+legibility is to crop out only the area needed for the map project. In this
+case, a lower resolution option is also available from the <a href="http://www.islandimagined.ca/fedora/repository/imagined%3A208687">Island
+Imagined</a> online map repository.)</li>
+  <li>Leave the target resolution at the default</li>
+  <li>You can select ‘Use 0 transparency when needed’ to eliminate black
+spaces around the edges of the map, but this is not necessary and
+you can experiment as needed</li>
+  <li>Make sure ‘Load in QGIS’ is selected to save a step. This will
+automatically add the new file to your GIS’s Table of Contents so
+that you don’t have to go looking for the Tif file later</li>
+</ul>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/geo151.png">
+		<img src="../images/geo151.png" alt="Figure 15" />
+	</a>
+<figcaption>
+    <p>Figure 15</p>
+
+</figcaption>
+</figure>
+
+<h2 id="georeference">Georeference!</h2>
+
+<ul>
+  <li>Click on the Play button on the toolbar (beside Add Raster) – this
+begins the georeferencing process</li>
+</ul>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/geo161.png">
+		<img src="../images/geo161.png" alt="Figure 16" />
+	</a>
+<figcaption>
+    <p>Figure 16</p>
+
+</figcaption>
+</figure>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/geo171.png">
+		<img src="../images/geo171.png" alt="Figure 17" />
+	</a>
+<figcaption>
+    <p>Figure 17</p>
+
+</figcaption>
+</figure>
+
+<ul>
+  <li>A window will appear titled Define CRS: select 2291, click OK</li>
+</ul>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/geo181.png">
+		<img src="../images/geo181.png" alt="Figure 18" />
+	</a>
+<figcaption>
+    <p>Figure 18</p>
+
+</figcaption>
+</figure>
+
+<p><em>Explore your map:</em></p>
+
+<ul>
+  <li>Drag the new layer ‘PEI_LakeMap1863_modified’ down to the bottom
+of your Table of Contents (i.e. below the ‘lot_township_polygon’
+layer</li>
+</ul>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/geo191.png">
+		<img src="../images/geo191.png" alt="Figure 19" />
+	</a>
+<figcaption>
+    <p>Figure 19</p>
+
+</figcaption>
+</figure>
+
+<ul>
+  <li>Change the fill of the lot_township_polygon layer to ‘no brush’ by
+Selecting the layer, clicking on Layer -&gt; Properties, and clicking
+on Symbol Properties. Click OK</li>
+</ul>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/geo201.png">
+		<img src="../images/geo201.png" alt="Figure 20" />
+	</a>
+<figcaption>
+    <p>Figure 20</p>
+
+</figcaption>
+</figure>
+
+<ul>
+  <li>Now you should see the modern GIS layer with the historical map in
+behind</li>
+</ul>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/geo211.png">
+		<img src="../images/geo211.png" alt="Figure 21" />
+	</a>
+<figcaption>
+    <p>Figure 21</p>
+
+</figcaption>
+</figure>
+
+<p>Now that you have a newly georeferenced map in your GIS you can explore
+the layer, adjust the transparency, contrast and brightness, and go back
+through <a href="vector-layers-qgis.html">Creating New Vector Layers in QGIS</a> to digitize some of the
+historical information that you have created. For instance, this
+georeferenced map of PEI shows the locations of all homes in 1863,
+including the name of the head of household. By assigning points on the
+map you can enter home locations and owner names and then analyze or
+share that new geospatial layer as a shapefile.</p>
+
+<p>By digitizing line vectors such as roads or coastlines you can compare
+the location of these features with other historical data, or simply
+compare them visually with the lot_township_polygon layer in this GIS.</p>
+
+<p>In more advanced processes you can even drape this georeferenced image
+over a DEM (digital elevation model) to give it a hillshade terrain or
+3D effect and perform a ‘fly-over’ of PEI homes in the nineteenth
+century.</p>
+
+<p><em>This lesson is part of the <a href="http://geospatialhistorian.wordpress.com/">Geospatial Historian</a>.</em></p>
+
+
+	        </div>
+
+            
+
+	        <div class="author-info">
+	   	        <p class="author-name">About the authors</p>
+			    <div class="author-description"><p>
+                
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                       Jim Clifford is an assistant professor in the Department of History
+at the University of Saskatchewan.
+&nbsp;
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+		        
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                       Josh MacFadyen is a Project Coordinator at the Network in Canadian
+History & Environment.
+&nbsp;
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+		        
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                       Daniel Macfarlane is a Visiting Scholar in the School of Canadian
+Studies at Carleton University.
+&nbsp;
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+		        </p>
+			    </div>
+	        </div>
+          <div class="citation-info">
+            <p class="citation-head">Suggested Citation</p>
+            <div class="suggested-citation">
+              <p>
+              
+  
+        
+             
+                   Jim Clifford
+             
+        
+             
+  		         , Josh MacFadyen
+             
+        
+             
+                   and Daniel Macfarlane
+             
+        
+  
+  , 
+              "Georeferencing in QGIS 2.0," 
+              <em>Programming Historian</em> 
+              (13 December 2013), 
+              http://programminghistorian.org/lessons/georeferencing-qgis
+              </p>
+            </div>
+          </div>
+        </article>
+    </div>
+
+    </div> <!-- end below-nav -->
+
+<footer role="contentinfo">
+
+          <div class="additional">
+          <ul id="menu-main-menu" class="additional">
+            <li class="menu-item"><a href="../index.html">About</a></li>
+            <li class="menu-item"><a href="index.html">Lessons</a></li>
+            <li class="menu-item"><a href="../contribute.html">Contribute</a></li>
+            <li class="menu-item"><a href="../project-team.html">Project Team</a></li>
+            <li class="menu-item"><a href="../blog.html">Blog</a></li>
+          </ul>
+        </div>
+
+
+<p><em>The Programming Historian</em> ISSN 2397-2068, is released under the <a href="http://creativecommons.org/licenses/by/2.0/" rel="license">CC-BY</a> license.</p>
+<p>The project is published by the <em>Editorial Board of the Programming Historian</em>, and first appeared in July 2012. It was last updated on 20 March 2016.</p>
+<p class="github">
+        <a href="https://github.com/programminghistorian/jekyll">Hosted on GitHub <img src="../images/GitHub-Mark-32px.png" title="GitHub logo"></a> 
+		<a href="https://github.com/programminghistorian/jekyll/commits/gh-pages/lessons/georeferencing-qgis.md">Previous Versions</a>&nbsp;&#183;&nbsp;
+		<a href="../feedback.html">Give Feedback</a>
+</p>
+
+</footer>
+
+
+    </body>
+</html>

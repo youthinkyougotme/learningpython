@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <meta name="citation_title" content="Getting Started with Markdown" />
+
+<meta name="citation_author" content="Sarah Simpkin" />
+
+<meta name="citation_publication_date" content="2015-11-13" />
+<meta name="citation_journal_title" content="Programming Historian" />
+<meta name="citation_public_url" content="http://programminghistorian.org/lessons/getting-started-with-markdown" />
+
+
+    <!-- Mobile viewport optimized: h5bp.com/viewport -->
+    <meta name="viewport" content="width=device-width">
+    
+    <!--Font awesome CDN -->
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,700%7CCrete+Round' rel='stylesheet' type='text/css'>
+    <link href="../css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/github.css">
+    <link href='../feed.xml.rss' rel='alternate' type='application/atom+xml'>
+    <title>Getting Started with Markdown | Programming Historian</title>
+        
+    <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="../js/ui.js"></script>
+    <script type="text/javascript" src="../js/ext_links.js"></script>
+    <script type="text/javascript" src="../js/header_links.js"></script>
+    <script>
+      $(document).ready(function(){
+        $('.slide-trigger').collapsable();
+      });
+    </script>
+
+    <script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-2752866-8']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+  </head>
+
+
+
+  
+  
+  
+
+  <body>
+
+    <header role="banner">
+    <h1><a href="../index.html">The Programming Historian</a></h1>
+
+	        <div class="additional">
+          <ul id="menu-main-menu" class="additional">
+            <li class="menu-item"><a href="../index.html">About</a></li>
+            <li class="menu-item"><a href="index.html">Lessons</a></li>
+            <li class="menu-item"><a href="../contribute.html">Contribute</a></li>
+            <li class="menu-item"><a href="../project-team.html">Project Team</a></li>
+            <li class="menu-item"><a href="../blog.html">Blog</a></li>
+          </ul>
+        </div>
+
+	</header>
+
+	<div role="main">
+		<article>
+			<header>
+
+                
+				
+			    <p class="kicker">November 13, 2015</p>
+				<h1><a href="getting-started-with-markdown.html">Getting Started with Markdown</a></h1>
+                <p class="byline">By 
+  
+        Sarah Simpkin
+  
+  </p>
+
+				
+				
+				<ul class="credits">Reviewed by
+				
+                      
+                           
+                                 John Fink
+                           
+                      
+                           
+                                 and Nancy Lemay
+                           
+                      
+                
+                <br/>
+                
+                </ul>
+                
+				
+			</header>
+
+            
+
+			<div class="content">
+	              <h2 id="getting-started-with-markdown">Getting Started with Markdown</h2>
+
+<h3 id="lesson-goals">Lesson goals</h3>
+<p>In this lesson, you will be introduced to Markdown, a plain text-based syntax for formatting documents. You will find out why it is used, how to format Markdown files, and how to preview Markdown-formatted documents on the web.</p>
+
+<p>Since Programming Historian lessons are submitted as Markdown files, I have included PH-specific examples whenever possible. It is my hope that this guide will be useful to you if you are considering authoring a lesson for this site.</p>
+
+<h3 id="what-is-markdown">What is Markdown?</h3>
+
+<p>Developed in 2004 by <a href="http://daringfireball.net/projects/markdown/" title="Markdown on Daring Fireball">John Gruber</a>, Markdown refers to both (1) a way of formatting text files, as well as (2) a Perl utility to convert Markdown files into HTML. In this lesson, we’ll focus on the first part and learn to write files using the Markdown syntax.</p>
+
+<p>Plain text files have many advantages over other formats. For one, they are readable on virtually all devices. They have also withstood the test of time better than other file types – if you’ve ever tried to open a document saved in a legacy word processor format, you’ll be familiar with the compatibility challenges involved.</p>
+
+<p>By following Markdown syntax, you’ll be able to produce files that are both legible in plain text and ready to be styled on other platforms. Many blogging engines, static site generators, and sites like <a href="http://github.com" title="GitHub">GitHub</a> also support Markdown, and will render these files into HTML for display on the web. Additionally, tools like Pandoc can convert files into and out of Markdown. For more on Pandoc, visit the lesson on <a href="sustainable-authorship-in-plain-text-using-pandoc-and-markdown.html">Sustainable authorship in plain text using Pandoc and Markdown</a> by Dennis Tenen and Grant Wythoff.</p>
+
+<h3 id="markdown-syntax">Markdown Syntax</h3>
+<p>Markdown files are saved with the extension <code class="highlighter-rouge">.md</code>, and can be opened in a text editor such as TextEdit, Notepad, Sublime Text, or Vim. Many websites and publishing platforms also offer web-based editors and/or extensions for entering text using Markdown syntax.</p>
+
+<p>In this tutorial, we’ll be practicing Markdown syntax in the browser using <a href="https://stackedit.io">StackEdit</a>. You’ll be able to enter Markdown-formatted text on the left and immediately see the rendered version alongside it on the right.</p>
+
+<p>Since all Programming Historian lessons are written in Markdown, we can examine these files in StackEdit too. From the <a href="https://stackedit.io/editor">StackEdit editor</a>, click on the <code class="highlighter-rouge">#</code> in the upper left corner for a menu. Choose <code class="highlighter-rouge">Import from URL</code>, then paste the following URL to display the “Intro to Bash” lesson in the editor:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>https://raw.githubusercontent.com/programminghistorian/jekyll/gh-pages/lessons/intro-to-bash.md
+</code></pre>
+</div>
+<p>You’ll notice that while the right panel features a more elegant rendering of the text, the original Markdown file on the left is still fairly readable.</p>
+
+<p>Now, let’s dive into the lesson by writing our own Markdown syntax. Create a new document in StackEdit by clicking the folder icon in the upper right and choosing <code class="highlighter-rouge">New document</code>. You may enter a title for the document in the textbox on the top of the page.</p>
+
+<h4 id="headings">Headings</h4>
+<p>Four levels of headings are available in Markdown, and are indicated by the number of <code class="highlighter-rouge">#</code> preceding the heading text. Paste the following examples into the textbox on your left:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code># First level heading
+## Second level heading
+### Third level heading
+#### Fourth level heading
+</code></pre>
+</div>
+
+<p>First and second level headings may also be entered as follows:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>First level heading
+=======
+
+Second level heading
+----------
+</code></pre>
+</div>
+
+<p><strong>These will render as:</strong></p>
+
+<h1 id="first-level-heading">First level heading</h1>
+
+<h2 id="second-level-heading">Second level heading</h2>
+
+<h3 id="third-level-heading">Third level heading</h3>
+
+<h4 id="fourth-level-heading">Fourth level heading</h4>
+
+<h1 id="first-level-heading-1">First level heading</h1>
+
+<h2 id="second-level-heading-1">Second level heading</h2>
+
+<p>Notice how the Markdown syntax remains understandable even in the plain text version.</p>
+
+<h4 id="paragraphs--line-breaks">Paragraphs &amp; Line Breaks</h4>
+
+<p>Try typing the following sentence into the textbox:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Welcome to the Programming Historian.
+
+Today we'll be learning about Markdown syntax.
+This sentence is separated by a single line break from the preceding one.
+</code></pre>
+</div>
+<p><strong>This renders as:</strong></p>
+
+<p>Welcome to the Programming Historian.</p>
+
+<p>Today we’ll be learning about Markdown syntax.
+This sentence is separated by a single line break from the preceding one.</p>
+
+<p>Paragraphs must be separated by an empty line. Leave an empty line between <code class="highlighter-rouge">syntax.</code> and <code class="highlighter-rouge">This</code> to see how this works. In some implementations of Markdown, single line breaks must also be indicated with two empty spaces at the end of each line. This is unnecessary in the <a href="https://help.github.com/articles/github-flavored-markdown/">GitHub Flavored Markdown</a> variant that StackEdit uses by default.</p>
+
+<h4 id="adding-emphasis">Adding Emphasis</h4>
+
+<p>Text can be italicized by wrapping the word in <code class="highlighter-rouge">*</code> or <code class="highlighter-rouge">_</code> symbols. Likewise, bold text is written by wrapping the word in <code class="highlighter-rouge">**</code> or <code class="highlighter-rouge">__</code>.</p>
+
+<p>Try adding emphasis to a sentence using these methods:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>I am **very** excited about the _Programming Historian_ tutorials.
+</code></pre>
+</div>
+
+<p><strong>This renders as:</strong></p>
+
+<p>I am <strong>very</strong> excited about the <em>Programming Historian</em> tutorials.</p>
+
+<h4 id="making-lists">Making Lists</h4>
+
+<p>Markdown includes support for ordered and unordered lists. Try typing the following list into the textbox:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Shopping List
+----------
+* Fruits
+  * Apples
+  * Oranges
+  * Grapes
+* Dairy
+  * Milk
+  * Cheese
+</code></pre>
+</div>
+<p>Indenting the <code class="highlighter-rouge">*</code> will allow you to created nested items.</p>
+
+<p><strong>This renders as:</strong></p>
+
+<h2 id="shopping-list">Shopping List</h2>
+<ul>
+  <li>Fruits
+    <ul>
+      <li>Apples</li>
+      <li>Oranges</li>
+      <li>Grapes</li>
+    </ul>
+  </li>
+  <li>Dairy
+    <ul>
+      <li>Milk</li>
+      <li>Cheese</li>
+    </ul>
+  </li>
+</ul>
+
+<p>Ordered lists are written by numbering each line. Once again, the goal of Markdown is to produce documents that are both legible as plain text and able to be transformed into other formats.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>To-do list
+----------
+1. Finish Markdown tutorial
+2. Go to grocery store
+3. Prepare lunch
+</code></pre>
+</div>
+
+<p><strong>This renders as:</strong></p>
+
+<h2 id="to-do-list">To-do list</h2>
+<ol>
+  <li>Finish Markdown tutorial</li>
+  <li>Go to grocery store</li>
+  <li>Prepare lunch</li>
+</ol>
+
+<h4 id="code-snippets">Code Snippets</h4>
+
+<p>Representing code snippets differently from the rest of a document is a good practice that improves readability. Typically, code is represented in monospaced type. Since Markdown does not distinguish between fonts, we represent code by wrapping snippets in back-tick characters like <code class="highlighter-rouge">`</code>. For example, <code class="highlighter-rouge">`&lt;br /&gt;`</code>. Whole blocks of code are written by typing three back-tick characters before and after each block. In the StackEdit preview window, this will render a shaded box with text in a monospaced font.</p>
+
+<p>Try typing the following text into the textbox:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>```html
+<span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;title&gt;</span>Website Title<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+```
+</code></pre>
+</div>
+
+<p><strong>This renders as:</strong></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>    <span class="nt">&lt;html&gt;</span>
+        <span class="nt">&lt;head&gt;</span>
+            <span class="nt">&lt;title&gt;</span>Website Title<span class="nt">&lt;/title&gt;</span>
+        <span class="nt">&lt;/head&gt;</span>
+        <span class="nt">&lt;body&gt;</span>
+        <span class="nt">&lt;/body&gt;</span>
+    <span class="nt">&lt;/html&gt;</span>
+</code></pre>
+</div>
+
+<p>Notice how the code block renders in a monospaced font.</p>
+
+<h4 id="blockquotes">Blockquotes</h4>
+
+<p>Adding a <code class="highlighter-rouge">&gt;</code> before any paragraph will render it as a blockquote element.</p>
+
+<p>Try typing the following text into the textbox:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&gt; Hello, I am a paragraph of text enclosed in a blockquote. Notice how I am offset from the left margin. 
+</code></pre>
+</div>
+
+<p><strong>This renders as:</strong></p>
+
+<blockquote>
+  <p>Hello, I am a paragraph of text enclosed in a blockquote. Notice how I am offset from the left margin.</p>
+</blockquote>
+
+<h4 id="links">Links</h4>
+
+<p>Links can be written in two styles.</p>
+
+<p>Inline links are written by enclosing the link text in square brackets first, then including the URL and optional alt-text in round brackets.</p>
+
+<p><code class="highlighter-rouge">For more tutorials, please visit the [Programming Historian](http://programminghistorian.org/ "Programming Historian main page").</code></p>
+
+<p><strong>This renders as:</strong></p>
+
+<p>For more tutorials, please visit the <a href="../index.html" title="Programming Historian main page">Programming Historian</a>.</p>
+
+<p>Reference-style links are handy for footnotes and may keep your plain text document neater. These are written with an additional set of square brackets to establish a link ID label.</p>
+
+<p><code class="highlighter-rouge">One example is the [Programming Historian][1] website.</code></p>
+
+<p>You may then add the URL to another part of the document:</p>
+
+<p><code class="highlighter-rouge">[1]: http://programminghistorian.org/ "The Programming Historian"</code></p>
+
+<p><strong>This renders as:</strong></p>
+
+<p>One example is the <a href="../index.html" title="The Programming Historian">Programming Historian</a> website.</p>
+
+<h4 id="images">Images</h4>
+
+<p>Images can be referenced using <code class="highlighter-rouge">!</code>, followed by some alt-text in square brackets, followed by the image URL and an optional title. These will not be displayed in your plain text document, but would be embedded into a rendered HTML page.</p>
+
+<p><code class="highlighter-rouge">![Wikipedia logo](http://upload.wikimedia.org/wikipedia/en/8/80/Wikipedia-logo-v2.svg "Wikipedia logo")</code></p>
+
+<p><strong>This renders as:</strong></p>
+
+<p><img src="http://upload.wikimedia.org/wikipedia/en/8/80/Wikipedia-logo-v2.svg" alt="Wikipedia logo" title="Wikipedia logo" /></p>
+
+<h4 id="horizontal-rules">Horizontal Rules</h4>
+
+<p>Horizontal rules are produced when three or more <code class="highlighter-rouge">-</code>, <code class="highlighter-rouge">*</code> or <code class="highlighter-rouge">_</code> are included on a line by themselves, regardless of the number of spaces between them. All of the following combinations will render horizontal rules:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>___
+* * *
+- - - - - -
+</code></pre>
+</div>
+
+<p><strong>This renders as:</strong></p>
+
+<hr />
+<hr />
+<hr />
+
+<h4 id="tables">Tables</h4>
+
+<p>The core Markdown spec does not include tables; however, some sites and applications use variants of Markdown that may include tables and other special features. <a href="https://help.github.com/articles/github-flavored-markdown/">GitHub Flavored Markdown</a> is one of these variants, and is used to render <code class="highlighter-rouge">.md</code> files in the browser on the GitHub site.</p>
+
+<p>To create a table within GitHub, use pipes <code class="highlighter-rouge">|</code> to separate columns and hyphens <code class="highlighter-rouge">-</code> between your headings and the rest of the table content. While pipes are only strictly necessary between columns, you may use them on either side of your table for a more polished look. Cells can contain any length of content, and it is not necessary for pipes to be vertically aligned with each other.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>| Heading 1 | Heading 2 | Heading 3 |
+| --------- | --------- | --------- |
+| Row 1, column 1 | Row 1, column 2 | Row 1, column 3|
+| Row 2, column 1 | Row 2, column 2 | Row 2, column 3|
+| Row 3, column 1 | Row 3, column 2 | Row 3, column 3|
+</code></pre>
+</div>
+
+<p><strong>This renders as:</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Heading 1</th>
+      <th>Heading 2</th>
+      <th>Heading 3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Row 1, column 1</td>
+      <td>Row 1, column 2</td>
+      <td>Row 1, column 3</td>
+    </tr>
+    <tr>
+      <td>Row 2, column 1</td>
+      <td>Row 2, column 2</td>
+      <td>Row 2, column 3</td>
+    </tr>
+    <tr>
+      <td>Row 3, column 1</td>
+      <td>Row 3, column 2</td>
+      <td>Row 3, column 3</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>To specify the alignment of each column, colons <code class="highlighter-rouge">:</code> can be added to the header row as follows:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>| Left-aligned | Centered | Right-aligned |
+| :-------- | :-------: | --------: |
+| Apples | Red | 5000 |
+| Bananas | Yellow | 75 |
+</code></pre>
+</div>
+<p><strong>This renders as:</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Left-aligned</th>
+      <th style="text-align: center">Centered</th>
+      <th style="text-align: right">Right-aligned</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">Apples</td>
+      <td style="text-align: center">Red</td>
+      <td style="text-align: right">5000</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Bananas</td>
+      <td style="text-align: center">Yellow</td>
+      <td style="text-align: right">75</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="markdown-limitations">Markdown Limitations</h3>
+
+<p>While Markdown is becoming increasingly popular, particularly for styling documents that are viewable on the web, many people and publishers still expect traditional Word documents, PDFs, and other file formats. This can be mitigated somewhat with command line conversion tools such as <a href="http://johnmacfarlane.net/pandoc/">Pandoc</a>; however, certain word processor features like track changes are not supported yet. Please visit the Programming Historian lesson on <a href="sustainable-authorship-in-plain-text-using-pandoc-and-markdown.html">Sustainable authorship in plain text using Pandoc and Markdown</a> for more information about Pandoc.</p>
+
+<h3 id="conclusion">Conclusion</h3>
+
+<p>Markdown is a useful middle ground between unstyled plain text files and legacy word processor documents. Its simple syntax is quick to learn and legible both by itself and when rendered into HTML and other document types. Finally, choosing to write your own documents in Markdown should mean that they will be usable and readable in the long-term.</p>
+
+	        </div>
+
+            
+
+	        <div class="author-info">
+	   	        <p class="author-name">About the author</p>
+			    <div class="author-description"><p>
+                
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                       Sarah Simpkin is a GIS, Geography, and Computer Science librarian at the University of Ottawa.
+&nbsp;
+                   
+                   
+		        </p>
+			    </div>
+	        </div>
+          <div class="citation-info">
+            <p class="citation-head">Suggested Citation</p>
+            <div class="suggested-citation">
+              <p>
+              
+  
+        Sarah Simpkin
+  
+  , 
+              "Getting Started with Markdown," 
+              <em>Programming Historian</em> 
+              (13 November 2015), 
+              http://programminghistorian.org/lessons/getting-started-with-markdown
+              </p>
+            </div>
+          </div>
+        </article>
+    </div>
+
+    </div> <!-- end below-nav -->
+
+<footer role="contentinfo">
+
+          <div class="additional">
+          <ul id="menu-main-menu" class="additional">
+            <li class="menu-item"><a href="../index.html">About</a></li>
+            <li class="menu-item"><a href="index.html">Lessons</a></li>
+            <li class="menu-item"><a href="../contribute.html">Contribute</a></li>
+            <li class="menu-item"><a href="../project-team.html">Project Team</a></li>
+            <li class="menu-item"><a href="../blog.html">Blog</a></li>
+          </ul>
+        </div>
+
+
+<p><em>The Programming Historian</em> ISSN 2397-2068, is released under the <a href="http://creativecommons.org/licenses/by/2.0/" rel="license">CC-BY</a> license.</p>
+<p>The project is published by the <em>Editorial Board of the Programming Historian</em>, and first appeared in July 2012. It was last updated on 20 March 2016.</p>
+<p class="github">
+        <a href="https://github.com/programminghistorian/jekyll">Hosted on GitHub <img src="../images/GitHub-Mark-32px.png" title="GitHub logo"></a> 
+		<a href="https://github.com/programminghistorian/jekyll/commits/gh-pages/lessons/getting-started-with-markdown.md">Previous Versions</a>&nbsp;&#183;&nbsp;
+		<a href="../feedback.html">Give Feedback</a>
+</p>
+
+</footer>
+
+
+    </body>
+</html>

@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <meta name="citation_title" content="Installing Python Modules with pip" />
+
+<meta name="citation_author" content="Fred Gibbs" />
+
+<meta name="citation_publication_date" content="2013-05-06" />
+<meta name="citation_journal_title" content="Programming Historian" />
+<meta name="citation_public_url" content="http://programminghistorian.org/lessons/installing-python-modules-pip" />
+
+
+    <!-- Mobile viewport optimized: h5bp.com/viewport -->
+    <meta name="viewport" content="width=device-width">
+    
+    <!--Font awesome CDN -->
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,700%7CCrete+Round' rel='stylesheet' type='text/css'>
+    <link href="../css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/github.css">
+    <link href='../feed.xml.rss' rel='alternate' type='application/atom+xml'>
+    <title>Installing Python Modules with pip | Programming Historian</title>
+        
+    <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="../js/ui.js"></script>
+    <script type="text/javascript" src="../js/ext_links.js"></script>
+    <script type="text/javascript" src="../js/header_links.js"></script>
+    <script>
+      $(document).ready(function(){
+        $('.slide-trigger').collapsable();
+      });
+    </script>
+
+    <script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-2752866-8']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+  </head>
+
+
+
+  
+  
+  
+
+  <body>
+
+    <header role="banner">
+    <h1><a href="../index.html">The Programming Historian</a></h1>
+
+	        <div class="additional">
+          <ul id="menu-main-menu" class="additional">
+            <li class="menu-item"><a href="../index.html">About</a></li>
+            <li class="menu-item"><a href="index.html">Lessons</a></li>
+            <li class="menu-item"><a href="../contribute.html">Contribute</a></li>
+            <li class="menu-item"><a href="../project-team.html">Project Team</a></li>
+            <li class="menu-item"><a href="../blog.html">Blog</a></li>
+          </ul>
+        </div>
+
+	</header>
+
+	<div role="main">
+		<article>
+			<header>
+
+                
+				
+			    <p class="kicker">May 6, 2013</p>
+				<h1><a href="installing-python-modules-pip.html">Installing Python Modules with pip</a></h1>
+                <p class="byline">By 
+  
+        Fred Gibbs
+  
+  </p>
+
+				
+				
+				<ul class="credits">Reviewed by
+				
+                      
+                           
+                                 Ben Hurwitz
+                           
+                      
+                           
+                                 and Amanda Morton
+                           
+                      
+                
+                <br/>
+                
+                </ul>
+                
+				
+			</header>
+
+            
+
+			<div class="content">
+	              <h2 id="lesson-goals">Lesson Goals</h2>
+
+<p>This lesson shows you how to download and install Python modules. There
+are many ways to install external modules, but for the purposes of this
+lesson, we’re going to use a program called <a href="https://pip.pypa.io/en/stable/">pip</a>. As of Python 2.7.9 and newer, pip is installed by default. This tutorial will be helpful for anyone using older versions of Python (which are still quite common).</p>
+
+<h2 id="introducing-modules">Introducing Modules</h2>
+
+<p>One of the great things about using Python is the number of fantastic
+code libraries that are widely and easily available that can save you a
+lot of coding, or simply make a particular task (like creating a CSV
+file, or scraping a webpage) much easier. When Googling for solutions to
+problems, you’ll often find sample code that uses code libraries you
+haven’t heard about before. Don’t let these scare you away! Once these
+libraries are installed on your computer, you can use them by importing
+them at the beginning of your code; you can import as many libraries as
+you’d like, such as</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">csv</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">kmlwriter</span>
+<span class="kn">import</span> <span class="nn">pprint</span>
+</code></pre>
+</div>
+
+<p>For new Python users, it can be a bit intimidating to download and
+install external modules for the first time. There are many ways of
+doing it (thus adding to the confusion); this lesson introduces one of
+the easiest and most common ways of installing python modules.</p>
+
+<p>The goal here is to install software on your computer that can
+automatically download and install Python modules for us. We’re going to
+use a program called <a href="https://pip.pypa.io/en/stable/">pip</a>.</p>
+
+<p>Note: As of Python 3.4, pip will be included in the regular install.
+There are many reasons why you might not have this version yet, and in
+case you don’t, these instructions should help.</p>
+
+<h3 id="mac-and-linux-instructions">Mac and Linux instructions</h3>
+
+<p>As per the pip documentation, we can download a python script to install
+pip for us. Using a Mac or Linux, we can install pip via the command
+line by using the <a href="http://www.thegeekstuff.com/2012/04/curl-examples/">curl command</a>, which downloads the pip installation
+perl script.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>curl https://bootstrap.pypa.io/get-pip.py
+</code></pre>
+</div>
+
+<p>once you’ve downloaded the get-pip.py file, you need to execute it with
+the python interpreter. However, if you try to execute the script with
+python like</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>python get-pip.py
+</code></pre>
+</div>
+
+<p>the script will most likely fail because it won’t have permissions to
+update certain directories on your filesystem that are by default set so
+that random scripts cannot change important files and give you viruses.
+In this case—and in all cases where you need to allow a script that you
+trust to write to your system folders—you can use the <strong>sudo</strong> command
+(short for “Super User DO”) in front of the python command, like</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo python get-pip.py
+</code></pre>
+</div>
+
+<h3 id="windows-instructions">Windows Instructions</h3>
+
+<p>As with the above platforms, the easiest way to install pip is through
+the use of a python program called get-pip.py, which you can download
+<a href="https://bootstrap.pypa.io/get-pip.py">here</a>. When you open this link, you might be scared of the massive
+jumble of code that awaits you. Please don’t be. Simply use your browser
+to save this page under its default name, which is get-pip.py. It might
+be a good idea to save this file in your python directory, so you know
+where to find it.</p>
+
+<p>Once you have saved this file, you need to run it, which can be done in
+two ways. If you prefer using your python interpreter, just right-click
+on the file get-pip.py and choose “open with” and then choose whatever
+python interpreter you care to use.</p>
+
+<p>If you prefer to install pip using the windows command line, navigate to
+whatever directory you’ve placed python and get-pip.py. For this
+example, we’ll assume this directory is python27, so we’ll use the
+command C:\&gt;cd python27. Once you are in this directory, run the
+command</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>python get-pip.py to install pip
+</code></pre>
+</div>
+
+<p>If you are looking for more information, check out the <a href="http://stackoverflow.com/questions/4750806/how-to-install-pip-on-windows">StackOverflow
+page</a> that seems to be regularly updated.</p>
+
+<h2 id="installing-python-modules">Installing Python Modules</h2>
+
+<p>Now that you have pip, it is easy to install python modules since it
+does all the work for you. When you find a module that you want to use,
+usually the documentation or installation instructions will include the
+necessary pip command, such as</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>pip install requests
+pip install beautifulsoup4
+pip install simplekml
+</code></pre>
+</div>
+
+<p>Remember, for the same reasons explained above, you will probably need
+to run pip with sudo on Mac or Linux systems (but not Windows), like</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo pip install requests
+</code></pre>
+</div>
+
+<p>Happy installing!</p>
+
+
+	        </div>
+
+            
+
+	        <div class="author-info">
+	   	        <p class="author-name">About the author</p>
+			    <div class="author-description"><p>
+                
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                       Fred Gibbs is an assistant professor of history at the University of
+New Mexico.
+&nbsp;
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+		        </p>
+			    </div>
+	        </div>
+          <div class="citation-info">
+            <p class="citation-head">Suggested Citation</p>
+            <div class="suggested-citation">
+              <p>
+              
+  
+        Fred Gibbs
+  
+  , 
+              "Installing Python Modules with pip," 
+              <em>Programming Historian</em> 
+              (06 May 2013), 
+              http://programminghistorian.org/lessons/installing-python-modules-pip
+              </p>
+            </div>
+          </div>
+        </article>
+    </div>
+
+    </div> <!-- end below-nav -->
+
+<footer role="contentinfo">
+
+          <div class="additional">
+          <ul id="menu-main-menu" class="additional">
+            <li class="menu-item"><a href="../index.html">About</a></li>
+            <li class="menu-item"><a href="index.html">Lessons</a></li>
+            <li class="menu-item"><a href="../contribute.html">Contribute</a></li>
+            <li class="menu-item"><a href="../project-team.html">Project Team</a></li>
+            <li class="menu-item"><a href="../blog.html">Blog</a></li>
+          </ul>
+        </div>
+
+
+<p><em>The Programming Historian</em> ISSN 2397-2068, is released under the <a href="http://creativecommons.org/licenses/by/2.0/" rel="license">CC-BY</a> license.</p>
+<p>The project is published by the <em>Editorial Board of the Programming Historian</em>, and first appeared in July 2012. It was last updated on 20 March 2016.</p>
+<p class="github">
+        <a href="https://github.com/programminghistorian/jekyll">Hosted on GitHub <img src="../images/GitHub-Mark-32px.png" title="GitHub logo"></a> 
+		<a href="https://github.com/programminghistorian/jekyll/commits/gh-pages/lessons/installing-python-modules-pip.md">Previous Versions</a>&nbsp;&#183;&nbsp;
+		<a href="../feedback.html">Give Feedback</a>
+</p>
+
+</footer>
+
+
+    </body>
+</html>

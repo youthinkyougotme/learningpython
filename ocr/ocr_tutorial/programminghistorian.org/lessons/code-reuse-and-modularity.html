@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <meta name="citation_title" content="Code Reuse and Modularity in Python" />
+
+<meta name="citation_author" content="William J. Turkel" />
+
+<meta name="citation_author" content="Adam Crymble" />
+
+<meta name="citation_publication_date" content="2012-07-17" />
+<meta name="citation_journal_title" content="Programming Historian" />
+<meta name="citation_public_url" content="http://programminghistorian.org/lessons/code-reuse-and-modularity" />
+
+
+    <!-- Mobile viewport optimized: h5bp.com/viewport -->
+    <meta name="viewport" content="width=device-width">
+    
+    <!--Font awesome CDN -->
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,700%7CCrete+Round' rel='stylesheet' type='text/css'>
+    <link href="../css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/github.css">
+    <link href='../feed.xml.rss' rel='alternate' type='application/atom+xml'>
+    <title>Code Reuse and Modularity in Python | Programming Historian</title>
+        
+    <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="../js/ui.js"></script>
+    <script type="text/javascript" src="../js/ext_links.js"></script>
+    <script type="text/javascript" src="../js/header_links.js"></script>
+    <script>
+      $(document).ready(function(){
+        $('.slide-trigger').collapsable();
+      });
+    </script>
+
+    <script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-2752866-8']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+  </head>
+
+
+
+  
+  
+  
+
+  <body>
+
+    <header role="banner">
+    <h1><a href="../index.html">The Programming Historian</a></h1>
+
+	        <div class="additional">
+          <ul id="menu-main-menu" class="additional">
+            <li class="menu-item"><a href="../index.html">About</a></li>
+            <li class="menu-item"><a href="index.html">Lessons</a></li>
+            <li class="menu-item"><a href="../contribute.html">Contribute</a></li>
+            <li class="menu-item"><a href="../project-team.html">Project Team</a></li>
+            <li class="menu-item"><a href="../blog.html">Blog</a></li>
+          </ul>
+        </div>
+
+	</header>
+
+	<div role="main">
+		<article>
+			<header>
+
+                
+				
+			    <p class="kicker">July 17, 2012</p>
+				<h1><a href="code-reuse-and-modularity.html">Code Reuse and Modularity in Python</a></h1>
+                <p class="byline">By 
+  
+        
+             
+                   William J. Turkel
+             
+        
+             
+                   and Adam Crymble
+             
+        
+  
+  </p>
+
+				
+				
+				<ul class="credits">Reviewed by
+				
+                      
+                           
+                                 Miriam Posner
+                           
+                      
+                           
+                                 and Jim Clifford
+                           
+                      
+                
+                <br/>
+                
+                </ul>
+                
+				
+			</header>
+
+            
+            <p><em>Note:</em> You may find it easier to complete this lesson
+                if you have already completed the 
+                <a href="working-with-text-files.html">previous lesson</a>
+                in this series.</p>
+            
+
+			<div class="content">
+	              <h2 id="lesson-goals">Lesson Goals</h2>
+
+<p>Computer programs can become long, unwieldy and confusing without
+special mechanisms for managing complexity. This lesson will show you
+how to reuse parts of your code by writing <em>Functions</em> and break your
+programs into <em>Modules</em>, in order to keep everything concise and easier to
+debug. Being able to remove a single dysfunctional module can save time
+and effort.</p>
+
+<h3 id="functions">Functions</h3>
+
+<p>You will often find that you want to re-use a particular set of
+statements, usually because you have a task that you need to do over and
+over. Programs are mostly composed of routines that are powerful and
+general-purpose enough to be reused. These are known as functions, and
+Python has mechanisms that allow you to define new functions. Let’s work
+through a very simple example of a function. Suppose you want to create
+a general purpose function for greeting people. Copy the following
+function definition into Komodo Edit and save it as <code class="highlighter-rouge">greet.py</code>.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># greet.py</span>
+
+<span class="k">def</span> <span class="nf">greetEntity</span> <span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">print</span> <span class="s">"hello "</span> <span class="o">+</span> <span class="n">x</span>
+
+<span class="n">greetEntity</span><span class="p">(</span><span class="s">"Everybody"</span><span class="p">)</span>
+<span class="n">greetEntity</span><span class="p">(</span><span class="s">"Programming Historian"</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>The line beginning with <code class="highlighter-rouge">def</code> is the function declaration. We are going
+to define (“def”) a function, which in this case we have named
+“greetEntity”. The <code class="highlighter-rouge">(x)</code> is the function’s parameter. You should
+understand how that works in a moment. The second line contains the code
+of the function. This could be as many lines as we need, but in this
+case it is only a single line.</p>
+
+<p>Note that <em>indentation</em> is very important in Python. The blank space
+before the <code class="highlighter-rouge">print</code> statement tells the interpreter that it is part of the
+function that is being defined. You will learn more about this as we go
+along; for now, make sure to keep indentation the way we show it. Run
+the program, and you should see something like this:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>hello Everybody
+hello Programming Historian
+</code></pre>
+</div>
+
+<p>This example contains one function: <em>greetEntity</em>. This function is then
+“called” (sometimes referred to as “invoked”) two times. Calling or
+invoking a function just means we have told the program to execute the
+code in that function. Like giving the dog his chicken-flavoured treat
+(*woof* *woof*). In this case each time we have called the function
+we have given it a different parameter. Try editing <code class="highlighter-rouge">greet.py</code> so that
+it calls the <em>greetEntity</em> function a third time using your own name as a
+parameter. Run the program again. You should now be able to figure out
+what <code class="highlighter-rouge">(x)</code> does in the function declaration.</p>
+
+<p>Before moving on to the next step, edit <code class="highlighter-rouge">greet.py</code> to delete the
+function calls, leaving only the function declaration. You’re going to
+learn how to call the function from another program. When you are
+finished, your <code class="highlighter-rouge">greet.py</code> file should look like this:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># greet.py</span>
+
+<span class="k">def</span> <span class="nf">greetEntity</span> <span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">print</span> <span class="s">"hello "</span> <span class="o">+</span> <span class="n">x</span>
+</code></pre>
+</div>
+
+<h3 id="modularity">Modularity</h3>
+
+<p>When programs are small like the above example, they are typically
+stored in a single file. When you want to run one of your programs, you
+can simply send the file to the interpreter. As programs become larger,
+it makes sense to split them into separate files known as modules. This
+modularity makes it easier for you to work on sections of your larger
+programs. By perfecting each section of the program before putting all
+of the sections together, you not only make it easier to reuse
+individual modules in other programs, you make it easier to fix problems
+by being able to pinpoint the source of the error. When you break a
+program into modules, you are also able to hide the details for how
+something is done within the module that does it. Other modules don’t
+need to know how something is accomplished if they are not responsible
+for doing it. This need-to-know principle is called “encapsulation“.</p>
+
+<p>Suppose you were building a car. You could start adding pieces willy
+nilly, but it would make more sense to start by building and testing one
+module — perhaps the engine — before moving on to others. The engine, in
+turn, could be imagined to consist of a number of other, smaller modules
+like the carburettor and ignition system, and those are comprised of
+still smaller and more basic modules. The same is true when coding. You
+try to break a problem into smaller pieces, and solve those first.</p>
+
+<p>You already created a module when you wrote the <code class="highlighter-rouge">greet.py</code> program. Now
+you are going to write a second program, <code class="highlighter-rouge">using-greet.py</code> which will
+<code class="highlighter-rouge">import</code> code from your module and make use of it. Python has a special
+<code class="highlighter-rouge">import</code> statement that allows one program to gain access to the contents
+of another program file. This is what you will be using.</p>
+
+<p>Copy this code to Komodo Edit and save it as <code class="highlighter-rouge">using-greet.py</code>. This file
+is your program; <code class="highlighter-rouge">greet.py</code> is your module.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># using-greet.py</span>
+
+<span class="kn">import</span> <span class="nn">greet</span>
+<span class="n">greet</span><span class="o">.</span><span class="n">greetEntity</span><span class="p">(</span><span class="s">"everybody"</span><span class="p">)</span>
+<span class="n">greet</span><span class="o">.</span><span class="n">greetEntity</span><span class="p">(</span><span class="s">"programming historian"</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>We have done a few things here. First, we have told Python to <code class="highlighter-rouge">import</code>
+(load) the <code class="highlighter-rouge">greet.py</code> module, which we previously created.</p>
+
+<p>You will also notice that whereas before we were able to run the
+function by calling only its name: <em>greetEntity(“everybody”)</em>, we now
+need to include the module’s name followed by a dot (.) in front of the
+function name. In plain English this means: run the <em>greetEntity</em>
+function, which you should find in the <code class="highlighter-rouge">greet.py</code> module.</p>
+
+<p>You can run your <code class="highlighter-rouge">using-greet.py</code> program with the “Run Python” command
+that you created in Komodo Edit. Note that you do not have to run your
+module…just the program that calls it. If all went well, you should see
+the following in the Komodo Edit output pane:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>hello everybody
+hello programming historian
+</code></pre>
+</div>
+
+<p>Make sure that you understand the difference between loading a data file
+(e.g., <code class="highlighter-rouge">helloworld.txt</code>) and importing a program file (e.g. <code class="highlighter-rouge">greet.py</code>)
+before moving on.</p>
+
+<h2 id="suggested-readings">Suggested Readings</h2>
+
+<ul>
+  <li><a href="http://www.astro.ufl.edu/~warner/prog/python.html">Python Basics</a></li>
+</ul>
+
+
+	        </div>
+
+            
+            <p><em>Note:</em> You are now prepared to move on to the 
+                <a href="working-with-web-pages.html">next lesson</a>
+                in this series.</p>
+            
+
+	        <div class="author-info">
+	   	        <p class="author-name">About the authors</p>
+			    <div class="author-description"><p>
+                
+                   
+                   
+                       William J. Turkel is Professor of History at the
+University of Western Ontario.
+&nbsp;
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+		        
+                   
+                   
+                   
+                   
+                       Adam Crymble is a Lecturer of Digital History at the University of
+Hertfordshire.
+&nbsp;
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+		        </p>
+			    </div>
+	        </div>
+          <div class="citation-info">
+            <p class="citation-head">Suggested Citation</p>
+            <div class="suggested-citation">
+              <p>
+              
+  
+        
+             
+                   William J. Turkel
+             
+        
+             
+                   and Adam Crymble
+             
+        
+  
+  , 
+              "Code Reuse and Modularity in Python," 
+              <em>Programming Historian</em> 
+              (17 July 2012), 
+              http://programminghistorian.org/lessons/code-reuse-and-modularity
+              </p>
+            </div>
+          </div>
+        </article>
+    </div>
+
+    </div> <!-- end below-nav -->
+
+<footer role="contentinfo">
+
+          <div class="additional">
+          <ul id="menu-main-menu" class="additional">
+            <li class="menu-item"><a href="../index.html">About</a></li>
+            <li class="menu-item"><a href="index.html">Lessons</a></li>
+            <li class="menu-item"><a href="../contribute.html">Contribute</a></li>
+            <li class="menu-item"><a href="../project-team.html">Project Team</a></li>
+            <li class="menu-item"><a href="../blog.html">Blog</a></li>
+          </ul>
+        </div>
+
+
+<p><em>The Programming Historian</em> ISSN 2397-2068, is released under the <a href="http://creativecommons.org/licenses/by/2.0/" rel="license">CC-BY</a> license.</p>
+<p>The project is published by the <em>Editorial Board of the Programming Historian</em>, and first appeared in July 2012. It was last updated on 20 March 2016.</p>
+<p class="github">
+        <a href="https://github.com/programminghistorian/jekyll">Hosted on GitHub <img src="../images/GitHub-Mark-32px.png" title="GitHub logo"></a> 
+		<a href="https://github.com/programminghistorian/jekyll/commits/gh-pages/lessons/code-reuse-and-modularity.md">Previous Versions</a>&nbsp;&#183;&nbsp;
+		<a href="../feedback.html">Give Feedback</a>
+</p>
+
+</footer>
+
+
+    </body>
+</html>

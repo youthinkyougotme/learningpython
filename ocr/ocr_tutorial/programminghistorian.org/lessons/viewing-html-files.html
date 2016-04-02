@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <meta name="citation_title" content="Understanding Web Pages and HTML" />
+
+<meta name="citation_author" content="William J. Turkel" />
+
+<meta name="citation_author" content="Adam Crymble" />
+
+<meta name="citation_publication_date" content="2012-07-17" />
+<meta name="citation_journal_title" content="Programming Historian" />
+<meta name="citation_public_url" content="http://programminghistorian.org/lessons/viewing-html-files" />
+
+
+    <!-- Mobile viewport optimized: h5bp.com/viewport -->
+    <meta name="viewport" content="width=device-width">
+    
+    <!--Font awesome CDN -->
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,700%7CCrete+Round' rel='stylesheet' type='text/css'>
+    <link href="../css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/github.css">
+    <link href='../feed.xml.rss' rel='alternate' type='application/atom+xml'>
+    <title>Understanding Web Pages and HTML | Programming Historian</title>
+        
+    <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="../js/ui.js"></script>
+    <script type="text/javascript" src="../js/ext_links.js"></script>
+    <script type="text/javascript" src="../js/header_links.js"></script>
+    <script>
+      $(document).ready(function(){
+        $('.slide-trigger').collapsable();
+      });
+    </script>
+
+    <script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-2752866-8']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+  </head>
+
+
+
+  
+  
+  
+
+  <body>
+
+    <header role="banner">
+    <h1><a href="../index.html">The Programming Historian</a></h1>
+
+	        <div class="additional">
+          <ul id="menu-main-menu" class="additional">
+            <li class="menu-item"><a href="../index.html">About</a></li>
+            <li class="menu-item"><a href="index.html">Lessons</a></li>
+            <li class="menu-item"><a href="../contribute.html">Contribute</a></li>
+            <li class="menu-item"><a href="../project-team.html">Project Team</a></li>
+            <li class="menu-item"><a href="../blog.html">Blog</a></li>
+          </ul>
+        </div>
+
+	</header>
+
+	<div role="main">
+		<article>
+			<header>
+
+                
+				
+			    <p class="kicker">July 17, 2012</p>
+				<h1><a href="viewing-html-files.html">Understanding Web Pages and HTML</a></h1>
+                <p class="byline">By 
+  
+        
+             
+                   William J. Turkel
+             
+        
+             
+                   and Adam Crymble
+             
+        
+  
+  </p>
+
+				
+				
+				<ul class="credits">Reviewed by
+				
+                      
+                           
+                                 Miriam Posner
+                           
+                      
+                           
+						         , Jim Clifford
+                           
+                      
+                           
+                                 and Amanda Morton
+                           
+                      
+                
+                <br/>
+                
+                </ul>
+                
+				
+			</header>
+
+            
+            <p><em>Note:</em> You may find it easier to complete this lesson
+                if you have already completed the 
+                <a href="introduction-and-installation.html">previous lesson</a>
+                in this series.</p>
+            
+
+			<div class="content">
+	              <h2 id="hello-world-in-html">“Hello World” in HTML</h2>
+
+<h3 id="viewing-html-files">Viewing HTML files</h3>
+
+<p>When you are working with online sources, much of the time you will be
+using files that have been marked up with HTML (Hyper Text Markup
+Language). Your browser already knows how to interpret HTML, which is
+handy for human readers. Most browsers also let you see the HTML <em>source code</em>
+for any page that you visit. The two images below show a typical web
+page (from the <em>Old Bailey Online</em>) and the HTML source used to generate
+that page, which you can see with the
+<code class="highlighter-rouge">Tools -&gt; Web Developer -&gt; Page Source</code> command in Firefox.</p>
+
+<p>When you’re working in the browser, you typically don’t want or need to
+see the source for a web page. If you are writing a page of your own,
+however, it can be very useful to see how other people accomplished a
+particular effect. You will also want to study HTML source as you write
+programs to manipulate web pages or automatically extract information
+from them.</p>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/obo.png">
+		<img src="../images/obo.png" alt="Old Bailey Online screenshot" />
+	</a>
+<figcaption>
+    <p>Old Bailey Online screenshot</p>
+
+</figcaption>
+</figure>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/obo-page-source.png">
+		<img src="../images/obo-page-source.png" alt="HTML Source for Old Bailey Online Web Page" />
+	</a>
+<figcaption>
+    <p>HTML Source for Old Bailey Online Web Page</p>
+
+</figcaption>
+</figure>
+
+<p>(To learn more about HTML, you may find it useful at this point to work
+through the <a href="http://www.w3schools.com/html/default.asp">W3 Schools HTML tutorial</a>. Detailed knowledge of HTML
+isn’t immediately necessary to continue reading, but any time that you
+spend learning HTML will be amply rewarded in your work as a digital
+historian or digital humanist.)</p>
+
+<h3 id="hello-world-in-html-1">“Hello World” in HTML</h3>
+
+<p>HTML is what is known as a <em>markup</em> language. In other words, HTML is
+text that has been “marked up” with <em>tags</em> that provide information for
+the interpreter (which is often a web browser). Suppose you are
+formatting a bibliographic entry and you want to indicate the title of a
+work by italicizing it. In HTML you use <code class="highlighter-rouge">em</code> tags (“em” stands for
+emphasis). So part of your HTML file might look like this</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>... in Cohen and Rosenzweig's <span class="nt">&lt;em&gt;</span>Digital History<span class="nt">&lt;/em&gt;</span>, for example ...
+</code></pre>
+</div>
+
+<p>The simplest HTML file consists of tags which indicate the beginning and
+end of the whole document, and tags which identify a <code class="highlighter-rouge">head</code> and a <code class="highlighter-rouge">body</code>
+within that document. Information about the file usually goes into the
+head, whereas information that will be displayed on the screen usually
+goes into the body.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>Hello World!<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre>
+</div>
+
+<p>You can try creating some HTML code. Go to your text editor, and create
+a new file. Copy the code below into the editor. The first line tells
+the browser what kind of file it is. The <code class="highlighter-rouge">html</code> tag has the text direction
+set to <code class="highlighter-rouge">ltr</code> (left to right) and the <code class="highlighter-rouge">lang</code> (language) set to US English.
+The <code class="highlighter-rouge">title</code> tag in the head of the HTML document contains material that is
+usually displayed in the top bar of a window when the page is being
+viewed, and in Firefox tabs.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;!doctype html&gt;</span>
+<span class="nt">&lt;html</span> <span class="na">dir=</span><span class="s">"ltr"</span> <span class="na">lang=</span><span class="s">"en-US"</span><span class="nt">&gt;</span>
+
+<span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;title&gt;</span><span class="c">&lt;!-- Insert your title here --&gt;</span><span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+
+<span class="nt">&lt;body&gt;</span>
+    <span class="c">&lt;!-- Insert your content here --&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre>
+</div>
+
+<p>Change both</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c">&lt;!-- Insert your title here --&gt;</span>
+</code></pre>
+</div>
+
+<p>and</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c">&lt;!-- Insert your content here --&gt;</span>
+</code></pre>
+</div>
+
+<p>to</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Hello World!
+</code></pre>
+</div>
+
+<p>Save the file to your <code class="highlighter-rouge">programming-historian</code> directory as
+<code class="highlighter-rouge">hello-world.html</code>. Now go to Firefox and choose <code class="highlighter-rouge">File -&gt; New Tab</code> and
+then <code class="highlighter-rouge">File -&gt; Open File</code>. Choose <code class="highlighter-rouge">hello-world.html</code>. Depending on your
+text editor you may have a ‘view page in browser’ or ‘open in browser’
+option. Once you have opened the file, your message should appear in the
+browser. Note the difference between opening an HTML file with a browser
+like Firefox (which interprets it) and opening the same file with your
+text editor (which does not).</p>
+
+<h3 id="suggested-readings-for-learning-html">Suggested readings for learning HTML</h3>
+
+<ul>
+  <li><a href="http://www.w3schools.com/html/default.asp">W3 Schools HTML Tutorial</a></li>
+  <li><a href="http://www.w3schools.com/html/html5_intro.asp">W3 Schools HTML5 Tutorial</a></li>
+</ul>
+
+
+	        </div>
+
+            
+            <p><em>Note:</em> You are now prepared to move on to the 
+                <a href="working-with-text-files.html">next lesson</a>
+                in this series.</p>
+            
+
+	        <div class="author-info">
+	   	        <p class="author-name">About the authors</p>
+			    <div class="author-description"><p>
+                
+                   
+                   
+                       William J. Turkel is Professor of History at the
+University of Western Ontario.
+&nbsp;
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+		        
+                   
+                   
+                   
+                   
+                       Adam Crymble is a Lecturer of Digital History at the University of
+Hertfordshire.
+&nbsp;
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+		        </p>
+			    </div>
+	        </div>
+          <div class="citation-info">
+            <p class="citation-head">Suggested Citation</p>
+            <div class="suggested-citation">
+              <p>
+              
+  
+        
+             
+                   William J. Turkel
+             
+        
+             
+                   and Adam Crymble
+             
+        
+  
+  , 
+              "Understanding Web Pages and HTML," 
+              <em>Programming Historian</em> 
+              (17 July 2012), 
+              http://programminghistorian.org/lessons/viewing-html-files
+              </p>
+            </div>
+          </div>
+        </article>
+    </div>
+
+    </div> <!-- end below-nav -->
+
+<footer role="contentinfo">
+
+          <div class="additional">
+          <ul id="menu-main-menu" class="additional">
+            <li class="menu-item"><a href="../index.html">About</a></li>
+            <li class="menu-item"><a href="index.html">Lessons</a></li>
+            <li class="menu-item"><a href="../contribute.html">Contribute</a></li>
+            <li class="menu-item"><a href="../project-team.html">Project Team</a></li>
+            <li class="menu-item"><a href="../blog.html">Blog</a></li>
+          </ul>
+        </div>
+
+
+<p><em>The Programming Historian</em> ISSN 2397-2068, is released under the <a href="http://creativecommons.org/licenses/by/2.0/" rel="license">CC-BY</a> license.</p>
+<p>The project is published by the <em>Editorial Board of the Programming Historian</em>, and first appeared in July 2012. It was last updated on 20 March 2016.</p>
+<p class="github">
+        <a href="https://github.com/programminghistorian/jekyll">Hosted on GitHub <img src="../images/GitHub-Mark-32px.png" title="GitHub logo"></a> 
+		<a href="https://github.com/programminghistorian/jekyll/commits/gh-pages/lessons/viewing-html-files.md">Previous Versions</a>&nbsp;&#183;&nbsp;
+		<a href="../feedback.html">Give Feedback</a>
+</p>
+
+</footer>
+
+
+    </body>
+</html>

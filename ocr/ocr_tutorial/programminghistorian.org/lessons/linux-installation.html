@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <meta name="citation_title" content="Setting up an Integrated Development Environment for Python (Linux)" />
+
+<meta name="citation_author" content="William J. Turkel" />
+
+<meta name="citation_author" content="Adam Crymble" />
+
+<meta name="citation_publication_date" content="2012-07-17" />
+<meta name="citation_journal_title" content="Programming Historian" />
+<meta name="citation_public_url" content="http://programminghistorian.org/lessons/linux-installation" />
+
+
+    <!-- Mobile viewport optimized: h5bp.com/viewport -->
+    <meta name="viewport" content="width=device-width">
+    
+    <!--Font awesome CDN -->
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,700%7CCrete+Round' rel='stylesheet' type='text/css'>
+    <link href="../css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/github.css">
+    <link href='../feed.xml.rss' rel='alternate' type='application/atom+xml'>
+    <title>Setting up an Integrated Development Environment for Python (Linux) | Programming Historian</title>
+        
+    <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="../js/ui.js"></script>
+    <script type="text/javascript" src="../js/ext_links.js"></script>
+    <script type="text/javascript" src="../js/header_links.js"></script>
+    <script>
+      $(document).ready(function(){
+        $('.slide-trigger').collapsable();
+      });
+    </script>
+
+    <script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-2752866-8']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+  </head>
+
+
+
+  
+  
+  
+
+  <body>
+
+    <header role="banner">
+    <h1><a href="../index.html">The Programming Historian</a></h1>
+
+	        <div class="additional">
+          <ul id="menu-main-menu" class="additional">
+            <li class="menu-item"><a href="../index.html">About</a></li>
+            <li class="menu-item"><a href="index.html">Lessons</a></li>
+            <li class="menu-item"><a href="../contribute.html">Contribute</a></li>
+            <li class="menu-item"><a href="../project-team.html">Project Team</a></li>
+            <li class="menu-item"><a href="../blog.html">Blog</a></li>
+          </ul>
+        </div>
+
+	</header>
+
+	<div role="main">
+		<article>
+			<header>
+
+                
+				
+			    <p class="kicker">July 17, 2012</p>
+				<h1><a href="linux-installation.html">Setting up an Integrated Development Environment for Python (Linux)</a></h1>
+                <p class="byline">By 
+  
+        
+             
+                   William J. Turkel
+             
+        
+             
+                   and Adam Crymble
+             
+        
+  
+  </p>
+
+				
+				
+				<ul class="credits">Reviewed by
+				
+                      
+                           
+                                 Miriam Posner
+                           
+                      
+                           
+						         , Jim Clifford
+                           
+                      
+                           
+                                 and Amanda Morton
+                           
+                      
+                
+                <br/>
+                
+                </ul>
+                
+				
+			</header>
+
+            
+
+			<div class="content">
+	              <p>Thanks to John Fink for providing the basis of this section. These
+instructions are for Ubuntu 12.04 LTS, but should work for any apt based
+system such as Debian, or Linux Mint, provided you have sudo installed.</p>
+
+<h3 id="back-up-your-computer">Back up your computer</h3>
+
+<p>It is always important to make sure you have regular and recent backups
+of your computer. This is just good advice for life, and is not limited
+to times when you are engaged in programming.</p>
+
+<h3 id="install-python-v-2-and-python-beautiful-soup-module">Install Python v. 2 and Python “Beautiful Soup” module</h3>
+
+<ol>
+  <li>Open a terminal (<code class="highlighter-rouge">Dash Home</code>, then type <code class="highlighter-rouge">Terminal</code>, then click on
+the Terminal icon).</li>
+  <li>Now type: <code class="highlighter-rouge">sudo apt-get install python2.7 python-beautifulsoup</code></li>
+  <li>Enter your password, and then type <code class="highlighter-rouge">Y</code> to finish the install. Note
+that you probably have Python 2.7 installed already, so don’t be
+alarmed if Ubuntu tells you that.</li>
+</ol>
+
+<h3 id="create-a-directory">Create a directory</h3>
+
+<p>You will keep your Python programs in this directory. It can be anywhere
+you like, but it is probably best to put it in your home folder.
+Something like this in your open terminal window should do the trick:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>cd ~
+mkdir programming-historian
+</code></pre>
+</div>
+
+<h3 id="install-komodo-edit">Install Komodo Edit</h3>
+
+<p>Komodo Edit is a free and open source code editor, but as we said in the
+introduction, you have many <a href="http://wiki.python.org/moin/PythonEditors/">other text editing options</a>. You can
+download Komodo Edit at the <a href="http://www.activestate.com/komodo-edit">Komoto Edit Website</a>. Once you’ve
+downloaded it, open it with Ubuntu’s package manager, extract it to your
+home directory, and follow the installation instructions. If you are
+following along with these instructions and have installed Komodo Edit,
+open the home folder, go to the <code class="highlighter-rouge">Komodo-Edit-7/bin</code> directory, and click
+on komodo. You can also right click on the Komodo icon in your launcher
+and click “<code class="highlighter-rouge">Lock to Launcher</code>” to have Komodo saved permanently to your
+launcher bar.</p>
+
+<h3 id="make-a-run-python-command-in-komodo-edit">Make a “Run Python” Command in Komodo Edit</h3>
+
+<ol>
+  <li>In Komodo Edit, click the gear icon under <code class="highlighter-rouge">Toolbox</code> and select
+<code class="highlighter-rouge">New Command</code>.</li>
+  <li>In the top field type “<code class="highlighter-rouge">Run Python File</code>“</li>
+  <li>In the Command field, type: <code class="highlighter-rouge">%(python) %F</code> Then hit the OK button at
+the bottom of the Add Command window.</li>
+</ol>
+
+<h2 id="step-2--hello-world-in-python">Step 2 – “Hello World” in Python</h2>
+
+<p>It is traditional to begin programming in a new language by trying to
+create a program that says “hello world” and terminates. We will show
+you how to do this in Python and HTML.</p>
+
+<p>Python is a good programming language for beginners because it is very
+high-level. It is possible, in other words, to write short programs that
+accomplish a lot. The shorter the program, the more likely it is for the
+whole thing to fit on one screen, and the easier it is to keep track of
+all of it in your mind.</p>
+
+<p>The languages that we will be using are all interpreted. This means that
+there is a special computer program (known as an interpreter) that knows
+how to follow instructions written in that language. One way to use the
+interpreter is to store all of your instructions in a file, and then run
+the interpreter on the file. A file that contains programming language
+instructions is known as a program. The interpreter will execute each of
+the instructions that you gave it in your program and then stop. Let’s
+try this.</p>
+
+<p>In your text editor, create a new file, enter the following two-line
+program and save it to your <code class="highlighter-rouge">programming-historian</code> directory as
+<code class="highlighter-rouge">hello-world.py</code></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># hello-world.py</span>
+<span class="k">print</span> <span class="s">'hello world'</span>
+</code></pre>
+</div>
+
+<p>Your chosen text editor should have a “<code class="highlighter-rouge">Run</code>” button that will allow you
+to execute your program. If all went well, it should look something like
+this (Example as seen in Komodo Edit. Click on the image to see a
+full-size copy):</p>
+
+<p><img src="../images/hello-world1.png" alt="hello world in Komodo Edit on a Mac" title="hello-world" /></p>
+
+<p>“Hello World” in Python</p>
+
+<h3 id="interacting-with-a-python-shell">Interacting with a Python shell</h3>
+
+<p>Another way to interact with an interpreter is to use what is known as a
+shell. You can type in a statement and press the Enter key, and the
+shell will respond to your command. Using a shell is a great way to test
+statements to make sure that they do what you think they should.</p>
+
+<p>You can run a Python shell by launching the “terminal”. For Linux, go to
+<code class="highlighter-rouge">Applications-&gt; Accessories -&gt; Terminal</code>and do the same. At the Python
+shell prompt, type</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">python</span>
+</code></pre>
+</div>
+
+<p>This will open up the Python prompt, meaning that you can now use Python 
+commands in the shell. Now type</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">print</span> <span class="s">'hello world'</span>
+</code></pre>
+</div>
+
+<p>and press Enter. The computer will respond with</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">hello</span> <span class="n">world</span>
+</code></pre>
+</div>
+
+<p>When we want to represent an interaction with the shell, we will use
+<code class="highlighter-rouge">-&gt;</code> to indicate the shell’s response to your command, as shown below:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">print</span> <span class="s">'hello world'</span>
+<span class="o">-&gt;</span> <span class="n">hello</span> <span class="n">world</span>
+</code></pre>
+</div>
+
+<p>On your screen, it will look more like this:</p>
+
+<p><img src="../images/hello-world-terminal.png" alt="hello world terminal on a Mac" title="hello-world-terminal" /></p>
+
+<p>Python Shell in Mac Terminal</p>
+
+<p><a href="lesson-1-2-viewing-html-files.html">.</a></p>
+
+<p>Now that you and your computer are up and running, we can move onto some
+more interesting tasks. If you are working through the Python lessons in
+order, we suggest you next try ‘<a href="viewing-html-files.html">Viewing HTML Files</a>‘</p>
+
+
+	        </div>
+
+            
+
+	        <div class="author-info">
+	   	        <p class="author-name">About the authors</p>
+			    <div class="author-description"><p>
+                
+                   
+                   
+                       William J. Turkel is Professor of History at the
+University of Western Ontario.
+&nbsp;
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+		        
+                   
+                   
+                   
+                   
+                       Adam Crymble is a Lecturer of Digital History at the University of
+Hertfordshire.
+&nbsp;
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+		        </p>
+			    </div>
+	        </div>
+          <div class="citation-info">
+            <p class="citation-head">Suggested Citation</p>
+            <div class="suggested-citation">
+              <p>
+              
+  
+        
+             
+                   William J. Turkel
+             
+        
+             
+                   and Adam Crymble
+             
+        
+  
+  , 
+              "Setting up an Integrated Development Environment for Python (Linux)," 
+              <em>Programming Historian</em> 
+              (17 July 2012), 
+              http://programminghistorian.org/lessons/linux-installation
+              </p>
+            </div>
+          </div>
+        </article>
+    </div>
+
+    </div> <!-- end below-nav -->
+
+<footer role="contentinfo">
+
+          <div class="additional">
+          <ul id="menu-main-menu" class="additional">
+            <li class="menu-item"><a href="../index.html">About</a></li>
+            <li class="menu-item"><a href="index.html">Lessons</a></li>
+            <li class="menu-item"><a href="../contribute.html">Contribute</a></li>
+            <li class="menu-item"><a href="../project-team.html">Project Team</a></li>
+            <li class="menu-item"><a href="../blog.html">Blog</a></li>
+          </ul>
+        </div>
+
+
+<p><em>The Programming Historian</em> ISSN 2397-2068, is released under the <a href="http://creativecommons.org/licenses/by/2.0/" rel="license">CC-BY</a> license.</p>
+<p>The project is published by the <em>Editorial Board of the Programming Historian</em>, and first appeared in July 2012. It was last updated on 20 March 2016.</p>
+<p class="github">
+        <a href="https://github.com/programminghistorian/jekyll">Hosted on GitHub <img src="../images/GitHub-Mark-32px.png" title="GitHub logo"></a> 
+		<a href="https://github.com/programminghistorian/jekyll/commits/gh-pages/lessons/linux-installation.md">Previous Versions</a>&nbsp;&#183;&nbsp;
+		<a href="../feedback.html">Give Feedback</a>
+</p>
+
+</footer>
+
+
+    </body>
+</html>

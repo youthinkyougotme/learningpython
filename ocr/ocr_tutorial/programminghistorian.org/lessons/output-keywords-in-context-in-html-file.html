@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <meta name="citation_title" content="Output Keywords in Context in an HTML File with Python" />
+
+<meta name="citation_author" content="William J. Turkel" />
+
+<meta name="citation_author" content="Adam Crymble" />
+
+<meta name="citation_publication_date" content="2012-07-17" />
+<meta name="citation_journal_title" content="Programming Historian" />
+<meta name="citation_public_url" content="http://programminghistorian.org/lessons/output-keywords-in-context-in-html-file" />
+
+
+    <!-- Mobile viewport optimized: h5bp.com/viewport -->
+    <meta name="viewport" content="width=device-width">
+    
+    <!--Font awesome CDN -->
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,700%7CCrete+Round' rel='stylesheet' type='text/css'>
+    <link href="../css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/github.css">
+    <link href='../feed.xml.rss' rel='alternate' type='application/atom+xml'>
+    <title>Output Keywords in Context in an HTML File with Python | Programming Historian</title>
+        
+    <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="../js/ui.js"></script>
+    <script type="text/javascript" src="../js/ext_links.js"></script>
+    <script type="text/javascript" src="../js/header_links.js"></script>
+    <script>
+      $(document).ready(function(){
+        $('.slide-trigger').collapsable();
+      });
+    </script>
+
+    <script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-2752866-8']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+  </head>
+
+
+
+  
+  
+  
+
+  <body>
+
+    <header role="banner">
+    <h1><a href="../index.html">The Programming Historian</a></h1>
+
+	        <div class="additional">
+          <ul id="menu-main-menu" class="additional">
+            <li class="menu-item"><a href="../index.html">About</a></li>
+            <li class="menu-item"><a href="index.html">Lessons</a></li>
+            <li class="menu-item"><a href="../contribute.html">Contribute</a></li>
+            <li class="menu-item"><a href="../project-team.html">Project Team</a></li>
+            <li class="menu-item"><a href="../blog.html">Blog</a></li>
+          </ul>
+        </div>
+
+	</header>
+
+	<div role="main">
+		<article>
+			<header>
+
+                
+				
+			    <p class="kicker">July 17, 2012</p>
+				<h1><a href="output-keywords-in-context-in-html-file.html">Output Keywords in Context in an HTML File with Python</a></h1>
+                <p class="byline">By 
+  
+        
+             
+                   William J. Turkel
+             
+        
+             
+                   and Adam Crymble
+             
+        
+  
+  </p>
+
+				
+				
+				<ul class="credits">Reviewed by
+				
+                      
+                           
+                                 Miriam Posner
+                           
+                      
+                           
+                                 and Jim Clifford
+                           
+                      
+                
+                <br/>
+                
+                </ul>
+                
+				
+			</header>
+
+            
+            <p><em>Note:</em> You may find it easier to complete this lesson
+                if you have already completed the 
+                <a href="keywords-in-context-using-n-grams.html">previous lesson</a>
+                in this series.</p>
+            
+
+			<div class="content">
+	              <h2 id="lesson-goals">Lesson Goals</h2>
+
+<p>This lesson builds on <a href="keywords-in-context-using-n-grams.html">Keywords in Context (Using N-grams)</a>, where
+n-grams were extracted from a text. Here, you will learn how to output
+all of the n-grams of a given keyword in a document downloaded from the
+Internet, and display them clearly in your browser window.</p>
+
+<h3 id="files-needed-for-this-lesson">Files Needed For This Lesson</h3>
+
+<ul>
+  <li><code class="highlighter-rouge">obo.py</code></li>
+</ul>
+
+<p>If you do not have these files from the previous lesson, you can
+download a <a href="../assets/programming-historian3.zip">zip file from the previous lesson</a></p>
+
+<h3 id="making-an-n-gram-dictionary">Making an N-Gram Dictionary</h3>
+
+<p>Our n-grams have an odd number of words in them for a reason. At this
+point, our n-grams don”t actually have a keyword; they’re just a list of
+words. However, if we have an odd numbered n-gram the middle word will
+always have an equal number of words to the left and to the right. We
+can then use that middle word as our keyword. For instance, [“it”,
+“was”, “the”, “best”, “of”, “times”, “it”] is a 7-gram of the keyword
+“best”.</p>
+
+<p>Since we have a long text, we want to be able to output all n-grams for
+our keyword. To do this we will put each n-gram into a <em>dictionary</em>, using
+the middle word as the <em>key</em>. To figure out the keyword for each n-gram we
+can use the <em>index positions</em> of the list. If we are working with 5-grams,
+for example, the left context will consist of terms indexed by 0, 1, the
+keyword will be indexed by 2, and the right context terms indexed by 3,
+4. Since Python indexes start at 0, a 5-gram’s keyword will always be at
+index position 2.</p>
+
+<p>That’s fine for 5-grams, but to make the code a bit more robust, we want
+to make sure it will work for any length n-gram, assuming its length is
+an odd number. To do this we’ll take the length of the n-gram, divide it
+by 2 and drop the remainder. We can achieve this using Python’s <code class="highlighter-rouge">floor
+division</code> operator, represented by two slashes, which divides and then
+returns an answer to the nearest whole number, always rounding down –
+hence the term “floor”.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">print</span> <span class="p">(</span><span class="mi">7</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span>
+<span class="k">print</span> <span class="p">(</span><span class="mi">5</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span>
+<span class="k">print</span> <span class="p">(</span><span class="mi">3</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>Let’s build a function that can identify the index position of the
+keyword when given an n-gram with an odd number of words. Save the
+following to <code class="highlighter-rouge">obo.py</code>.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># Given a list of n-grams identify the index of the keyword.</span>
+
+<span class="k">def</span> <span class="nf">nGramsToKWICDict</span><span class="p">(</span><span class="n">ngrams</span><span class="p">):</span>
+    <span class="n">keyindex</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ngrams</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">//</span> <span class="mi">2</span>
+
+    <span class="k">return</span> <span class="n">keyindex</span>
+</code></pre>
+</div>
+
+<p>To determine the index of the keyword, we have used the <code class="highlighter-rouge">len</code> property to
+tell us how many items are in the first n-gram, then used floor division
+to isolate the middle index position. You can see if this worked by
+creating a new program, <code class="highlighter-rouge">get-keyword.py</code> and running it. If all goes
+well, since we are dealing with a 5-gram, you should get 2 as the index
+position of the keyword as we determined above.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">obo</span>
+
+<span class="n">test</span> <span class="o">=</span> <span class="s">'this test sentence has eight words in it'</span>
+<span class="n">ngrams</span> <span class="o">=</span> <span class="n">obo</span><span class="o">.</span><span class="n">getNGrams</span><span class="p">(</span><span class="n">test</span><span class="o">.</span><span class="n">split</span><span class="p">(),</span> <span class="mi">5</span><span class="p">)</span>
+
+<span class="k">print</span> <span class="n">obo</span><span class="o">.</span><span class="n">nGramsToKWICDict</span><span class="p">(</span><span class="n">ngrams</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>Now that we know the location of the keywords, let’s add everything to a
+dictionary that can be used to output all KWIC n-grams of a particular
+keyword. Study this code and then replace your <code class="highlighter-rouge">nGramsToKWICDict</code> with
+the following in your <code class="highlighter-rouge">obo.py</code> module.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># Given a list of n-grams, return a dictionary of KWICs,</span>
+<span class="c"># indexed by keyword.</span>
+
+<span class="k">def</span> <span class="nf">nGramsToKWICDict</span><span class="p">(</span><span class="n">ngrams</span><span class="p">):</span>
+    <span class="n">keyindex</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ngrams</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">//</span> <span class="mi">2</span>
+
+    <span class="n">kwicdict</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">ngrams</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">k</span><span class="p">[</span><span class="n">keyindex</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwicdict</span><span class="p">:</span>
+            <span class="n">kwicdict</span><span class="p">[</span><span class="n">k</span><span class="p">[</span><span class="n">keyindex</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">kwicdict</span><span class="p">[</span><span class="n">k</span><span class="p">[</span><span class="n">keyindex</span><span class="p">]]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">kwicdict</span>
+</code></pre>
+</div>
+
+<p>A <code class="highlighter-rouge">for</code> loop and <code class="highlighter-rouge">if</code> statement checks each n-gram to see if its keyword is
+already stored in the dictionary. If it isn’t, it’s added as a new
+entry. If it is, it’s appended to the previous entry. We now have a
+dictionary named <em>kwicdict</em> that contains all the n-grams, sortable by
+keyword and we can turn to the task of outputting the information in a
+more useful format as we did in <a href="output-data-as-html-file.html">Output Data as HTML File</a>.</p>
+
+<p>Try rerunning the <code class="highlighter-rouge">get-keyword.py</code> program and you should now see what’s
+in your KWIC dictionary.</p>
+
+<h2 id="outputting-to-html">Outputting to HTML</h2>
+
+<h3 id="pretty-printing-a-kwic">Pretty Printing a KWIC</h3>
+
+<p>“Pretty printing” is the process of formatting output so that it can be
+easily read by human beings. In the case of our keywords in context, we
+want to have the keywords lined up in a column, with the terms in the
+left-hand context right justified, and the terms in the right-hand
+context left justified. In other words, we want our KWIC display to look
+something like this:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>               amongst them a black there was one
+                first saw the black i turned to
+             had observed the black in the mob
+                 say who that black was no seeing
+                      i saw a black at first but
+                 swear to any black yes there is
+                   swear to a black than to a
+                              ...
+</code></pre>
+</div>
+
+<p>This technique is not the best way to format text from a web designer’s
+perspective. If you have some experience with HTML we encourage you to
+use another method that will create a standards compliant HTML file, but
+for new learners, we just can’t resist the ease of the technique we’re
+about to describe. After all, the point is to integrate programming
+principles quickly into your research.</p>
+
+<p>To get this effect, we are going to need to do a number of list and
+string manipulations. Let’s start by figuring out what our dictionary
+output will look like as it currently stands. Then we can work on
+refining it into what we want.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># html-to-pretty-print.py</span>
+<span class="kn">import</span> <span class="nn">obo</span>
+
+<span class="c"># create dictionary of n-grams</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">7</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s">'http://www.oldbaileyonline.org/print.jsp?div=t17800628-33'</span>
+
+<span class="n">text</span> <span class="o">=</span> <span class="n">obo</span><span class="o">.</span><span class="n">webPageToText</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="n">fullwordlist</span> <span class="o">=</span> <span class="n">obo</span><span class="o">.</span><span class="n">stripNonAlphaNum</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+<span class="n">ngrams</span> <span class="o">=</span> <span class="n">obo</span><span class="o">.</span><span class="n">getNGrams</span><span class="p">(</span><span class="n">fullwordlist</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+<span class="n">worddict</span> <span class="o">=</span> <span class="n">obo</span><span class="o">.</span><span class="n">nGramsToKWICDict</span><span class="p">(</span><span class="n">ngrams</span><span class="p">)</span>
+
+<span class="k">print</span> <span class="n">worddict</span><span class="p">[</span><span class="s">"black"</span><span class="p">]</span>
+</code></pre>
+</div>
+
+<p>As you can see when you run the above program, the output is not very
+readable yet. What we need to do is split the n-gram into three parts:
+before the keyword, the keyword, and after the keyword. We can then use
+the techniques learned in the previous chapters to wrap everything in
+HTML so that it is easy to read.</p>
+
+<p>Using the same <code class="highlighter-rouge">slice</code> method as above, we will create our three parts.
+Open a Python shell and try the following examples. Pay close attention
+to what appears before and after the colon in each case. Knowing how to
+manipulate the slice method is a powerful skill for a new programming
+historian.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># calculate the length of the n-gram</span>
+<span class="n">kwic</span> <span class="o">=</span> <span class="s">'amongst them a black there was one'</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+<span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">kwic</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">n</span>
+<span class="o">-&gt;</span> <span class="mi">7</span>
+
+<span class="c"># calculate the index position of the keyword</span>
+<span class="n">keyindex</span> <span class="o">=</span> <span class="n">n</span> <span class="o">//</span> <span class="mi">2</span>
+<span class="k">print</span> <span class="n">keyindex</span>
+<span class="o">-&gt;</span> <span class="mi">3</span>
+
+<span class="c"># display the items before the keyword</span>
+<span class="k">print</span> <span class="n">kwic</span><span class="p">[:</span><span class="n">keyindex</span><span class="p">]</span>
+<span class="o">-&gt;</span> <span class="p">[</span><span class="s">'amongst'</span><span class="p">,</span> <span class="s">'them'</span><span class="p">,</span> <span class="s">'a'</span><span class="p">]</span>
+
+<span class="c"># display the keyword only</span>
+<span class="k">print</span> <span class="n">kwic</span><span class="p">[</span><span class="n">keyindex</span><span class="p">]</span>
+<span class="o">-&gt;</span> <span class="n">black</span>
+
+<span class="c"># display the items after the keyword</span>
+<span class="k">print</span> <span class="n">kwic</span><span class="p">[(</span><span class="n">keyindex</span><span class="o">+</span><span class="mi">1</span><span class="p">):]</span>
+<span class="o">-&gt;</span> <span class="p">[</span><span class="s">'there'</span><span class="p">,</span> <span class="s">'was'</span><span class="p">,</span> <span class="s">'one'</span><span class="p">]</span>
+</code></pre>
+</div>
+
+<p>Now that we know how to find each of the three segments, we need to
+format each to one of three columns in our display.</p>
+
+<p>The right-hand context is simply going to consist of a string of terms
+separated by blank spaces. We’ll use the <code class="highlighter-rouge">join</code> method to turn the list
+entries into a string.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">print</span> <span class="s">' '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">kwic</span><span class="p">[(</span><span class="n">keyindex</span><span class="o">+</span><span class="mi">1</span><span class="p">):])</span>
+<span class="o">-&gt;</span> <span class="n">there</span> <span class="n">was</span> <span class="n">one</span>
+</code></pre>
+</div>
+
+<p>We want the keywords to have a bit of <em>whitespace</em> padding around them. We
+can achieve this by using a string method called <code class="highlighter-rouge">center</code>, which will
+align the text to the middle of the screen. We can add padding by making
+the overall string be longer than the keyword itself. The expression
+below adds three blank spaces (6/2) to either side of the keyword. We’ve
+added hash marks at the beginning and end of the expression so you can
+see the leading and trailing blanks.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">print</span> <span class="s">'#'</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">kwic</span><span class="p">[</span><span class="n">keyindex</span><span class="p">])</span><span class="o">.</span><span class="n">center</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">kwic</span><span class="p">[</span><span class="n">keyindex</span><span class="p">])</span><span class="o">+</span><span class="mi">6</span><span class="p">)</span> <span class="o">+</span> <span class="s">'#'</span>
+<span class="o">-&gt;</span> <span class="c">#   black   #</span>
+</code></pre>
+</div>
+
+<p>Finally, we want the left-hand context to be right justified. Depending
+on how large <em>n</em> is, we are going to need the overall length of this
+column to increase. We do this by defining a variable called <em>width</em> and
+then making the column length a multiple of this variable (we used a
+width of 10 characters, but you can make it larger or smaller as
+desired). The <code class="highlighter-rouge">rjust</code> method handles right justification. Once again,
+we’ve added hash marks so you can see the leading blanks.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">width</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="k">print</span> <span class="s">'#'</span> <span class="o">+</span> <span class="s">' '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">kwic</span><span class="p">[:</span><span class="n">keyindex</span><span class="p">])</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="n">width</span><span class="o">*</span><span class="n">keyindex</span><span class="p">)</span> <span class="o">+</span> <span class="s">'#'</span>
+<span class="o">-&gt;</span> <span class="c">#                 amongst them a#</span>
+</code></pre>
+</div>
+
+<p>We can now combine these into a function that takes a KWIC and returns a
+pretty-printed string. Add this to the <code class="highlighter-rouge">obo.py</code> module. Study the code
+to make sure you understand it before moving on.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># Given a KWIC, return a string that is formatted for</span>
+<span class="c"># pretty printing.</span>
+
+<span class="k">def</span> <span class="nf">prettyPrintKWIC</span><span class="p">(</span><span class="n">kwic</span><span class="p">):</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">kwic</span><span class="p">)</span>
+    <span class="n">keyindex</span> <span class="o">=</span> <span class="n">n</span> <span class="o">//</span> <span class="mi">2</span>
+    <span class="n">width</span> <span class="o">=</span> <span class="mi">10</span>
+
+    <span class="n">outstring</span> <span class="o">=</span> <span class="s">' '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">kwic</span><span class="p">[:</span><span class="n">keyindex</span><span class="p">])</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="n">width</span><span class="o">*</span><span class="n">keyindex</span><span class="p">)</span>
+    <span class="n">outstring</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">kwic</span><span class="p">[</span><span class="n">keyindex</span><span class="p">])</span><span class="o">.</span><span class="n">center</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">kwic</span><span class="p">[</span><span class="n">keyindex</span><span class="p">])</span><span class="o">+</span><span class="mi">6</span><span class="p">)</span>
+    <span class="n">outstring</span> <span class="o">+=</span> <span class="s">' '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">kwic</span><span class="p">[(</span><span class="n">keyindex</span><span class="o">+</span><span class="mi">1</span><span class="p">):])</span>
+
+    <span class="k">return</span> <span class="n">outstring</span>
+</code></pre>
+</div>
+
+<h2 id="putting-it-all-together">Putting it All Together</h2>
+
+<p>We can now create a program that, given a URL and a keyword, wraps a
+KWIC display in HTML and outputs it in Firefox. This program begins and
+ends in a similar fashion as the program that computed word frequencies.
+Type or copy the code into your text editor, save it as
+<code class="highlighter-rouge">html-to-kwic.py</code>, and execute it.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># html-to-kwic.py</span>
+
+<span class="kn">import</span> <span class="nn">obo</span>
+
+<span class="c"># create dictionary of n-grams</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">7</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s">'http://www.oldbaileyonline.org/print.jsp?div=t17800628-33'</span>
+
+<span class="n">text</span> <span class="o">=</span> <span class="n">obo</span><span class="o">.</span><span class="n">webPageToText</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="n">fullwordlist</span> <span class="o">=</span> <span class="p">(</span><span class="s">'# '</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span><span class="o">//</span><span class="mi">2</span><span class="p">))</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+<span class="n">fullwordlist</span> <span class="o">+=</span> <span class="n">obo</span><span class="o">.</span><span class="n">stripNonAlphaNum</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+<span class="n">fullwordlist</span> <span class="o">+=</span> <span class="p">(</span><span class="s">'# '</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span><span class="o">//</span><span class="mi">2</span><span class="p">))</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+<span class="n">ngrams</span> <span class="o">=</span> <span class="n">obo</span><span class="o">.</span><span class="n">getNGrams</span><span class="p">(</span><span class="n">fullwordlist</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+<span class="n">worddict</span> <span class="o">=</span> <span class="n">obo</span><span class="o">.</span><span class="n">nGramsToKWICDict</span><span class="p">(</span><span class="n">ngrams</span><span class="p">)</span>
+
+<span class="c"># output KWIC and wrap with html</span>
+<span class="n">target</span> <span class="o">=</span> <span class="s">'black'</span>
+<span class="n">outstr</span> <span class="o">=</span> <span class="s">'&lt;pre&gt;'</span>
+<span class="k">if</span> <span class="n">worddict</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">target</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">worddict</span><span class="p">[</span><span class="n">target</span><span class="p">]:</span>
+        <span class="n">outstr</span> <span class="o">+=</span> <span class="n">obo</span><span class="o">.</span><span class="n">prettyPrintKWIC</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+        <span class="n">outstr</span> <span class="o">+=</span> <span class="s">'&lt;br /&gt;'</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">outstr</span> <span class="o">+=</span> <span class="s">'Keyword not found in source'</span>
+
+<span class="n">outstr</span> <span class="o">+=</span> <span class="s">'&lt;/pre&gt;'</span>
+<span class="n">obo</span><span class="o">.</span><span class="n">wrapStringInHTML</span><span class="p">(</span><span class="s">'html-to-kwic'</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">outstr</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>The first part is the same as above. In the second half of the program,
+we’ve wrapped everything in the HTML <em>pre</em> tag (pre-formatted), which
+tells the browser not to monkey with any of the spacing we’ve added.</p>
+
+<p>Also, notice that we use the <code class="highlighter-rouge">has_key</code> dictionary method to make sure
+that the keyword actually occurs in our text. If it doesn’t, we can
+print a message for the user before sending the output to Firefox. Try
+changing the target variable to a few other keywords. Try one you know
+isn’t there to make sure your program doesn’t output something when it
+shouldn’t.</p>
+
+<p>We have now created a program that looks for a keyword in a dictionary
+created from an HTML page on the web, and then outputs the n-grams of
+that keyword to a new HTML file for display on the web. All of the
+lessons up to this point have included parts of Python vocabulary and
+methods needed to create this final program. By referring to those
+lessons, you can now experiment with Python to create programs that
+accomplish specific tasks that will help in your research process.</p>
+
+<h3 id="code-syncing">Code Syncing</h3>
+
+<p>To follow along with future lessons it is important that you have the
+right files and programs in your “programming-historian” directory. At
+the end of each chapter you can download the “programming-historian” zip
+file to make sure you have the correct code. If you are following along
+with the Mac / Linux version you may have to open the <code class="highlighter-rouge">obo.py</code> file and
+change “file:///Users/username/Desktop/programming-historian/” to the
+path to the directory on your own computer.</p>
+
+<ul>
+  <li>programming-historian [Mac / Linux] (<a href="../assets/programming-historian-mac-linux.zip">zip</a>)</li>
+  <li>programming-historian [Windows] (<a href="../assets/programming-historian-windows.zip">zip</a>)</li>
+</ul>
+
+
+	        </div>
+
+            
+            <p><em>Note:</em> You are now prepared to move on to the 
+                <a href="downloading-multiple-records-using-query-strings.html">next lesson</a>
+                in this series.</p>
+            
+
+	        <div class="author-info">
+	   	        <p class="author-name">About the authors</p>
+			    <div class="author-description"><p>
+                
+                   
+                   
+                       William J. Turkel is Professor of History at the
+University of Western Ontario.
+&nbsp;
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+		        
+                   
+                   
+                   
+                   
+                       Adam Crymble is a Lecturer of Digital History at the University of
+Hertfordshire.
+&nbsp;
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+		        </p>
+			    </div>
+	        </div>
+          <div class="citation-info">
+            <p class="citation-head">Suggested Citation</p>
+            <div class="suggested-citation">
+              <p>
+              
+  
+        
+             
+                   William J. Turkel
+             
+        
+             
+                   and Adam Crymble
+             
+        
+  
+  , 
+              "Output Keywords in Context in an HTML File with Python," 
+              <em>Programming Historian</em> 
+              (17 July 2012), 
+              http://programminghistorian.org/lessons/output-keywords-in-context-in-html-file
+              </p>
+            </div>
+          </div>
+        </article>
+    </div>
+
+    </div> <!-- end below-nav -->
+
+<footer role="contentinfo">
+
+          <div class="additional">
+          <ul id="menu-main-menu" class="additional">
+            <li class="menu-item"><a href="../index.html">About</a></li>
+            <li class="menu-item"><a href="index.html">Lessons</a></li>
+            <li class="menu-item"><a href="../contribute.html">Contribute</a></li>
+            <li class="menu-item"><a href="../project-team.html">Project Team</a></li>
+            <li class="menu-item"><a href="../blog.html">Blog</a></li>
+          </ul>
+        </div>
+
+
+<p><em>The Programming Historian</em> ISSN 2397-2068, is released under the <a href="http://creativecommons.org/licenses/by/2.0/" rel="license">CC-BY</a> license.</p>
+<p>The project is published by the <em>Editorial Board of the Programming Historian</em>, and first appeared in July 2012. It was last updated on 20 March 2016.</p>
+<p class="github">
+        <a href="https://github.com/programminghistorian/jekyll">Hosted on GitHub <img src="../images/GitHub-Mark-32px.png" title="GitHub logo"></a> 
+		<a href="https://github.com/programminghistorian/jekyll/commits/gh-pages/lessons/output-keywords-in-context-in-html-file.md">Previous Versions</a>&nbsp;&#183;&nbsp;
+		<a href="../feedback.html">Give Feedback</a>
+</p>
+
+</footer>
+
+
+    </body>
+</html>

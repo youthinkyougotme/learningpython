@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <meta name="citation_title" content="Output Data as an HTML File with Python" />
+
+<meta name="citation_author" content="William J. Turkel" />
+
+<meta name="citation_author" content="Adam Crymble" />
+
+<meta name="citation_publication_date" content="2012-07-17" />
+<meta name="citation_journal_title" content="Programming Historian" />
+<meta name="citation_public_url" content="http://programminghistorian.org/lessons/output-data-as-html-file" />
+
+
+    <!-- Mobile viewport optimized: h5bp.com/viewport -->
+    <meta name="viewport" content="width=device-width">
+    
+    <!--Font awesome CDN -->
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,700%7CCrete+Round' rel='stylesheet' type='text/css'>
+    <link href="../css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/github.css">
+    <link href='../feed.xml.rss' rel='alternate' type='application/atom+xml'>
+    <title>Output Data as an HTML File with Python | Programming Historian</title>
+        
+    <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="../js/ui.js"></script>
+    <script type="text/javascript" src="../js/ext_links.js"></script>
+    <script type="text/javascript" src="../js/header_links.js"></script>
+    <script>
+      $(document).ready(function(){
+        $('.slide-trigger').collapsable();
+      });
+    </script>
+
+    <script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-2752866-8']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+  </head>
+
+
+
+  
+  
+  
+
+  <body>
+
+    <header role="banner">
+    <h1><a href="../index.html">The Programming Historian</a></h1>
+
+	        <div class="additional">
+          <ul id="menu-main-menu" class="additional">
+            <li class="menu-item"><a href="../index.html">About</a></li>
+            <li class="menu-item"><a href="index.html">Lessons</a></li>
+            <li class="menu-item"><a href="../contribute.html">Contribute</a></li>
+            <li class="menu-item"><a href="../project-team.html">Project Team</a></li>
+            <li class="menu-item"><a href="../blog.html">Blog</a></li>
+          </ul>
+        </div>
+
+	</header>
+
+	<div role="main">
+		<article>
+			<header>
+
+                
+				
+			    <p class="kicker">July 17, 2012</p>
+				<h1><a href="output-data-as-html-file.html">Output Data as an HTML File with Python</a></h1>
+                <p class="byline">By 
+  
+        
+             
+                   William J. Turkel
+             
+        
+             
+                   and Adam Crymble
+             
+        
+  
+  </p>
+
+				
+				
+				<ul class="credits">Reviewed by
+				
+                      
+                           
+                                 Miriam Posner
+                           
+                      
+                           
+                                 and Jim Clifford
+                           
+                      
+                
+                <br/>
+                
+                </ul>
+                
+				
+			</header>
+
+            
+            <p><em>Note:</em> You may find it easier to complete this lesson
+                if you have already completed the 
+                <a href="creating-and-viewing-html-files-with-python.html">previous lesson</a>
+                in this series.</p>
+            
+
+			<div class="content">
+	              <h2 id="lesson-goals">Lesson Goals</h2>
+
+<p>This lesson takes the frequency pairs created in <a href="counting-frequencies.html">Counting
+Frequencies</a> and outputs them to an HTML file.</p>
+
+<p>Here you will learn how to output data as an HTML file using Python. You
+will also learn about string formatting. The final result is an HTML
+file that shows the keywords found in the original source in order of
+descending frequency, along with the number of times that each keyword
+appears.</p>
+
+<h3 id="files-needed-for-this-lesson">Files Needed For This Lesson</h3>
+
+<ul>
+  <li><code class="highlighter-rouge">obo.py</code></li>
+</ul>
+
+<p>If you do not have these files from the previous lesson, you can
+download programming-historian-3, a <a href="../assets/programming-historian3.zip">zip file from the previous lesson</a></p>
+
+<h3 id="building-an-html-wrapper">Building an HTML wrapper</h3>
+
+<p>In the previous lesson, you learned how to embed the message “Hello
+World!” in HTML tags, write the result to a file and open it
+automatically in the browser. A program that puts formatting codes
+around something so that it can be used by another program is sometimes
+called a <em>wrapper</em>. What we’re going to do now is develop an HTML wrapper
+for the output of our code that computes word frequencies. We’re also
+going to add some helpful, dynamic <em>metadata</em> to supplement the frequency
+data collected in <a href="counting-frequencies.html">Counting Frequencies</a>.</p>
+
+<h3 id="metadata">Metadata</h3>
+
+<p>The distinction between data and metadata is crucial to information
+science. Metadata are data about data. This concept should already be
+very familiar to you, even if you haven’t heard the term before.
+Consider a traditional book. If we take the text of the book to be the
+data, there are a number of other characteristics which are associated
+with that text, but which may or may not be explicitly printed in the
+book. The title of the work, the author, the publisher, and the place
+and date of publication are metadata that are typically printed in the
+work. The place and date of writing, the name of the copy editor,
+Library of Congress cataloging data, and the name of the font used to
+typeset the book are sometimes printed in it. The person who purchased a
+particular copy may or may not write their name in the book. If the book
+belongs in the collection of a library, that library will keep
+additional metadata, only some of which will be physically attached to
+the book. The record of borrowing, for example, is usually kept in some
+kind of database and linked to the book by a unique identifier.
+Libraries, archives and museums all have elaborate systems to generate
+and keep track of metadata.</p>
+
+<p>When you’re working with digital data, it is a good idea to incorporate
+metadata into your own files whenever possible. We will now develop a
+few basic strategies for making our data files <em>self-documenting</em>. In our
+wrapper, we want to include dynamic information about the file, such as
+the time and date it was created, as well as an HTML title that is
+relevant to the file. In this case we could just give it a name
+ourselves, but when we start working with multiple files, automatically
+creating self-documenting files will save a lot of time, so we’ll
+practice now. And for that, we’ll have to learn to take advantage of a
+few more powerful string formatting options.</p>
+
+<h3 id="python-string-formatting">Python string formatting</h3>
+
+<p>Python includes a special formatting operator that allows you to insert
+one string into another one. It is represented by a percent sign
+followed by an “s”. Open a Python shell and try the following examples.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">frame</span> <span class="o">=</span> <span class="s">'This fruit is a </span><span class="si">%</span><span class="s">s'</span>
+<span class="k">print</span> <span class="n">frame</span>
+<span class="o">-&gt;</span> <span class="n">This</span> <span class="n">fruit</span> <span class="ow">is</span> <span class="n">a</span> <span class="o">%</span><span class="n">s</span>
+
+<span class="k">print</span> <span class="n">frame</span> <span class="o">%</span> <span class="s">'banana'</span>
+<span class="o">-&gt;</span> <span class="n">This</span> <span class="n">fruit</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">banana</span>
+
+<span class="k">print</span> <span class="n">frame</span> <span class="o">%</span> <span class="s">'pear'</span>
+<span class="o">-&gt;</span> <span class="n">This</span> <span class="n">fruit</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">pear</span>
+</code></pre>
+</div>
+
+<p>There is also a form which allows you to interpolate a list of strings
+into another one.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">frame2</span> <span class="o">=</span> <span class="s">'These are </span><span class="si">%</span><span class="s">s, those are </span><span class="si">%</span><span class="s">s'</span>
+<span class="k">print</span> <span class="n">frame2</span>
+<span class="o">-&gt;</span> <span class="n">These</span> <span class="n">are</span> <span class="o">%</span><span class="n">s</span><span class="p">,</span> <span class="n">those</span> <span class="n">are</span> <span class="o">%</span><span class="n">s</span>
+
+<span class="k">print</span> <span class="n">frame2</span> <span class="o">%</span> <span class="p">(</span><span class="s">'bananas'</span><span class="p">,</span> <span class="s">'pears'</span><span class="p">)</span>
+<span class="o">-&gt;</span> <span class="n">These</span> <span class="n">are</span> <span class="n">bananas</span><span class="p">,</span> <span class="n">those</span> <span class="n">are</span> <span class="n">pears</span>
+</code></pre>
+</div>
+
+<p>In these examples, a <code class="highlighter-rouge">%s</code> in one string indicates that another string is
+going to be embedded at that point. There are a range of other string
+formatting codes, most of which allow you to embed numbers in strings in
+various formats, like <code class="highlighter-rouge">%i</code> for integer (eg. 1, 2, 3), <code class="highlighter-rouge">%f</code> for
+floating-point decimal (eg. 3.023, 4.59, 1.0), and so on. Using this
+method we can input information that is unique to the file.</p>
+
+<h3 id="self-documenting-data-file">Self-documenting data file</h3>
+
+<p>Let’s bundle some of the code that we’ve already written into functions.
+One of these will take a URL and return a string of lowercase text from
+the web page. Copy this code into the <code class="highlighter-rouge">obo.py</code> module.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># Given a URL, return string of lowercase text from page.</span>
+
+<span class="k">def</span> <span class="nf">webPageToText</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+    <span class="kn">import</span> <span class="nn">urllib2</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="n">html</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">stripTags</span><span class="p">(</span><span class="n">html</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">text</span>
+</code></pre>
+</div>
+
+<p>We’re also going to want a function that takes a string of any sort and
+makes it the body of an HTML file which is opened automatically in
+Firefox. This function should include some basic metadata, like the time
+and date that it was created and the name of the program that created
+it. Study the following code carefully, then copy it into the <code class="highlighter-rouge">obo.py</code>
+module.</p>
+
+<h4 id="mac-instructions">Mac Instructions</h4>
+
+<p>If you are using a Mac, make sure you include the proper file path in
+the filename variable on the 2nd last line to reflect where you’re
+saving your files.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># Given name of calling program, a url and a string to wrap,</span>
+<span class="c"># output string in html body with basic metadata and open in Firefox tab.</span>
+
+<span class="k">def</span> <span class="nf">wrapStringInHTML</span><span class="p">(</span><span class="n">program</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">body</span><span class="p">):</span>
+    <span class="kn">import</span> <span class="nn">datetime</span>
+    <span class="kn">from</span> <span class="nn">webbrowser</span> <span class="kn">import</span> <span class="n">open_new_tab</span>
+
+    <span class="n">now</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">today</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">"</span><span class="si">%</span><span class="s">Y</span><span class="si">%</span><span class="s">m</span><span class="si">%</span><span class="s">d-</span><span class="si">%</span><span class="s">H</span><span class="si">%</span><span class="s">M</span><span class="si">%</span><span class="s">S"</span><span class="p">)</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">program</span> <span class="o">+</span> <span class="s">'.html'</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="s">'w'</span><span class="p">)</span>
+
+    <span class="n">wrapper</span> <span class="o">=</span> <span class="s">"""&lt;html&gt;
+    &lt;head&gt;
+    &lt;title&gt;</span><span class="si">%</span><span class="s">s output - </span><span class="si">%</span><span class="s">s&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;&lt;p&gt;URL: &lt;a href=</span><span class="se">\"</span><span class="si">%</span><span class="s">s</span><span class="se">\"</span><span class="s">&gt;</span><span class="si">%</span><span class="s">s&lt;/a&gt;&lt;/p&gt;&lt;p&gt;</span><span class="si">%</span><span class="s">s&lt;/p&gt;&lt;/body&gt;
+    &lt;/html&gt;"""</span>
+
+    <span class="n">whole</span> <span class="o">=</span> <span class="n">wrapper</span> <span class="o">%</span> <span class="p">(</span><span class="n">program</span><span class="p">,</span> <span class="n">now</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">body</span><span class="p">)</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">whole</span><span class="p">)</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="c">#Change the filepath variable below to match the location of your directory</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="s">'file:///Users/username/Desktop/programming-historian/'</span> <span class="o">+</span> <span class="n">filename</span>
+
+    <span class="n">open_new_tab</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<h4 id="windows-instructions">Windows Instructions</h4>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># Given name of calling program, a url and a string to wrap,</span>
+<span class="c"># output string in html body with basic metadata</span>
+<span class="c"># and open in Firefox tab.</span>
+
+<span class="k">def</span> <span class="nf">wrapStringInHTML</span><span class="p">(</span><span class="n">program</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">body</span><span class="p">):</span>
+    <span class="kn">import</span> <span class="nn">datetime</span>
+    <span class="kn">from</span> <span class="nn">webbrowser</span> <span class="kn">import</span> <span class="n">open_new_tab</span>
+
+    <span class="n">now</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">today</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">"</span><span class="si">%</span><span class="s">Y</span><span class="si">%</span><span class="s">m</span><span class="si">%</span><span class="s">d-</span><span class="si">%</span><span class="s">H</span><span class="si">%</span><span class="s">M</span><span class="si">%</span><span class="s">S"</span><span class="p">)</span>
+
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">program</span> <span class="o">+</span> <span class="s">'.html'</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="s">'w'</span><span class="p">)</span>
+
+    <span class="n">wrapper</span> <span class="o">=</span> <span class="s">"""&lt;html&gt;
+    &lt;head&gt;
+    &lt;title&gt;</span><span class="si">%</span><span class="s">s output - </span><span class="si">%</span><span class="s">s&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;&lt;p&gt;URL: &lt;a href=</span><span class="se">\"</span><span class="si">%</span><span class="s">s</span><span class="se">\"</span><span class="s">&gt;</span><span class="si">%</span><span class="s">s&lt;/a&gt;&lt;/p&gt;&lt;p&gt;</span><span class="si">%</span><span class="s">s&lt;/p&gt;&lt;/body&gt;
+    &lt;/html&gt;"""</span>
+
+    <span class="n">whole</span> <span class="o">=</span> <span class="n">wrapper</span> <span class="o">%</span> <span class="p">(</span><span class="n">program</span><span class="p">,</span> <span class="n">now</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">body</span><span class="p">)</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">whole</span><span class="p">)</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="n">open_new_tab</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>***</p>
+
+<p>Note that this function makes use of the string formatting operator
+about which we just learned. If you are still having trouble with this
+idea, take a look at the HTML file that opened in your new Firefox tab
+and you should see how this worked. If you’re still stuck, take a look
+at the</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>URL: http://www.oldbaileyonline.org/print.jsp?div=t17800628-33
+</code></pre>
+</div>
+
+<p>in the HTML file and trace back how the program knew to put the URL value
+there.</p>
+
+<p>The function also calls the Python <code class="highlighter-rouge">datetime</code> library to determine the
+current time and date. Like the string formatting operator <code class="highlighter-rouge">%s</code>, this
+library uses the <code class="highlighter-rouge">%</code> as replacements for values. In this case, the <code class="highlighter-rouge">%Y %m
+%d %H %M %S</code> represents year, month, date, hour, minute and second
+respectively. Unlike the <code class="highlighter-rouge">%s</code>, the program will determine the value of
+these variables for you using your computer’s clock. It is important to
+recognize this difference.</p>
+
+<p>This date metadata, along with the name of the program that called the
+function, is stored in the HTML title tag. The HTML file that is created
+has the same name as the Python program that creates it, but with a
+<code class="highlighter-rouge">.html</code> extension rather than a <code class="highlighter-rouge">.py</code> one.</p>
+
+<h3 id="putting-it-all-together">Putting it all together</h3>
+
+<p>Now we can create another version of our program to compute frequencies.
+Instead of sending its output to a text file or an output window, it
+sends the output to an HTML file which is opened in a new Firefox tab.
+From there, the program’s output can be added easily as bibliographic
+entries to Zotero. Type or copy the following code into your text
+editor, save it as <code class="highlighter-rouge">html-to-freq-3.py</code> and execute it, to confirm that
+it works as expected.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># html-to-freq-3.py</span>
+<span class="kn">import</span> <span class="nn">obo</span>
+
+<span class="c"># create sorted dictionary of word-frequency pairs</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s">'http://www.oldbaileyonline.org/print.jsp?div=t17800628-33'</span>
+<span class="n">text</span> <span class="o">=</span> <span class="n">obo</span><span class="o">.</span><span class="n">webPageToText</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="n">fullwordlist</span> <span class="o">=</span> <span class="n">obo</span><span class="o">.</span><span class="n">stripNonAlphaNum</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+<span class="n">wordlist</span> <span class="o">=</span> <span class="n">obo</span><span class="o">.</span><span class="n">removeStopwords</span><span class="p">(</span><span class="n">fullwordlist</span><span class="p">,</span> <span class="n">obo</span><span class="o">.</span><span class="n">stopwords</span><span class="p">)</span>
+<span class="n">dictionary</span> <span class="o">=</span> <span class="n">obo</span><span class="o">.</span><span class="n">wordListToFreqDict</span><span class="p">(</span><span class="n">wordlist</span><span class="p">)</span>
+<span class="n">sorteddict</span> <span class="o">=</span> <span class="n">obo</span><span class="o">.</span><span class="n">sortFreqDict</span><span class="p">(</span><span class="n">dictionary</span><span class="p">)</span>
+
+<span class="c"># compile dictionary into string and wrap with HTML</span>
+<span class="n">outstring</span> <span class="o">=</span> <span class="s">""</span>
+<span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">sorteddict</span><span class="p">:</span>
+    <span class="n">outstring</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    <span class="n">outstring</span> <span class="o">+=</span> <span class="s">"&lt;br /&gt;"</span>
+<span class="n">obo</span><span class="o">.</span><span class="n">wrapStringInHTML</span><span class="p">(</span><span class="s">"html-to-freq-3"</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">outstring</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>Note that we interspersed our word-frequency pairs with the HTML break
+tag <code class="highlighter-rouge">&lt;br\&gt;</code>, which acts as a <em>newline</em>. If all went well, you should see
+the same word frequencies that you computed in the last section, this
+time in your browser window.</p>
+
+<h3 id="suggested-readings">Suggested Readings</h3>
+
+<ul>
+  <li>Lutz, Learning Python
+    <ul>
+      <li>Re-read and review Chs. 1-17</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="code-syncing">Code Syncing</h3>
+
+<p>To follow along with future lessons it is important that you have the
+right files and programs in your “programming-historian” directory. At
+the end of each chapter you can download the “programming-historian” zip
+file to make sure you have the correct code. If you are following along
+with the Mac / Linux version you may have to open the <code class="highlighter-rouge">obo.py</code> file and
+change “file:///Users/username/Desktop/programming-historian/” to the
+path to the directory on your own computer.</p>
+
+<ul>
+  <li>programming-historian [Mac / Linux] (<a href="../assets/programming-historian-mac-linux.zip">zip</a>)</li>
+  <li>programming-historian [Windows] (<a href="../assets/programming-historian-windows.zip">zip</a>)</li>
+</ul>
+
+
+	        </div>
+
+            
+            <p><em>Note:</em> You are now prepared to move on to the 
+                <a href="keywords-in-context-using-n-grams.html">next lesson</a>
+                in this series.</p>
+            
+
+	        <div class="author-info">
+	   	        <p class="author-name">About the authors</p>
+			    <div class="author-description"><p>
+                
+                   
+                   
+                       William J. Turkel is Professor of History at the
+University of Western Ontario.
+&nbsp;
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+		        
+                   
+                   
+                   
+                   
+                       Adam Crymble is a Lecturer of Digital History at the University of
+Hertfordshire.
+&nbsp;
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+		        </p>
+			    </div>
+	        </div>
+          <div class="citation-info">
+            <p class="citation-head">Suggested Citation</p>
+            <div class="suggested-citation">
+              <p>
+              
+  
+        
+             
+                   William J. Turkel
+             
+        
+             
+                   and Adam Crymble
+             
+        
+  
+  , 
+              "Output Data as an HTML File with Python," 
+              <em>Programming Historian</em> 
+              (17 July 2012), 
+              http://programminghistorian.org/lessons/output-data-as-html-file
+              </p>
+            </div>
+          </div>
+        </article>
+    </div>
+
+    </div> <!-- end below-nav -->
+
+<footer role="contentinfo">
+
+          <div class="additional">
+          <ul id="menu-main-menu" class="additional">
+            <li class="menu-item"><a href="../index.html">About</a></li>
+            <li class="menu-item"><a href="index.html">Lessons</a></li>
+            <li class="menu-item"><a href="../contribute.html">Contribute</a></li>
+            <li class="menu-item"><a href="../project-team.html">Project Team</a></li>
+            <li class="menu-item"><a href="../blog.html">Blog</a></li>
+          </ul>
+        </div>
+
+
+<p><em>The Programming Historian</em> ISSN 2397-2068, is released under the <a href="http://creativecommons.org/licenses/by/2.0/" rel="license">CC-BY</a> license.</p>
+<p>The project is published by the <em>Editorial Board of the Programming Historian</em>, and first appeared in July 2012. It was last updated on 20 March 2016.</p>
+<p class="github">
+        <a href="https://github.com/programminghistorian/jekyll">Hosted on GitHub <img src="../images/GitHub-Mark-32px.png" title="GitHub logo"></a> 
+		<a href="https://github.com/programminghistorian/jekyll/commits/gh-pages/lessons/output-data-as-html-file.md">Previous Versions</a>&nbsp;&#183;&nbsp;
+		<a href="../feedback.html">Give Feedback</a>
+</p>
+
+</footer>
+
+
+    </body>
+</html>

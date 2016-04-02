@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <meta name="citation_title" content="Intro to Beautiful Soup" />
+
+<meta name="citation_author" content="Jeri Wieringa" />
+
+<meta name="citation_publication_date" content="2012-12-30" />
+<meta name="citation_journal_title" content="Programming Historian" />
+<meta name="citation_public_url" content="http://programminghistorian.org/lessons/intro-to-beautiful-soup" />
+
+
+    <!-- Mobile viewport optimized: h5bp.com/viewport -->
+    <meta name="viewport" content="width=device-width">
+    
+    <!--Font awesome CDN -->
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,700%7CCrete+Round' rel='stylesheet' type='text/css'>
+    <link href="../css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/github.css">
+    <link href='../feed.xml.rss' rel='alternate' type='application/atom+xml'>
+    <title>Intro to Beautiful Soup | Programming Historian</title>
+        
+    <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="../js/ui.js"></script>
+    <script type="text/javascript" src="../js/ext_links.js"></script>
+    <script type="text/javascript" src="../js/header_links.js"></script>
+    <script>
+      $(document).ready(function(){
+        $('.slide-trigger').collapsable();
+      });
+    </script>
+
+    <script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-2752866-8']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+  </head>
+
+
+
+  
+  
+  
+
+  <body>
+
+    <header role="banner">
+    <h1><a href="../index.html">The Programming Historian</a></h1>
+
+	        <div class="additional">
+          <ul id="menu-main-menu" class="additional">
+            <li class="menu-item"><a href="../index.html">About</a></li>
+            <li class="menu-item"><a href="index.html">Lessons</a></li>
+            <li class="menu-item"><a href="../contribute.html">Contribute</a></li>
+            <li class="menu-item"><a href="../project-team.html">Project Team</a></li>
+            <li class="menu-item"><a href="../blog.html">Blog</a></li>
+          </ul>
+        </div>
+
+	</header>
+
+	<div role="main">
+		<article>
+			<header>
+
+                
+				
+			    <p class="kicker">December 30, 2012</p>
+				<h1><a href="intro-to-beautiful-soup.html">Intro to Beautiful Soup</a></h1>
+                <p class="byline">By 
+  
+        Jeri Wieringa
+  
+  </p>
+
+				
+				
+				      <!-- No reviewers -->
+                      <br/><br/>
+                
+				
+			</header>
+
+            
+
+			<div class="content">
+	              <p>Version: Python 2.7.2 and BeautifulSoup 4.</p>
+
+<p>This tutorial assumes basic knowledge of HTML, CSS, and the <a href="https://en.wikipedia.org/wiki/Document_Object_Model">Document
+Object Model</a>. It also assumes some knowledge of Python. For a more basic
+introduction to Python, see <a href="working-with-text-files.html">Working with Text Files</a>.</p>
+
+<p>Most of the work is done in the terminal. For an introduction to using
+the terminal, see the Scholar’s Lab <a href="http://praxis.scholarslab.org/scratchpad/bash/">Command Line Bootcamp</a> tutorial.</p>
+
+<h2 id="what-is-beautiful-soup">What is Beautiful Soup?</h2>
+
+<h3 id="overview">Overview</h3>
+
+<p>“You didn’t write that awful page. You’re just trying to get some data
+out of it. Beautiful Soup is here to help.” (<a href="http://www.crummy.com/software/BeautifulSoup/bs4/doc/">Opening lines of Beautiful
+Soup</a>)</p>
+
+<p>Beautiful Soup is a Python library for getting data out of HTML, XML,
+and other markup languages. Say you’ve found some webpages that display
+data relevant to your research, such as date or address information, but
+that do not provide any way of downloading the data directly. Beautiful
+Soup helps you pull particular content from a webpage, remove the HTML
+markup, and save the information. It is a tool for web scraping that
+helps you clean up and parse the documents you have pulled down from the
+web.</p>
+
+<p>The <a href="http://www.crummy.com/software/BeautifulSoup/bs4/doc/">Beautiful Soup documentation</a> will
+give you a sense of variety of things that the Beautiful Soup library
+will help with, from isolating titles and links, to extracting all of
+the text from the html tags, to altering the HTML within the document
+you’re working with.</p>
+
+<h3 id="installing-beautiful-soup">Installing Beautiful Soup</h3>
+
+<p>Installing Beautiful Soup is easiest if you have pip or another Python
+installer already in place. If you don’t have pip, run through a quick
+tutorial on <a href="installing-python-modules-pip.html">installing python modules</a> to get it running. Once you
+have pip installed, run the following command in the terminal to install
+Beautiful Soup:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>pip install beautifulsoup4
+</code></pre>
+</div>
+
+<p>You may need to preface this line with “sudo”, which gives your computer
+permission to write to your root directories and requires you to
+re-enter your password. This is the same logic behind you being prompted
+to enter your password when you install a new program.</p>
+
+<p>With sudo, the command is:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo pip install beautifulsoup4
+</code></pre>
+</div>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="http://imgs.xkcd.com/comics/sandwich.png">
+		<img src="http://imgs.xkcd.com/comics/sandwich.png" alt="The power of sudo: 'Sandwich' by XKCD" />
+	</a>
+<figcaption>
+    <p>The power of sudo: ‘Sandwich’ by XKCD</p>
+
+</figcaption>
+</figure>
+
+<h2 id="application-extracting-names-and-urls-from-an-html-page">Application: Extracting names and URLs from an HTML page</h2>
+
+<h3 id="preview-where-we-are-going">Preview: Where we are going</h3>
+
+<p>Because I like to see where the finish line is before starting, I will
+begin with a view of what we are trying to create. We are attempting to
+go from a search results page where the html page looks like this:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;table</span> <span class="na">border=</span><span class="s">"1"</span> <span class="na">cellspacing=</span><span class="s">"2"</span> <span class="na">cellpadding=</span><span class="s">"3"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;tbody&gt;</span>
+<span class="nt">&lt;tr&gt;</span>
+<span class="nt">&lt;th&gt;</span>Member Name<span class="nt">&lt;/th&gt;</span>
+<span class="nt">&lt;th&gt;</span>Birth-Death<span class="nt">&lt;/th&gt;</span>
+<span class="nt">&lt;/tr&gt;</span>
+<span class="nt">&lt;tr&gt;</span>
+<span class="nt">&lt;td&gt;&lt;a</span> <span class="na">href=</span><span class="s">"http://bioguide.congress.gov/scripts/biodisplay.pl?index=A000035"</span><span class="nt">&gt;</span>ADAMS, George Madison<span class="nt">&lt;/a&gt;&lt;/td&gt;</span>
+<span class="nt">&lt;td&gt;</span>1837-1920<span class="nt">&lt;/td&gt;</span>
+<span class="nt">&lt;/tr&gt;</span>
+<span class="nt">&lt;tr&gt;</span>
+<span class="nt">&lt;td&gt;&lt;a</span> <span class="na">href=</span><span class="s">"http://bioguide.congress.gov/scripts/biodisplay.pl?index=A000074"</span><span class="nt">&gt;</span>ALBERT, William Julian<span class="nt">&lt;/a&gt;&lt;/td&gt;</span>
+<span class="nt">&lt;td&gt;</span>1816-1879<span class="nt">&lt;/td&gt;</span>
+<span class="nt">&lt;/tr&gt;</span>
+<span class="nt">&lt;tr&gt;</span>
+<span class="nt">&lt;td&gt;&lt;a</span> <span class="na">href=</span><span class="s">"http://bioguide.congress.gov/scripts/biodisplay.pl?index=A000077"</span><span class="nt">&gt;</span>ALBRIGHT, Charles<span class="nt">&lt;/a&gt;&lt;/td&gt;</span>
+<span class="nt">&lt;td&gt;</span>1830-1880<span class="nt">&lt;/td&gt;</span>
+<span class="nt">&lt;/tr&gt;</span>
+<span class="nt">&lt;/tbody&gt;</span>
+<span class="nt">&lt;/table&gt;</span>
+</code></pre>
+</div>
+
+<p>to a CSV file with names and urls that looks like this:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>"ADAMS, George Madison",http://bioguide.congress.gov/scripts/biodisplay.pl?index=A000035
+"ALBERT, William Julian",http://bioguide.congress.gov/scripts/biodisplay.pl?index=A000074
+"ALBRIGHT, Charles",http://bioguide.congress.gov/scripts/biodisplay.pl?index=A000077
+</code></pre>
+</div>
+
+<p>using a Python script like this:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+<span class="kn">import</span> <span class="nn">csv</span>
+
+<span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span> <span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s">"43rd-congress.html"</span><span class="p">))</span>
+
+<span class="n">final_link</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">a</span>
+<span class="n">final_link</span><span class="o">.</span><span class="n">decompose</span><span class="p">()</span>
+
+<span class="n">f</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s">"43rd_Congress.csv"</span><span class="p">,</span> <span class="s">"w"</span><span class="p">))</span>
+<span class="n">f</span><span class="o">.</span><span class="n">writerow</span><span class="p">([</span><span class="s">"Name"</span><span class="p">,</span> <span class="s">"Link"</span><span class="p">])</span>    <span class="c"># Write column headers as the first line</span>
+
+<span class="n">links</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s">'a'</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">links</span><span class="p">:</span>
+    <span class="n">names</span> <span class="o">=</span> <span class="n">link</span><span class="o">.</span><span class="n">contents</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">fullLink</span> <span class="o">=</span> <span class="n">link</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'href'</span><span class="p">)</span>
+
+    <span class="n">f</span><span class="o">.</span><span class="n">writerow</span><span class="p">([</span><span class="n">names</span><span class="p">,</span><span class="n">fullLink</span><span class="p">])</span>
+</code></pre>
+</div>
+
+<p>This tutorial explains to how to assemble the final code.</p>
+
+<h3 id="get-a-webpage-to-scrape">Get a webpage to scrape</h3>
+
+<p>The first step is getting a copy of the HTML page(s) want to scrape. You
+can combine BeautifulSoup with <a href="http://urllib3.readthedocs.org/en/latest/">urllib3</a> to work directly with pages
+on the web. This tutorial, however, focuses on using BeautifulSoup with
+local (downloaded) copies of html files.</p>
+
+<p>The Congressional database that we’re using is not an easy one to scrape
+because the URL for the search results remains the same regardless of
+what you’re searching for. While this can be bypassed programmatically,
+it is easier for our purposes to go
+to <a href="http://bioguide.congress.gov/biosearch/biosearch.asp">http://bioguide.congress.gov/biosearch/biosearch.asp</a>, search for
+Congress number 43, and to save a copy of the results page.</p>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/Congressional-Biographical-Directory-CLERKWEB-2013-08-23-12-22-12.jpg">
+		<img src="../images/Congressional-Biographical-Directory-CLERKWEB-2013-08-23-12-22-12.jpg" alt="Figure 1: BioGuide Interface Search for 43rd Congress" />
+	</a>
+<figcaption>
+    <p>Figure 1: BioGuide Interface Search for 43rd Congress</p>
+
+</figcaption>
+</figure>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/Congressional-Biographical-Directory-Results-2013-08-23-12-25-09.jpg">
+		<img src="../images/Congressional-Biographical-Directory-Results-2013-08-23-12-25-09.jpg" alt="Figure 2: BioGuide Results We want to download the HTML behind this page." />
+	</a>
+<figcaption>
+    <p>Figure 2: BioGuide Results We want to download the HTML behind this page.</p>
+
+</figcaption>
+</figure>
+
+<p>Selecting “File” and “Save Page As …” from your browser window will
+accomplish this (life will be easier if you avoid using spaces in your
+filename). I have used “43rd-congress.html”. Move the file into the
+folder you want to work in.</p>
+
+<p>(To learn how to automate the downloading of HTML pages using Python,
+see <a href="automated-downloading-with-wget.html">Automated Downloading with Wget</a> and <a href="downloading-multiple-records-using-query-strings.html">Downloading Multiple
+Records Using Query Strings</a>.)</p>
+
+<h3 id="identify-content">Identify content</h3>
+
+<p>One of the first things Beautiful Soup can help us with is locating
+content that is buried within the HTML structure. Beautiful Soup allows
+you to select content based upon tags (example: soup.body.p.b finds the
+first bold item inside a paragraph tag inside the body tag in the
+document). To get a good view of how the tags are nested in the
+document, we can use the method “prettify” on our soup object.</p>
+
+<p>Create a new text file called “soupexample.py” in the same location as
+your downloaded HTML file. This file will contain the Python script that
+we will be developing over the course of the tutorial.</p>
+
+<p>To begin, import the Beautiful Soup library, open the HTML file and pass
+it to Beautiful Soup, and then print the “pretty” version in the
+terminal.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+
+<span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s">"43rd-congress.html"</span><span class="p">))</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">soup</span><span class="o">.</span><span class="n">prettify</span><span class="p">())</span>
+</code></pre>
+</div>
+
+<p>Save “soupexample.py” in the folder with your HTML file and go to the
+command line. Navigate (use ‘cd’) to the folder you’re working in and
+execute the following:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>python soupexample.py
+</code></pre>
+</div>
+
+<p>You should see your terminal window fill up with a nicely indented
+version of the original html text (see Figure 3). This is a visual
+representation of how the various tags relate to one another.</p>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/Beautiful-Soup-Tutorial-103x40-2013-08-23-13-13-01.jpg">
+		<img src="../images/Beautiful-Soup-Tutorial-103x40-2013-08-23-13-13-01.jpg" alt="Figure 3: 'Pretty' print of the BioGuide results" />
+	</a>
+<figcaption>
+    <p>Figure 3: ‘Pretty’ print of the BioGuide results</p>
+
+</figcaption>
+</figure>
+
+<h3 id="using-beautifulsoup-to-select-particular-content">Using BeautifulSoup to select particular content</h3>
+
+<p>Remember that we are interested in only the names and URLs of the
+various member of the 43rd Congress. Looking at the “pretty” version of
+the file, the first thing to notice is that the data we want is not too
+deeply embedded in the HTML structure.</p>
+
+<p>Both the names and the URLs are, most fortunately, embedded in “&lt;a&gt;”
+tags. So, we need to isolate out all of the “&lt;a&gt;” tags. We can do this
+by updating the code in “soupexample.py” to the following:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+
+<span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span> <span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s">"43rd-congress.html"</span><span class="p">))</span>
+
+<span class="n">links</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s">'a'</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">links</span><span class="p">:</span>
+    <span class="k">print</span> <span class="n">link</span>
+</code></pre>
+</div>
+
+<p>Save and run the script again to see all of the anchor tags in the
+document.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>python soupexample.py
+</code></pre>
+</div>
+
+<p>One thing to notice is that there is an additional link in our file –
+the link for an additional search.</p>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/Beautiful-Soup-Tutorial-101x26-2013-08-23-13-25-56.jpg">
+		<img src="../images/Beautiful-Soup-Tutorial-101x26-2013-08-23-13-25-56.jpg" alt="Figure 4: The URLs and names, plus one addition" />
+	</a>
+<figcaption>
+    <p>Figure 4: The URLs and names, plus one addition</p>
+
+</figcaption>
+</figure>
+
+<p>We can get rid of this with just a few lines of code. Going back to the
+pretty version, notice that this last “&lt;a&gt;” tag is not within the
+table but is within a “&lt;p&gt;” tag.</p>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/Beautiful-Soup-Tutorial-103x40-2013-08-23-13-23-07.jpg">
+		<img src="../images/Beautiful-Soup-Tutorial-103x40-2013-08-23-13-23-07.jpg" alt="Figure 5: The rogue link" />
+	</a>
+<figcaption>
+    <p>Figure 5: The rogue link</p>
+
+</figcaption>
+</figure>
+
+<p>Because Beautiful Soup allows us to modify the HTML, we can remove the
+“&lt;a&gt;” that is under the “&lt;p&gt;” before searching for all the “&lt;a&gt;”
+tags.</p>
+
+<p>To do this, we can use the “decompose” method, which removes the
+specified content from the “soup”. Do be careful when using
+“decompose”—you are deleting both the HTML tag and all of the data
+inside of that tag. If you have not correctly isolated the data, you may
+be deleting information that you wanted to extract. Update the file as
+below and run again.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+
+<span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span> <span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s">"43rd-congress.html"</span><span class="p">))</span>
+
+<span class="n">final_link</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">a</span>
+<span class="n">final_link</span><span class="o">.</span><span class="n">decompose</span><span class="p">()</span>
+
+<span class="n">links</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s">'a'</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">links</span><span class="p">:</span>
+    <span class="k">print</span> <span class="n">link</span>
+</code></pre>
+</div>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/Beautiful-Soup-Tutorial-101x26-2013-08-23-13-28-04.jpg">
+		<img src="../images/Beautiful-Soup-Tutorial-101x26-2013-08-23-13-28-04.jpg" alt="Figure 6: Successfully isolated only names and URLs" />
+	</a>
+<figcaption>
+    <p>Figure 6: Successfully isolated only names and URLs</p>
+
+</figcaption>
+</figure>
+
+<p>Success! We have isolated out all of the links we want and none of the links we don’t!</p>
+
+<h3 id="stripping-tags-and-writing-content-to-a-csv-file">Stripping Tags and Writing Content to a CSV file</h3>
+
+<p>But, we are not done yet! There are still HTML tags surrounding the URL
+data that we want. And we need to save the data into a file in order to
+use it for other projects.</p>
+
+<p>In order to clean up the HTML tags and split the URLs from the names, we
+need to isolate the information from the anchor tags. To do this, we
+will use two powerful, and commonly used Beautiful Soup methods:
+contents and get.</p>
+
+<p>Where before we told the computer to print each link, we now want the
+computer to separate the link into its parts and print those separately.
+For the names, we can use link.contents. The “contents” method isolates
+out the text from within html tags. For example, if you started with</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;h2&gt;This is my Header text&lt;/h2&gt;
+</code></pre>
+</div>
+
+<p>you would be left with “This is my Header text” after applying the
+contents method. In this case, we want the contents inside the first tag
+in “link”. (There is only one tag in “link”, but since the computer
+doesn’t realize that, we must tell it to use the first tag.)</p>
+
+<p>For the URL, however, “contents” does not work because the URL is part
+of the HTML tag. Instead, we will use “get”, which allow us to pull the
+text associated with (is on the other side of the “=” of) the “href”
+element.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+
+<span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span> <span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s">"43rd-congress.html"</span><span class="p">))</span>
+
+<span class="n">final_link</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">a</span>
+<span class="n">final_link</span><span class="o">.</span><span class="n">decompose</span><span class="p">()</span>
+
+<span class="n">links</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s">'a'</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">links</span><span class="p">:</span>
+    <span class="n">names</span> <span class="o">=</span> <span class="n">link</span><span class="o">.</span><span class="n">contents</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">fullLink</span> <span class="o">=</span> <span class="n">link</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'href'</span><span class="p">)</span>
+    <span class="k">print</span> <span class="n">names</span>
+    <span class="k">print</span> <span class="n">fullLink</span>
+</code></pre>
+</div>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/Beautiful-Soup-Tutorial-101x26-2013-08-23-14-13-13.jpg">
+		<img src="../images/Beautiful-Soup-Tutorial-101x26-2013-08-23-14-13-13.jpg" alt="Figure 7: All HTML tags have been removed" />
+	</a>
+<figcaption>
+    <p>Figure 7: All HTML tags have been removed</p>
+
+</figcaption>
+</figure>
+
+<p>Finally, we want to use the CSV library to write the file. First, we
+need to import the CSV library into the script with “import csv.” Next,
+we create the new CSV file when we “open” it using “csv.writer”. The “w”
+tells the computer to “write” to the file. And to keep everything
+organized, let’s write some column headers. Finally, as each line is
+processed, the name and URL information is written to our CSV file.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+<span class="kn">import</span> <span class="nn">csv</span>
+
+<span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span> <span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s">"43rd-congress.html"</span><span class="p">))</span>
+
+<span class="n">final_link</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">a</span>
+<span class="n">final_link</span><span class="o">.</span><span class="n">decompose</span><span class="p">()</span>
+
+<span class="n">f</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s">"43rd_Congress.csv"</span><span class="p">,</span> <span class="s">"w"</span><span class="p">))</span>
+<span class="n">f</span><span class="o">.</span><span class="n">writerow</span><span class="p">([</span><span class="s">"Name"</span><span class="p">,</span> <span class="s">"Link"</span><span class="p">])</span> <span class="c"># Write column headers as the first line</span>
+
+<span class="n">links</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s">'a'</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">links</span><span class="p">:</span>
+    <span class="n">names</span> <span class="o">=</span> <span class="n">link</span><span class="o">.</span><span class="n">contents</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">fullLink</span> <span class="o">=</span> <span class="n">link</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'href'</span><span class="p">)</span>
+
+    <span class="n">f</span><span class="o">.</span><span class="n">writerow</span><span class="p">([</span><span class="n">names</span><span class="p">,</span> <span class="n">fullLink</span><span class="p">])</span>
+</code></pre>
+</div>
+
+<p>When executed, this gives us a clean CSV file that we can then use for
+other purposes.</p>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/43rd_Congress-2-2013-08-23-14-18-27.jpg">
+		<img src="../images/43rd_Congress-2-2013-08-23-14-18-27.jpg" alt="Figure 8: CSV file of results" />
+	</a>
+<figcaption>
+    <p>Figure 8: CSV file of results</p>
+
+</figcaption>
+</figure>
+
+<p>We have solved our puzzle and have extracted names and URLs from the
+HTML file.</p>
+
+<hr />
+
+<h2 id="but-wait-what-if-i-want-all-of-the-data">But wait! What if I want ALL of the data?</h2>
+
+<p>Let’s extend our project to capture all of the data from the webpage. We
+know all of our data can be found inside a table, so let’s use “&lt;tr&gt;”
+to isolate the content that we want.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+
+<span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span> <span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s">"43rd-congress.html"</span><span class="p">))</span>
+
+<span class="n">final_link</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">a</span>
+<span class="n">final_link</span><span class="o">.</span><span class="n">decompose</span><span class="p">()</span>
+
+<span class="n">trs</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s">'tr'</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">tr</span> <span class="ow">in</span> <span class="n">trs</span><span class="p">:</span>
+    <span class="k">print</span> <span class="n">tr</span>
+</code></pre>
+</div>
+
+<p>Looking at the print out in the terminal, you can see we have selected a
+lot more content than when we searched for “&lt;a&gt;” tags. Now we need to
+sort through all of these lines to separate out the different types of
+data.</p>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/Beautiful-Soup-Tutorial-142x40-2013-08-23-16-51-22.jpg">
+		<img src="../images/Beautiful-Soup-Tutorial-142x40-2013-08-23-16-51-22.jpg" alt="Figure 9: All of the Table Row data" />
+	</a>
+<figcaption>
+    <p>Figure 9: All of the Table Row data</p>
+
+</figcaption>
+</figure>
+
+<h3 id="extracting-the-data">Extracting the Data</h3>
+
+<p>We can extract the data in two moves. First, we will isolate the link
+information; then, we will parse the rest of the table row data.</p>
+
+<p>For the first, let’s create a loop to search for all of the anchor tags
+and “get” the data associated with “href”.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+
+<span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span> <span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s">"43rd-congress.html"</span><span class="p">))</span>
+
+<span class="n">final_link</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">a</span>
+<span class="n">final_link</span><span class="o">.</span><span class="n">decompose</span><span class="p">()</span>
+
+<span class="n">trs</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s">'tr'</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">tr</span> <span class="ow">in</span> <span class="n">trs</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">tr</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s">'a'</span><span class="p">):</span>
+        <span class="n">fulllink</span> <span class="o">=</span> <span class="n">link</span><span class="o">.</span><span class="n">get</span> <span class="p">(</span><span class="s">'href'</span><span class="p">)</span>
+        <span class="k">print</span> <span class="n">fulllink</span> <span class="c">#print in terminal to verify results</span>
+</code></pre>
+</div>
+
+<p>We then need to run a search for the table data within the table rows.
+(The “print” here allows us to verify that the code is working but is
+not necessary.)</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+
+<span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span> <span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s">"43rd-congress.html"</span><span class="p">))</span>
+
+<span class="n">final_link</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">a</span>
+<span class="n">final_link</span><span class="o">.</span><span class="n">decompose</span><span class="p">()</span>
+
+<span class="n">trs</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s">'tr'</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">tr</span> <span class="ow">in</span> <span class="n">trs</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">tr</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s">'a'</span><span class="p">):</span>
+        <span class="n">fulllink</span> <span class="o">=</span> <span class="n">link</span><span class="o">.</span><span class="n">get</span> <span class="p">(</span><span class="s">'href'</span><span class="p">)</span>
+        <span class="k">print</span> <span class="n">fulllink</span> <span class="c">#print in terminal to verify results</span>
+
+    <span class="n">tds</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s">"td"</span><span class="p">)</span>
+    <span class="k">print</span> <span class="n">tds</span>
+</code></pre>
+</div>
+
+<p>Next, we need to extract the data we want. We know that everything we
+want for our CSV file lives within table data (“td”) tags. We also know
+that these items appear in the same order within the row. Because we are
+dealing with lists, we can identify information by its position within
+the list. This means that the first data item in the row is identified
+by [0], the second by [1], etc.</p>
+
+<p>Because not all of the rows contain the same number of data items, we
+need to build in a way to tell the script to move on if it encounters an
+error. This is the logic of the “try” and “except” block. If a
+particular line fails, the script will continue on to the next line.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+
+<span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span> <span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s">"43rd-congress.html"</span><span class="p">))</span>
+
+<span class="n">final_link</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">a</span>
+<span class="n">final_link</span><span class="o">.</span><span class="n">decompose</span><span class="p">()</span>
+
+<span class="n">trs</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s">'tr'</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">tr</span> <span class="ow">in</span> <span class="n">trs</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">tr</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s">'a'</span><span class="p">):</span>
+        <span class="n">fulllink</span> <span class="o">=</span> <span class="n">link</span><span class="o">.</span><span class="n">get</span> <span class="p">(</span><span class="s">'href'</span><span class="p">)</span>
+        <span class="k">print</span> <span class="n">fulllink</span> <span class="c">#print in terminal to verify results</span>
+
+    <span class="n">tds</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s">"td"</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span> <span class="c">#we are using "try" because the table is not well formatted. This allows the program to continue after encountering an error.</span>
+        <span class="n">names</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">tds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_text</span><span class="p">())</span> <span class="c"># This structure isolate the item by its column in the table and converts it into a string.</span>
+        <span class="n">years</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">tds</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">get_text</span><span class="p">())</span>
+        <span class="n">positions</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">tds</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">get_text</span><span class="p">())</span>
+        <span class="n">parties</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">tds</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">get_text</span><span class="p">())</span>
+        <span class="n">states</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">tds</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">get_text</span><span class="p">())</span>
+        <span class="n">congress</span> <span class="o">=</span> <span class="n">tds</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">get_text</span><span class="p">()</span>
+
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">"bad tr string"</span>
+        <span class="k">continue</span> <span class="c">#This tells the computer to move on to the next item after it encounters an error</span>
+
+    <span class="k">print</span> <span class="n">names</span><span class="p">,</span> <span class="n">years</span><span class="p">,</span> <span class="n">positions</span><span class="p">,</span> <span class="n">parties</span><span class="p">,</span> <span class="n">states</span><span class="p">,</span> <span class="n">congress</span>
+</code></pre>
+</div>
+
+<p>Within this we are using the following structure:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">years</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">tds</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">get_text</span><span class="p">())</span>
+</code></pre>
+</div>
+
+<p>We are applying the “get_text” method to the 2nd element in the row
+(because computers count beginning with 0) and creating a string from
+the result. This we assign to the variable “years”, which we will use to
+create the CSV file. We repeat this for every item in the table that we
+want to capture in our file.</p>
+
+<h3 id="writing-the-csv-file">Writing the CSV file</h3>
+
+<p>The last step in this file is to create the CSV file. Here we are using
+the same process as we did in Part I, just with more variables.</p>
+
+<p>As a result, our file will look like:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+<span class="kn">import</span> <span class="nn">csv</span>
+
+<span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span> <span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s">"43rd-congress.html"</span><span class="p">))</span>
+
+<span class="n">final_link</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">a</span>
+<span class="n">final_link</span><span class="o">.</span><span class="n">decompose</span><span class="p">()</span>
+
+<span class="n">f</span><span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s">"43rd_Congress_all.csv"</span><span class="p">,</span> <span class="s">"w"</span><span class="p">))</span>   <span class="c"># Open the output file for writing before the loop</span>
+<span class="n">f</span><span class="o">.</span><span class="n">writerow</span><span class="p">([</span><span class="s">"Name"</span><span class="p">,</span> <span class="s">"Years"</span><span class="p">,</span> <span class="s">"Position"</span><span class="p">,</span> <span class="s">"Party"</span><span class="p">,</span> <span class="s">"State"</span><span class="p">,</span> <span class="s">"Congress"</span><span class="p">,</span> <span class="s">"Link"</span><span class="p">])</span> <span class="c"># Write column headers as the first line</span>
+
+<span class="n">trs</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s">'tr'</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">tr</span> <span class="ow">in</span> <span class="n">trs</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">tr</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s">'a'</span><span class="p">):</span>
+        <span class="n">fullLink</span> <span class="o">=</span> <span class="n">link</span><span class="o">.</span><span class="n">get</span> <span class="p">(</span><span class="s">'href'</span><span class="p">)</span>
+
+    <span class="n">tds</span> <span class="o">=</span> <span class="n">tr</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s">"td"</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span> <span class="c">#we are using "try" because the table is not well formatted. This allows the program to continue after encountering an error.</span>
+        <span class="n">names</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">tds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_text</span><span class="p">())</span> <span class="c"># This structure isolate the item by its column in the table and converts it into a string.</span>
+        <span class="n">years</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">tds</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">get_text</span><span class="p">())</span>
+        <span class="n">positions</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">tds</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">get_text</span><span class="p">())</span>
+        <span class="n">parties</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">tds</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">get_text</span><span class="p">())</span>
+        <span class="n">states</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">tds</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">get_text</span><span class="p">())</span>
+        <span class="n">congress</span> <span class="o">=</span> <span class="n">tds</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">get_text</span><span class="p">()</span>
+
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">"bad tr string"</span>
+        <span class="k">continue</span> <span class="c">#This tells the computer to move on to the next item after it encounters an error</span>
+
+    <span class="n">f</span><span class="o">.</span><span class="n">writerow</span><span class="p">([</span><span class="n">names</span><span class="p">,</span> <span class="n">years</span><span class="p">,</span> <span class="n">positions</span><span class="p">,</span> <span class="n">parties</span><span class="p">,</span> <span class="n">states</span><span class="p">,</span> <span class="n">congress</span><span class="p">,</span> <span class="n">fullLink</span><span class="p">])</span>
+</code></pre>
+</div>
+
+<p>You’ve done it! You have created a CSV file from all of the data in the table, creating useful data from the confusion of the html page.</p>
+
+
+	        </div>
+
+            
+
+	        <div class="author-info">
+	   	        <p class="author-name">About the author</p>
+			    <div class="author-description"><p>
+                
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                       Jeri Wieringa is the digital publishing production lead for the George Mason University Libraries and a doctoral candidate in history at George Mason University.
+&nbsp;
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+		        </p>
+			    </div>
+	        </div>
+          <div class="citation-info">
+            <p class="citation-head">Suggested Citation</p>
+            <div class="suggested-citation">
+              <p>
+              
+  
+        Jeri Wieringa
+  
+  , 
+              "Intro to Beautiful Soup," 
+              <em>Programming Historian</em> 
+              (30 December 2012), 
+              http://programminghistorian.org/lessons/intro-to-beautiful-soup
+              </p>
+            </div>
+          </div>
+        </article>
+    </div>
+
+    </div> <!-- end below-nav -->
+
+<footer role="contentinfo">
+
+          <div class="additional">
+          <ul id="menu-main-menu" class="additional">
+            <li class="menu-item"><a href="../index.html">About</a></li>
+            <li class="menu-item"><a href="index.html">Lessons</a></li>
+            <li class="menu-item"><a href="../contribute.html">Contribute</a></li>
+            <li class="menu-item"><a href="../project-team.html">Project Team</a></li>
+            <li class="menu-item"><a href="../blog.html">Blog</a></li>
+          </ul>
+        </div>
+
+
+<p><em>The Programming Historian</em> ISSN 2397-2068, is released under the <a href="http://creativecommons.org/licenses/by/2.0/" rel="license">CC-BY</a> license.</p>
+<p>The project is published by the <em>Editorial Board of the Programming Historian</em>, and first appeared in July 2012. It was last updated on 20 March 2016.</p>
+<p class="github">
+        <a href="https://github.com/programminghistorian/jekyll">Hosted on GitHub <img src="../images/GitHub-Mark-32px.png" title="GitHub logo"></a> 
+		<a href="https://github.com/programminghistorian/jekyll/commits/gh-pages/lessons/intro-to-beautiful-soup.md">Previous Versions</a>&nbsp;&#183;&nbsp;
+		<a href="../feedback.html">Give Feedback</a>
+</p>
+
+</footer>
+
+
+    </body>
+</html>

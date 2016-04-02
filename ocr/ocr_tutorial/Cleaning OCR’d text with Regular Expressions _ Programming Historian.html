@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <meta name="citation_title" content="Cleaning OCR’d text with Regular Expressions" />
+
+<meta name="citation_author" content="Laura Turner O'Hara" />
+
+<meta name="citation_publication_date" content="2013-05-22" />
+<meta name="citation_journal_title" content="Programming Historian" />
+<meta name="citation_public_url" content="http://programminghistorian.org/lessons/cleaning-ocrd-text-with-regular-expressions" />
+
+
+    <!-- Mobile viewport optimized: h5bp.com/viewport -->
+    <meta name="viewport" content="width=device-width">
+    
+    <!--Font awesome CDN -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,700|Crete+Round' rel='stylesheet' type='text/css'>
+    <link href="/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/github.css">
+    <link href='/feed.xml' rel='alternate' type='application/atom+xml'>
+    <title>Cleaning OCR’d text with Regular Expressions | Programming Historian</title>
+        
+    <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/ui.js"></script>
+    <script type="text/javascript" src="/js/ext_links.js"></script>
+    <script type="text/javascript" src="/js/header_links.js"></script>
+    <script>
+      $(document).ready(function(){
+        $('.slide-trigger').collapsable();
+      });
+    </script>
+
+    <script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-2752866-8']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+  </head>
+
+
+
+  
+  
+  
+
+  <body>
+
+    <header role="banner">
+    <h1><a href="http://programminghistorian.org">The Programming Historian</a></h1>
+
+	        <div class="additional">
+          <ul id="menu-main-menu" class="additional">
+            <li class="menu-item"><a href="/">About</a></li>
+            <li class="menu-item"><a href="/lessons">Lessons</a></li>
+            <li class="menu-item"><a href="/contribute">Contribute</a></li>
+            <li class="menu-item"><a href="/project-team">Project Team</a></li>
+            <li class="menu-item"><a href="/blog">Blog</a></li>
+          </ul>
+        </div>
+
+	</header>
+
+	<div role="main">
+		<article>
+			<header>
+
+                
+				
+			    <p class="kicker">May 22, 2013</p>
+				<h1><a href="http://programminghistorian.org/lessons/cleaning-ocrd-text-with-regular-expressions">Cleaning OCR’d text with Regular Expressions</a></h1>
+                <p class="byline">By 
+  
+        Laura Turner O'Hara
+  
+  </p>
+
+				
+				
+				<ul class="credits">Reviewed by
+				
+				      Fred Gibbs
+                
+                <br/>
+                
+                Recommended for 
+                
+                Intermediate
+                
+                 Users
+                
+                </ul>
+                
+				
+			</header>
+
+            
+
+			<div class="content">
+	              <p>Optical Character Recognition (OCR)—the conversion of scanned images to
+machine-encoded text—has proven a godsend for historical research. This
+process allows texts to be searchable on one hand and more easily parsed
+and mined on the other. But we’ve all noticed that the OCR for historic
+texts is far from perfect. Old type faces and formats make for unique
+OCR. Take for example, this page from the <em>Congressional Directory</em> from
+the 50th Congress (1887). The PDF scan downloaded from <a href="http://home.heinonline.org/" title="Source for Legal and Government-based documents">HeinOnline</a>
+looks organized:</p>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/cd_pdf.png">
+		<img src="../images/cd_pdf.png" alt="This is a screenshot of the PDF page." />
+	</a>
+<figcaption>
+    <p>This is a screenshot of the PDF page.</p>
+
+</figcaption>
+</figure>
+
+<p>However, the OCR layer (downloaded as a text file*) shows that the
+machine-encoded text is not nearly as neat:</p>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/cd_txt.png">
+		<img src="../images/cd_txt.png" alt="This is a screenshot of the OCR." />
+	</a>
+<figcaption>
+    <p>This is a screenshot of the OCR.</p>
+
+</figcaption>
+</figure>
+
+<blockquote>
+  <p>Note: If you do not have the option to download a text file, you can
+use the <a href="http://www.unixuser.org/~euske/python/pdfminer/index.html" title="PDF Miner Module">pdfminer</a> module to extract text from the pdf.</p>
+</blockquote>
+
+<p>Since I want to use this to map the Washington residences for Members of
+these late 19th-century Congresses, how might I make this data more
+useable?</p>
+
+<p>The answer is Regular Expressions or “regex.” Here’s what regex did for
+me. Though this is not a “real” CSV file (the commas are not quite
+right), it can be easily viewed in Excel and prepped for geocoding. Much
+better than the text file from above, right?</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Aldrich, N. W,Providence, R. I
+Allison, William B, Dubuque, Iowa,24Vermont avenue,
+Bate, William,Nashville, Ten, Ebbitt House
+Beck, James B,Lexington, Ky
+Berry, James I, Bentonville, Ark, National Hotel,
+Blair, I lenry \V, Manchester, N. H,2o East Capitol stree_._'
+Blodgett, Rufus,Long Branch, N. J
+Bowen, Thomas M,Del Norte, Colo
+Brown, Joseph E, Atlanta, Ga, Woodmont Flats,
+Butler, M. C,Edgefield, S. C, 1751 P street NW
+Call, Wilkinson, Jacksonville, Fla, 1903 N street NW
+Cameron, J. D,Harrisburg, Pa, 21 Lafayette Square,
+Chace, Jonathan,Providence, R, I
+Chandler, William E, Concord, N. H, 1421 I street NW
+Cockrell, Francis M,Warrensburgh,Mo, I518 R street NW
+Coke, Richard,Waco, Tex, 419 Sixth street NW
+Colquitt, Alfred I I,Atlanta, Ga, 920 New York avenue
+Cullom, Shelby M,Springfield, Ill, 1402 Massachusetts avenue
+Daniel, John W,,Lynchburgh, Va, I7OO Nineteenth st. NW
+Davis, Cushman K, Saint Paul, Minn, 17oo Fifteenth street NW
+Dawes, Henry L,Pittsfield, Mass, 1632Rhode Island avenue.
+Dolph, Joseph N,Portland, Oregon, 8 Lafayette Square,
+Edmunds, George F, Burlington, Vt, 2111 Massachusetts avenue
+Eustis, James B,,New Orleans, La, 1761 N street NW
+Evarts, William M,New York, N. Y, i6oi K street NW
+Farwell, Charles B, Chicago, Ill,
+Faulkner, Charles James, Martinsburgh, W. Va,
+Frye, William P,Lewiston, Me, Hamilton House,
+George, James Z,Jackson, Miss, Metropolitan Hotel
+Gibson, Randall Lee, New Orleans, La, 1723 Rhode Island avenue.
+Gorman, Arthur P, Laurel, Md .,1403 K street NW
+Gray, George,Wilmington, Del,
+Hale, Eugene,Ellsworth, Me, 917 Sixthteenth st. NW
+Hampton, Wade, Columbia, S. C,
+Harris, Isham G, Memphis,Tenn, 13 First street NE
+Hawley, Joseph R,Hartford, Corn, 1514 K street NW
+Hearst, George,San Francisco, Cal,
+Hiscock, Frank, Syracuse, N. Y, Arlington Hotel
+Hoar, George F, Worcester, Mass, 1325 K street NW
+Ingalls, John James, Atchison, Kans, I B street NW
+Jones, James K,Washington, Ark, 915 M street NW
+Jones, John P,Gold Hill, Nev
+Kenna, John E,Charleston, W. Va, 14o B street NW
+McPherson, John ,Jersey City, N. J, 1014 Vermont avenue,
+Manderson, CharlesF. Omaha, Nebr,The Portland
+Morgan, John T,.Selma, Ala,I 13 First street NE
+Morrill, Justin S, Stratford, Vt, x Thomas Circle
+</code></pre>
+</div>
+
+<h2 id="regular-expressions-regex">Regular Expressions (Regex)</h2>
+
+<p>Regex is not a programming language. Rather it follows a syntax used in
+many different languages, employing a series of characters to find
+and/or replace precise patterns in texts. For example, using this sample
+text:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Let's get all this bad OCR and $tuff. Gr8!
+</code></pre>
+</div>
+
+<p>1. You could isolate all the capital letters (L, O, C, R, G) with this
+regex:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>[A-Z]
+</code></pre>
+</div>
+
+<p>2. You could isolate the first capital letter (L) with this regex:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>^[A-Z]
+</code></pre>
+</div>
+
+<p>3. You could isolate all characters BUT the capital letters with this
+regex:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>[^A-Z]
+</code></pre>
+</div>
+
+<p>4. You could isolate the acronym “OCR” with this regex:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>[A-Z]{3}
+</code></pre>
+</div>
+
+<p>5. You could isolate the punctuation using this regex:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>[[:punct:]]
+</code></pre>
+</div>
+
+<p>6. You could isolate all the punctuation, spaces, and numbers this way:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>[[:punct:], ,0-9]
+</code></pre>
+</div>
+
+<p>The character set is not that large, but the patterns can get
+complicated. Moreover, different characters can mean different things
+depending on their placement. Take for example, the difference between
+example 2 and example 3 above. In example 2, the caret (\^) means
+isolate the pattern at the beginning of the line or document. However,
+when you put the caret inside the character class (demarcated by <code class="highlighter-rouge">[]</code>) it
+means “except” these sets of characters.</p>
+
+<p>The best way to understand Regular Expressions is to learn what the
+characters do in different positions and practice, practice, practice.
+And since experimentation is best way to learn, I suggest using a regex
+tester tool and experiment with the syntax. For Mac users, I had a lot
+of luck with the <a href="http://krillapps.com/patterns/" title="Patterns App for RegEx Experimentation">Patterns App</a> (Mac Store $2.99), which allowed me
+to see what the regular expressions were doing in real time. It also
+comes with a built-in cheat sheet for the symbols, but I actually found
+this generic (meaning it works across languages) <a href="http://www.addedbytes.com/cheat-sheets/regular-expressions-cheat-sheet/" title="Reg Ex Cheat Sheet">cheat sheet</a> more
+comprehensive.</p>
+
+<h2 id="python-and-regex">Python and Regex</h2>
+
+<p>In this tutorial, I use the Regular Expressions Python module to extract
+a “cleaner” version of the <em>Congressional Directory</em> text file. Though
+the <a href="http://docs.python.org/2/library/re.html" title="Re Module Documentation">documentation</a> for this module is fairly comprehensive, beginners
+will have more luck with the simpler <a href="http://docs.python.org/2/howto/regex.html#regex-howto" title="Reuglar Expressions HOWTO">Regular Expression HOWTO
+documentation</a>.</p>
+
+<h3 id="two-things-to-note-before-you-get-started">Two things to note before you get started</h3>
+
+<ul>
+  <li>From what I’ve observed, Python is <em>not</em> the most efficient way to
+use Regular Expressions if you have to clean a single document.
+Command Line programs like <a href="http://www.gnu.org/software/sed/" title="GNU's sed editor">sed</a> or <a href="http://www.gnu.org/software/grep/" title="GNU's grep editor">grep</a> appear to be more
+efficient for this process. (I will leave it to the better grep/sed
+users to create tutorials on those tools.) I use Python for several
+reasons: 1) I understand the syntax best; 2) I appreciate seeing
+each step written out in a single file so I can easily backtrack
+mistakes; and 3) I want a program I could use over and over again,
+since I am cleaning multiple pages from the <em>Congressional
+Directory</em>.</li>
+  <li>The OCR in this document is far from consistent (within a single
+page or across multiple pages). Thus, the results of this cleaning
+tutorial are not perfect. <strong>My goal is to let regex do the heavy
+lifting and export a document in my chosen format that is <em>more</em>
+organized than the document with which I started.</strong> This
+significantly reduces, but does not eliminate, any hand-cleaning I
+might need to do before geocoding the address data.</li>
+</ul>
+
+<h3 id="my-example-python-file">My example Python File</h3>
+
+<p>Here’s the Python file that I used to created to clean my document:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c">#cdocr.py</span>
+<span class="c">#strip the punctuation and extra information from HeinOnline text document</span>
+
+<span class="c">#import re module</span>
+<span class="kn">import</span> <span class="nn">re</span>
+
+<span class="c">#Open the text file with the ocr</span>
+<span class="n">ocr</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">'../../data/txt/50-1-p1.txt'</span><span class="p">)</span>
+<span class="c">#read the text file into a list</span>
+<span class="n">Text</span> <span class="o">=</span> <span class="n">ocr</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+
+<span class="c">#Create an empty list to fill with lines of corrected text</span>
+<span class="n">CleanText</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c"># checks each line in the imported text file for all the following patterns</span>
+<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">Text</span><span class="p">:</span>
+    <span class="c">#lines with multi-dashes contain data - searches for those lines</span>
+    <span class="c"># -- does not isolate intro text lines with one dash.</span>
+    <span class="n">dashes</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">'(--+)'</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
+
+    <span class="c">#isolates lines with dashes and cleans</span>
+    <span class="k">if</span> <span class="n">dashes</span><span class="p">:</span>
+        <span class="c">#replaces dashes with my chosen delimiter</span>
+        <span class="n">nodash</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">'.(-+)'</span><span class="p">,</span> <span class="s">','</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
+        <span class="c">#strikes multiple periods</span>
+        <span class="n">nodots</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">'.(</span><span class="err">\</span><span class="s">.</span><span class="err">\</span><span class="s">.+)'</span><span class="p">,</span> <span class="s">''</span><span class="p">,</span> <span class="n">nodash</span><span class="p">)</span>
+        <span class="c">#strikes extra spaces</span>
+        <span class="n">nospaces</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">'(  +)'</span><span class="p">,</span> <span class="s">','</span><span class="p">,</span> <span class="n">nodots</span><span class="p">)</span>
+        <span class="c">#strikes *</span>
+        <span class="n">nostar</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">'.[*]'</span><span class="p">,</span> <span class="s">''</span><span class="p">,</span> <span class="n">nospaces</span><span class="p">)</span>
+        <span class="c">#strikes new line and comma at the beginning of the line</span>
+        <span class="n">flushleft</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">'^</span><span class="err">\</span><span class="s">W'</span><span class="p">,</span> <span class="s">''</span><span class="p">,</span> <span class="n">nostar</span><span class="p">)</span>
+        <span class="c">#getting rid of double commas (i.e. - Evarts)</span>
+        <span class="n">comma</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">',{2,3}'</span><span class="p">,</span> <span class="s">','</span><span class="p">,</span> <span class="n">flushleft</span><span class="p">)</span>
+        <span class="c">#cleaning up some words that are stuck together (i.e. -  Dawes, Manderson)</span>
+        <span class="c">#skips double OO that was put in place of 00 in address</span>
+        <span class="n">caps</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">'[A-N|P-Z]{2,}'</span><span class="p">,</span> <span class="s">','</span><span class="p">,</span> <span class="n">comma</span><span class="p">)</span>
+        <span class="c">#Clean up NE and NW quadrant indicators by removing periods</span>
+        <span class="n">ne</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">'(</span><span class="err">\</span><span class="s">,*? N</span><span class="err">\</span><span class="s">. ?E.)'</span><span class="p">,</span> <span class="s">' NE'</span><span class="p">,</span> <span class="n">caps</span><span class="p">)</span>
+        <span class="n">nw</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">'(</span><span class="err">\</span><span class="s">,*? N</span><span class="err">\</span><span class="s">. ?W[</span><span class="err">\</span><span class="s">.</span><span class="err">\</span><span class="s">,]*?_?)$'</span><span class="p">,</span> <span class="s">' NW'</span><span class="p">,</span> <span class="n">ne</span><span class="p">)</span> <span class="c">#MAKE VERBOSE</span>
+        <span class="c">#Replace periods with commas between last and first names (i.e. - Chace, Cockrell)</span>
+        <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">'^([A-Z][a-z]+</span><span class="err">\</span><span class="s">. )'</span><span class="p">,</span> <span class="n">nw</span><span class="p">)</span> <span class="c">#MAKE VERBOSE</span>
+        <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
+            <span class="n">names</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">'</span><span class="err">\</span><span class="s">.'</span><span class="p">,</span> <span class="s">','</span><span class="p">,</span> <span class="n">nw</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">names</span> <span class="o">=</span> <span class="n">nw</span>
+           <span class="c">#Append each line to CleanText list while it loops through</span>
+        <span class="n">CleanText</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">names</span><span class="p">)</span>
+
+<span class="c">#Saving into a 'fake' csv file</span>
+<span class="n">fcsv</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">'cdocr2/50-1p1.csv'</span><span class="p">,</span> <span class="s">'w'</span><span class="p">)</span>
+<span class="c">#Write each line in CleanText to a file</span>
+<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">CleanText</span><span class="p">:</span>
+    <span class="n">fcsv</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>I’ve commented it pretty extensively, so I will explain why I structured
+the code the way I did. I will also demonstrate a different way to
+format long regular expressions for better legibility.</p>
+
+<ul>
+  <li><strong>Lines 16-22</strong> – Notice in my original text file that my data is
+all on lines with multiple dashes. This code effectively isolates
+those lines. I use the <a href="http://docs.python.org/2/library/re.html#re.search" title="Explanation of re.search() function">re.search()</a> function to find all lines
+with multiple dashes. The “if” statement on line 20 only works with
+the lines with dashes in the rest of the code. (This eliminates all
+introductory text and the rows of page numbers that follow the data
+I want.)</li>
+  <li><strong>Lines 23-40</strong> – This is the long process by which I eliminate all
+of the extraneous punctuation and put the pieces of my data (last
+name, first name, home post office, washington address) into
+different fields for a csv document. I use the <a href="http://docs.python.org/2/library/re.html#re.sub" title="Explanation of re.sub() function">re.sub()</a>
+function, which substitutes pattern with another character. I
+comment extensively here, so you can see what each piece does. This
+may not be the most efficient way of doing this, but by doing this
+piece by piece, I could check my work as I went. As I built loop, I
+checked each step by printing the variable in the command line. So,
+for example, after line 24 (when I eliminate the dashes), I would
+add “print nodash” (inside the if loop) before I ran the file in the
+command line. I checked each step to make sure my patterns were only
+changing the things I wanted and not changing things I did <em>not</em>
+want changed.</li>
+  <li><strong>Lines 41-46</strong> - I used a slightly different method here. The OCR
+in the text file separated some names with a period (for example,
+Chace.Jonathan vs. Chase,Jonathan). I wanted to isolate the periods
+that came up in this pattern and change those periods to commas. So
+I searched for the pattern <code class="highlighter-rouge">^([A-Z][a-z]+\.)</code>, which looks at the
+beginning of a line (\^) and finds a pattern with one capital
+letter, multiple lowercase letters and a period. After I had
+isolated that pattern, I substitute the period those lines that fit
+the pattern with a comma.</li>
+</ul>
+
+<h3 id="using-verbose-mode">Using Verbose Mode</h3>
+
+<p>Most regular expressions are difficult to read. But lines 39 and 40 look
+<em>especially</em> bad. How might you clarify these patterns for people who
+might look at your code (or for yourself when you are staring at them at
+2:00 AM someday)? You can use the module’s <a href="http://docs.python.org/2/library/re.html#re.VERBOSE" title="Explanation of re.verbose mode">verbose mode</a>. By putting
+your patterns in verbose mode, python ignores white space and the #
+character, so you can split the patterns across multiple lines and
+comment each piece. <strong><em>Keep in mind that, because it ignores spaces, if
+spaces are part of your pattern, you need to escape them with a
+backslash (\). Also note that re.VERBOSE and re.X are the same
+thing.</em></strong></p>
+
+<p>Here are lines 39 and 40 in verbose mode:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c">#This is the same as (\,*? N\. ?E.)</span>
+<span class="c">#All spaces need to be escaped in verbose mode.</span>
+<span class="n">ne_pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="nb">compile</span><span class="p">(</span><span class="s">r'''
+    (               #start group
+        </span><span class="err">\</span><span class="s">,*?        #look for comma (escaped); *? = 0 or more commas with fewest results
+        </span><span class="err">\</span><span class="s"> N</span><span class="err">\</span><span class="s">.?      #look for (escaped) space + N that might have an (escaped) period after it
+        </span><span class="err">\</span><span class="s"> ?E        #look for an E that may or may not have an space in front of it
+        .           #the E might be followed by another character.
+    )               #close group
+    $               #ONLY look at the end of a line
+'''</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">VERBOSE</span><span class="p">)</span>
+
+<span class="c">#This is the same as (\,*? N\. ?W[\.\,]*?_?)$</span>
+<span class="n">nw_pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="nb">compile</span><span class="p">(</span><span class="s">r'''
+    (                   #start group
+        </span><span class="err">\</span><span class="s">,*?            #look for comma (escaped); *? = 0 or more commas with fewest results
+        </span><span class="err">\</span><span class="s"> N</span><span class="err">\</span><span class="s">.?          #look for (escaped) space + N that might have an (escaped) period after it
+        </span><span class="err">\</span><span class="s"> ?W            #look for an W that may or may not have an space in front of it
+        [</span><span class="err">\</span><span class="s">.</span><span class="err">\</span><span class="s">,]*?        #look for commas or periods (both escaped) that might come after W
+        _?              #look for underscore that comes after one of these NW quadrant indicators
+    )                   #close group
+    $                   #ONLY look at the end of a line
+'''</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">X</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>In above example, I use the <a href="http://docs.python.org/2/library/re.html#re.compile" title="Explanation of re.compile() function">re.compile()</a> function to save the
+pattern for future use. So, adjusting my full python code to use verbose
+mode would look like the following. Note that I define my verbose
+patterns on lines 17-39 and store them in variables (ne_pattern and
+nw_pattern). I use them in my loop on lines 65 and 66.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c">#cdocrverbose.py</span>
+<span class="c">#strip the punctuation and extra information from HeinOnline text document</span>
+
+<span class="c">#import re module</span>
+<span class="kn">import</span> <span class="nn">re</span>
+
+<span class="c">#Open the text file with the ocr</span>
+<span class="n">ocr</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">'../../data/txt/50-1-p1.txt'</span><span class="p">)</span>
+<span class="c">#read the text file into a list</span>
+<span class="n">Text</span> <span class="o">=</span> <span class="n">ocr</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+
+<span class="c">#Create an empty list to fill with lines of corrected text</span>
+<span class="n">CleanText</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c">##Creating verbose patterns for the more complicated pieces that I use later on.##</span>
+
+<span class="c">#This is the same as (\,*? N\. ?E.)</span>
+<span class="c">#All spaces need to be escaped in verbose mode.</span>
+<span class="n">ne_pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="nb">compile</span><span class="p">(</span><span class="s">r'''
+    (               #start group
+        </span><span class="err">\</span><span class="s">,*?        #look for comma (escaped); *? = 0 or more commas with fewest results
+        </span><span class="err">\</span><span class="s"> N</span><span class="err">\</span><span class="s">.?      #look for (escaped) space + N that might have an (escaped) period after it
+        </span><span class="err">\</span><span class="s"> ?E        #look for an E that may or may not have an space in front of it
+        .           #the E might be followed by another character.
+    )               #close group
+    $               #ONLY look at the end of a line
+'''</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">VERBOSE</span><span class="p">)</span>
+
+<span class="c">#This is the same as (\,*? N\. ?W[\.\,]*?_?)$</span>
+<span class="n">nw_pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="nb">compile</span><span class="p">(</span><span class="s">r'''
+    (                   #start group
+        </span><span class="err">\</span><span class="s">,*?            #look for comma (escaped); *? = 0 or more commas with fewest results
+        </span><span class="err">\</span><span class="s"> N</span><span class="err">\</span><span class="s">.?          #look for (escaped) space + N that might have an (escaped) period after it
+        </span><span class="err">\</span><span class="s"> ?W            #look for an W that may or may not have an space in front of it
+        [</span><span class="err">\</span><span class="s">.</span><span class="err">\</span><span class="s">,]*?        #look for commas or periods (both escaped) that might come after W
+        _?              #look for underscore that comes after one of these NW quadrant indicators
+    )                   #close group
+    $                   #ONLY look at the end of a line
+'''</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">VERBOSE</span><span class="p">)</span>
+
+<span class="c"># checks each line in the imported text file for all the following patterns</span>
+<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">Text</span><span class="p">:</span>
+    <span class="c">#lines with multi-dashes contain data - searches for those lines</span>
+    <span class="c"># -- does not isolate intro text lines with one dash.</span>
+    <span class="n">dashes</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">'(--+)'</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
+
+    <span class="c">#isolates lines with dashes and cleans</span>
+    <span class="k">if</span> <span class="n">dashes</span><span class="p">:</span>
+        <span class="c">#replaces dashes with my chosen delimiter</span>
+        <span class="n">nodash</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">'.(-+)'</span><span class="p">,</span> <span class="s">','</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
+        <span class="c">#strikes multiple periods</span>
+        <span class="n">nodots</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">'.(</span><span class="err">\</span><span class="s">.</span><span class="err">\</span><span class="s">.+)'</span><span class="p">,</span> <span class="s">''</span><span class="p">,</span> <span class="n">nodash</span><span class="p">)</span>
+        <span class="c">#strikes extra spaces</span>
+        <span class="n">nospaces</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">'(  +)'</span><span class="p">,</span> <span class="s">','</span><span class="p">,</span> <span class="n">nodots</span><span class="p">)</span>
+        <span class="c">#strikes *</span>
+        <span class="n">nostar</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">'.[*]'</span><span class="p">,</span> <span class="s">''</span><span class="p">,</span> <span class="n">nospaces</span><span class="p">)</span>
+        <span class="c">#strikes new line and comma at the beginning of the line</span>
+        <span class="n">flushleft</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">'^</span><span class="err">\</span><span class="s">W'</span><span class="p">,</span> <span class="s">''</span><span class="p">,</span> <span class="n">nostar</span><span class="p">)</span>
+        <span class="c">#getting rid of double commas (i.e. - Evarts)</span>
+        <span class="n">comma</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">',{2,3}'</span><span class="p">,</span> <span class="s">','</span><span class="p">,</span> <span class="n">flushleft</span><span class="p">)</span>
+        <span class="c">#cleaning up some words that are stuck together (i.e. -  Dawes, Manderson)</span>
+        <span class="c">#skips double OO that was put in place of 00 in address</span>
+        <span class="n">caps</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">'[A-N|P-Z]{2,}'</span><span class="p">,</span> <span class="s">','</span><span class="p">,</span> <span class="n">comma</span><span class="p">)</span>
+        <span class="c">#Clean up NE and NW quadrant indicators by removing periods (using Verbose regex defined above)</span>
+        <span class="n">ne</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">ne_pattern</span><span class="p">,</span> <span class="s">' NE'</span><span class="p">,</span> <span class="n">caps</span><span class="p">)</span>
+        <span class="n">nw</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">nw_pattern</span><span class="p">,</span> <span class="s">' NW'</span><span class="p">,</span> <span class="n">ne</span><span class="p">)</span>
+        <span class="c">#Replace periods with commas between last and first names (i.e. - Chace, Cockrell)</span>
+        <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">'^([A-Z][a-z]+</span><span class="err">\</span><span class="s">.)'</span><span class="p">,</span> <span class="n">nw</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
+            <span class="n">names</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">'</span><span class="err">\</span><span class="s">.'</span><span class="p">,</span> <span class="s">','</span><span class="p">,</span> <span class="n">nw</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">names</span> <span class="o">=</span> <span class="n">nw</span>
+         <span class="c">#Append each line to CleanText list while it loops through</span>
+        <span class="n">CleanText</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">names</span><span class="p">)</span>
+
+<span class="c">#Saving into a 'fake' csv file</span>
+<span class="n">fcsv</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">'cdocr2/50-1p1.csv'</span><span class="p">,</span> <span class="s">'w'</span><span class="p">)</span>
+<span class="c">#Write each line in CleanText to a file</span>
+<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">CleanText</span><span class="p">:</span>
+    <span class="n">fcsv</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>In conclusion, I will note that this is not for the faint of heart.
+Regular Expressions are powerful. Yes, they are powerful enough to
+completely destroy your data. So practice on copies and take it one itty
+bitty step at a time.</p>
+
+
+	        </div>
+
+            
+
+	        <div class="author-info">
+	   	        <p class="author-name">About the author</p>
+			    <div class="author-description"><p>
+                
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                       Laura Turner O'Hara works in the Office of the Historian at the U.S. House of Representatives.
+&nbsp;
+                   
+                   
+                   
+                   
+                   
+                   
+		        </p>
+			    </div>
+	        </div>
+          <div class="citation-info">
+            <p class="citation-head">Suggested Citation</p>
+            <div class="suggested-citation">
+              <p>
+              
+  
+        Laura Turner O'Hara
+  
+  , 
+              "Cleaning OCR’d text with Regular Expressions," 
+              <em>Programming Historian</em> 
+              (22 May 2013), 
+              http://programminghistorian.org/lessons/cleaning-ocrd-text-with-regular-expressions
+              </p>
+            </div>
+          </div>
+        </article>
+    </div>
+
+    </div> <!-- end below-nav -->
+
+<footer role="contentinfo">
+
+          <div class="additional">
+          <ul id="menu-main-menu" class="additional">
+            <li class="menu-item"><a href="/">About</a></li>
+            <li class="menu-item"><a href="/lessons">Lessons</a></li>
+            <li class="menu-item"><a href="/contribute">Contribute</a></li>
+            <li class="menu-item"><a href="/project-team">Project Team</a></li>
+            <li class="menu-item"><a href="/blog">Blog</a></li>
+          </ul>
+        </div>
+
+
+<p><em>The Programming Historian</em> ISSN 2397-2068, is released under the <a href="http://creativecommons.org/licenses/by/2.0/" rel="license">CC-BY</a> license.</p>
+<p>The project is published by the <em>Editorial Board of the Programming Historian</em>, and first appeared in July 2012. It was last updated on 20 March 2016.</p>
+<p class="github">
+        <a href="https://github.com/programminghistorian/jekyll">Hosted on GitHub <img src="http://programminghistorian.org/images/GitHub-Mark-32px.png" title="GitHub logo"></a> 
+		<a href="https://github.com/programminghistorian/jekyll/commits/gh-pages/lessons/cleaning-ocrd-text-with-regular-expressions.md">Previous Versions</a>&nbsp;&#183;&nbsp;
+		<a href="../feedback">Give Feedback</a>
+</p>
+
+</footer>
+
+
+    </body>
+</html>

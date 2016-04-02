@@ -1,0 +1,793 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
+	<channel>
+		<title>Programming Historian</title>
+		<description>Introductory and intermediate programming lessons for humanists</description>		
+		<link>http://programminghistorian.org</link>
+		<atom:link href="http://programminghistorian.org/feed.xml" rel="self" type="application/rss+xml" />
+		
+			<item>
+				<title>Programming Historian Live, British Library</title>
+				        
+				
+					<description>&lt;p&gt;19 October 2015, the British Library, London.&lt;/p&gt;
+
+</description>
+				
+				<pubDate>Tue, 02 Jun 2015 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/posts/programming-historian-live-london</link>
+				<guid isPermaLink="true">http://programminghistorian.org/posts/programming-historian-live-london</guid>
+			</item>
+		
+			<item>
+				<title>Python Workshop in Edinburgh</title>
+				        
+				
+					<description>&lt;p&gt;&lt;strong&gt;Programming Historian&lt;/strong&gt; editor, Adam Crymble, will be leading a free ‘Python for Humanities Research’ workshop at the University of Edinburgh on 26 May 2015 as part of the ‘[Digital Day of Ideas][]’.&lt;/p&gt;
+
+</description>
+				
+				<pubDate>Sun, 17 May 2015 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/posts/edinburgh-workshop-2015</link>
+				<guid isPermaLink="true">http://programminghistorian.org/posts/edinburgh-workshop-2015</guid>
+			</item>
+		
+			<item>
+				<title>How We Moved the Programming Historian to GitHub Pages</title>
+				        
+				
+					<description>&lt;p&gt;Earlier this year, the editors of The Programming Historian decided to move the site from a Wordpress installation to a &lt;a href=&quot;http://en.wikipedia.org/wiki/Static_web_page&quot;&gt;static website&lt;/a&gt; hosted on &lt;a href=&quot;http://pages.github.com&quot;&gt;GitHub Pages&lt;/a&gt;. This post is a brief overview of how we made the switch, using some of the same tools and computational methods featured in our lessons.&lt;/p&gt;
+
+</description>
+				
+				<pubDate>Wed, 05 Nov 2014 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/posts/how-we-moved-to-github</link>
+				<guid isPermaLink="true">http://programminghistorian.org/posts/how-we-moved-to-github</guid>
+			</item>
+		
+			<item>
+				<title>New navigation — and some hiccups</title>
+				        
+				
+					<description>&lt;p&gt;As you may have noticed, we’ve changed the way we’ve structured lessons
+on the Programming Historian. We’ve been working to include lessons
+about a wider range of topics than our initial all-Python, all-the-time
+version, and so we’re experimenting with ways to organize them.&lt;/p&gt;
+
+</description>
+				
+				<pubDate>Sat, 24 Aug 2013 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/posts/new-navigation</link>
+				<guid isPermaLink="true">http://programminghistorian.org/posts/new-navigation</guid>
+			</item>
+		
+			<item>
+				<title>Welcome to PH2!</title>
+				        
+				
+					<description>&lt;p&gt;We’re so excited to launch the Programming Historian 2! This newest
+version is updated and fine-tuned, but it also reflects a different,
+more distributed and inclusive way of thinking about teaching code. In
+addition to a solid set of core Python tutorials, we’re soliciting
+material from our friends around the web — all of which will be
+peer-reviewed and credited. You’ll be able to use the tutorials
+sequentially, but you should also be able to “fork” the lessons,
+following paths that suit your interests and the needs of your project.&lt;/p&gt;
+
+</description>
+				
+				<pubDate>Wed, 27 Jun 2012 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/posts/welcome-to-ph2</link>
+				<guid isPermaLink="true">http://programminghistorian.org/posts/welcome-to-ph2</guid>
+			</item>
+		
+        
+          
+			<item>
+				<title>OCR with Tesseract and ScanTailor</title>
+				
+					<description>Page posted on the Programming Historian</description>
+				
+				<pubDate>Mon, 01 Jun 2015 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/lessons/OCR-with-Tesseract-and-ScanTailor</link>
+				<guid isPermaLink="true">http://programminghistorian.org/lessons/OCR-with-Tesseract-and-ScanTailor</guid>
+			</item>
+          
+        
+          
+			<item>
+				<title>Applied Archival Downloading with Wget</title>
+				
+					<description>Page posted on the Programming Historian</description>
+				
+				<pubDate>Fri, 13 Sep 2013 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/lessons/applied-archival-downloading-with-wget</link>
+				<guid isPermaLink="true">http://programminghistorian.org/lessons/applied-archival-downloading-with-wget</guid>
+			</item>
+          
+        
+          
+			<item>
+				<title>Automated Downloading with Wget</title>
+				
+					<description>Page posted on the Programming Historian</description>
+				
+				<pubDate>Wed, 27 Jun 2012 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/lessons/automated-downloading-with-wget</link>
+				<guid isPermaLink="true">http://programminghistorian.org/lessons/automated-downloading-with-wget</guid>
+			</item>
+          
+        
+          
+        
+          
+			<item>
+				<title>Cleaning Data with OpenRefine</title>
+				
+					<description>Page posted on the Programming Historian</description>
+				
+				<pubDate>Mon, 05 Aug 2013 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/lessons/cleaning-data-with-openrefine</link>
+				<guid isPermaLink="true">http://programminghistorian.org/lessons/cleaning-data-with-openrefine</guid>
+			</item>
+          
+        
+          
+			<item>
+				<title>Cleaning OCR’d text with Regular Expressions</title>
+				
+					<description>Page posted on the Programming Historian</description>
+				
+				<pubDate>Wed, 22 May 2013 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/lessons/cleaning-ocrd-text-with-regular-expressions</link>
+				<guid isPermaLink="true">http://programminghistorian.org/lessons/cleaning-ocrd-text-with-regular-expressions</guid>
+			</item>
+          
+        
+          
+			<item>
+				<title>Code Reuse and Modularity in Python</title>
+				
+					<description>Page posted on the Programming Historian</description>
+				
+				<pubDate>Tue, 17 Jul 2012 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/lessons/code-reuse-and-modularity</link>
+				<guid isPermaLink="true">http://programminghistorian.org/lessons/code-reuse-and-modularity</guid>
+			</item>
+          
+        
+          
+        
+          
+			<item>
+				<title>Corpus Analysis with Antconc</title>
+				
+					<description>Page posted on the Programming Historian</description>
+				
+				<pubDate>Fri, 19 Jun 2015 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/lessons/corpus-analysis-with-antconc</link>
+				<guid isPermaLink="true">http://programminghistorian.org/lessons/corpus-analysis-with-antconc</guid>
+			</item>
+          
+        
+          
+			<item>
+				<title>Counting Frequencies from Zotero Items</title>
+				
+					<description>Page posted on the Programming Historian</description>
+				
+				<pubDate>Mon, 01 Apr 2013 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/lessons/counting-frequencies-from-zotero-items</link>
+				<guid isPermaLink="true">http://programminghistorian.org/lessons/counting-frequencies-from-zotero-items</guid>
+			</item>
+          
+        
+          
+			<item>
+				<title>Counting Word Frequencies with Python</title>
+				
+					<description>Page posted on the Programming Historian</description>
+				
+				<pubDate>Tue, 17 Jul 2012 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/lessons/counting-frequencies</link>
+				<guid isPermaLink="true">http://programminghistorian.org/lessons/counting-frequencies</guid>
+			</item>
+          
+        
+          
+			<item>
+				<title>Creating an Omeka Exhibit</title>
+				
+					<description>Page posted on the Programming Historian</description>
+				
+				<pubDate>Wed, 24 Feb 2016 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/lessons/creating-an-omeka-exhibit</link>
+				<guid isPermaLink="true">http://programminghistorian.org/lessons/creating-an-omeka-exhibit</guid>
+			</item>
+          
+        
+          
+			<item>
+				<title>Creating and Viewing HTML Files with Python</title>
+				
+					<description>Page posted on the Programming Historian</description>
+				
+				<pubDate>Tue, 17 Jul 2012 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/lessons/creating-and-viewing-html-files-with-python</link>
+				<guid isPermaLink="true">http://programminghistorian.org/lessons/creating-and-viewing-html-files-with-python</guid>
+			</item>
+          
+        
+          
+			<item>
+				<title>From Hermeneutics to Data to Networks: Data Extraction and Network Visualization of Historical Sources</title>
+				
+					<description>Page posted on the Programming Historian</description>
+				
+				<pubDate>Wed, 18 Feb 2015 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/lessons/creating-network-diagrams-from-historical-sources</link>
+				<guid isPermaLink="true">http://programminghistorian.org/lessons/creating-network-diagrams-from-historical-sources</guid>
+			</item>
+          
+        
+          
+			<item>
+				<title>Creating New Items in Zotero</title>
+				
+					<description>Page posted on the Programming Historian</description>
+				
+				<pubDate>Mon, 01 Apr 2013 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/lessons/creating-new-items-in-zotero</link>
+				<guid isPermaLink="true">http://programminghistorian.org/lessons/creating-new-items-in-zotero</guid>
+			</item>
+          
+        
+          
+			<item>
+				<title>Data Mining the Internet Archive Collection</title>
+				
+					<description>The collections of the Internet Archive include many digitized
+historical sources. Many contain rich bibliographic data in a
+format called MARC. In this lesson, you&#39;ll learn how to use Python
+to automate the downloading of large numbers of MARC files from
+the Internet Archive and the parsing of MARC records for specific
+information such as authors, places of publication, and dates. The
+lesson can be applied more generally to other Internet Archive files
+and to MARC records found elsewhere.
+</description>
+				
+				<pubDate>Mon, 03 Mar 2014 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/lessons/data-mining-the-internet-archive</link>
+				<guid isPermaLink="true">http://programminghistorian.org/lessons/data-mining-the-internet-archive</guid>
+			</item>
+          
+        
+          
+			<item>
+				<title>Downloading Multiple Records Using Query Strings</title>
+				
+					<description>Page posted on the Programming Historian</description>
+				
+				<pubDate>Sun, 11 Nov 2012 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/lessons/downloading-multiple-records-using-query-strings</link>
+				<guid isPermaLink="true">http://programminghistorian.org/lessons/downloading-multiple-records-using-query-strings</guid>
+			</item>
+          
+        
+          
+			<item>
+				<title>Using Gazetteers to Extract Sets of Keywords from Free-Flowing Texts</title>
+				
+					<description>Page posted on the Programming Historian</description>
+				
+				<pubDate>Tue, 01 Dec 2015 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/lessons/extracting-keywords</link>
+				<guid isPermaLink="true">http://programminghistorian.org/lessons/extracting-keywords</guid>
+			</item>
+          
+        
+          
+        
+          
+        
+          
+			<item>
+				<title>From HTML to List of Words (part 1)</title>
+				
+					<description>Page posted on the Programming Historian</description>
+				
+				<pubDate>Tue, 17 Jul 2012 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/lessons/from-html-to-list-of-words-1</link>
+				<guid isPermaLink="true">http://programminghistorian.org/lessons/from-html-to-list-of-words-1</guid>
+			</item>
+          
+        
+          
+			<item>
+				<title>From HTML to List of Words (part 2)</title>
+				
+					<description>Page posted on the Programming Historian</description>
+				
+				<pubDate>Tue, 17 Jul 2012 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/lessons/from-html-to-list-of-words-2</link>
+				<guid isPermaLink="true">http://programminghistorian.org/lessons/from-html-to-list-of-words-2</guid>
+			</item>
+          
+        
+          
+			<item>
+				<title>Generating an Ordered Data Set from an OCR Text File</title>
+				
+					<description>Page posted on the Programming Historian</description>
+				
+				<pubDate>Tue, 25 Nov 2014 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/lessons/generating-an-ordered-data-set-from-an-OCR-text-file</link>
+				<guid isPermaLink="true">http://programminghistorian.org/lessons/generating-an-ordered-data-set-from-an-OCR-text-file</guid>
+			</item>
+          
+        
+          
+			<item>
+				<title>Georeferencing in QGIS 2.0</title>
+				
+					<description>Page posted on the Programming Historian</description>
+				
+				<pubDate>Fri, 13 Dec 2013 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/lessons/georeferencing-qgis</link>
+				<guid isPermaLink="true">http://programminghistorian.org/lessons/georeferencing-qgis</guid>
+			</item>
+          
+        
+          
+			<item>
+				<title>Getting Started with Markdown</title>
+				
+					<description>Page posted on the Programming Historian</description>
+				
+				<pubDate>Fri, 13 Nov 2015 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/lessons/getting-started-with-markdown</link>
+				<guid isPermaLink="true">http://programminghistorian.org/lessons/getting-started-with-markdown</guid>
+			</item>
+          
+        
+          
+			<item>
+				<title>Getting Started with Online Sources</title>
+				
+					<description>Page posted on the Programming Historian</description>
+				
+				<pubDate>Mon, 27 May 2013 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/lessons/deprecated/getting-started</link>
+				<guid isPermaLink="true">http://programminghistorian.org/lessons/deprecated/getting-started</guid>
+			</item>
+          
+        
+          
+			<item>
+				<title>Intro to Google Maps and Google Earth</title>
+				
+					<description>Page posted on the Programming Historian</description>
+				
+				<pubDate>Fri, 13 Dec 2013 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/lessons/googlemaps-googleearth</link>
+				<guid isPermaLink="true">http://programminghistorian.org/lessons/googlemaps-googleearth</guid>
+			</item>
+          
+        
+          
+			<item>
+				<title>Using SPARQL to access Linked Open Data</title>
+				
+					<description>Page posted on the Programming Historian</description>
+				
+				<pubDate>Tue, 24 Nov 2015 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/lessons/graph-databases-and-SPARQL</link>
+				<guid isPermaLink="true">http://programminghistorian.org/lessons/graph-databases-and-SPARQL</guid>
+			</item>
+          
+        
+          
+        
+          
+        
+          
+			<item>
+				<title>Installing Omeka</title>
+				
+					<description>Page posted on the Programming Historian</description>
+				
+				<pubDate>Wed, 10 Jun 2015 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/lessons/installing-omeka</link>
+				<guid isPermaLink="true">http://programminghistorian.org/lessons/installing-omeka</guid>
+			</item>
+          
+        
+          
+			<item>
+				<title>Installing Python Modules with pip</title>
+				
+					<description>Page posted on the Programming Historian</description>
+				
+				<pubDate>Mon, 06 May 2013 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/lessons/installing-python-modules-pip</link>
+				<guid isPermaLink="true">http://programminghistorian.org/lessons/installing-python-modules-pip</guid>
+			</item>
+          
+        
+          
+			<item>
+				<title>Introduction to the Bash Command Line</title>
+				
+					<description>Page posted on the Programming Historian</description>
+				
+				<pubDate>Sat, 20 Sep 2014 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/lessons/intro-to-bash</link>
+				<guid isPermaLink="true">http://programminghistorian.org/lessons/intro-to-bash</guid>
+			</item>
+          
+        
+          
+			<item>
+				<title>Intro to Beautiful Soup</title>
+				
+					<description>Page posted on the Programming Historian</description>
+				
+				<pubDate>Sun, 30 Dec 2012 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/lessons/intro-to-beautiful-soup</link>
+				<guid isPermaLink="true">http://programminghistorian.org/lessons/intro-to-beautiful-soup</guid>
+			</item>
+          
+        
+          
+			<item>
+				<title>Intro to the Zotero API</title>
+				
+					<description>Page posted on the Programming Historian</description>
+				
+				<pubDate>Mon, 01 Apr 2013 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/lessons/intro-to-the-zotero-api</link>
+				<guid isPermaLink="true">http://programminghistorian.org/lessons/intro-to-the-zotero-api</guid>
+			</item>
+          
+        
+          
+			<item>
+				<title>Python Introduction and Installation</title>
+				
+					<description>Page posted on the Programming Historian</description>
+				
+				<pubDate>Tue, 17 Jul 2012 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/lessons/introduction-and-installation</link>
+				<guid isPermaLink="true">http://programminghistorian.org/lessons/introduction-and-installation</guid>
+			</item>
+          
+        
+          
+			<item>
+				<title>Keywords in Context (Using n-grams) with Python</title>
+				
+					<description>Page posted on the Programming Historian</description>
+				
+				<pubDate>Tue, 17 Jul 2012 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/lessons/keywords-in-context-using-n-grams</link>
+				<guid isPermaLink="true">http://programminghistorian.org/lessons/keywords-in-context-using-n-grams</guid>
+			</item>
+          
+        
+          
+			<item>
+				<title>Keywords in Context (KWIC)</title>
+				
+					<description>Page posted on the Programming Historian</description>
+				
+				<pubDate>Thu, 04 Apr 2013 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/lessons/deprecated/keywords-in-context</link>
+				<guid isPermaLink="true">http://programminghistorian.org/lessons/deprecated/keywords-in-context</guid>
+			</item>
+          
+        
+          
+			<item>
+				<title>Setting up an Integrated Development Environment for Python (Linux)</title>
+				
+					<description>Page posted on the Programming Historian</description>
+				
+				<pubDate>Tue, 17 Jul 2012 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/lessons/linux-installation</link>
+				<guid isPermaLink="true">http://programminghistorian.org/lessons/linux-installation</guid>
+			</item>
+          
+        
+          
+			<item>
+				<title>Setting Up an Integrated Development Environment for Python (Mac)</title>
+				
+					<description>Page posted on the Programming Historian</description>
+				
+				<pubDate>Tue, 17 Jul 2012 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/lessons/mac-installation</link>
+				<guid isPermaLink="true">http://programminghistorian.org/lessons/mac-installation</guid>
+			</item>
+          
+        
+          
+			<item>
+				<title>Manipulating Strings in Python</title>
+				
+					<description>Page posted on the Programming Historian</description>
+				
+				<pubDate>Tue, 17 Jul 2012 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/lessons/manipulating-strings-in-python</link>
+				<guid isPermaLink="true">http://programminghistorian.org/lessons/manipulating-strings-in-python</guid>
+			</item>
+          
+        
+          
+			<item>
+				<title>Supervised Classification: The Naive Bayesian Returns to the Old Bailey
+</title>
+				
+					<description>Page posted on the Programming Historian</description>
+				
+				<pubDate>Wed, 17 Dec 2014 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/lessons/naive-bayesian</link>
+				<guid isPermaLink="true">http://programminghistorian.org/lessons/naive-bayesian</guid>
+			</item>
+          
+        
+          
+        
+          
+        
+          
+			<item>
+				<title>Normalizing Textual Data with Python</title>
+				
+					<description>Page posted on the Programming Historian</description>
+				
+				<pubDate>Tue, 17 Jul 2012 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/lessons/normalizing-data</link>
+				<guid isPermaLink="true">http://programminghistorian.org/lessons/normalizing-data</guid>
+			</item>
+          
+        
+          
+			<item>
+				<title>Output Data as an HTML File with Python</title>
+				
+					<description>Page posted on the Programming Historian</description>
+				
+				<pubDate>Tue, 17 Jul 2012 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/lessons/output-data-as-html-file</link>
+				<guid isPermaLink="true">http://programminghistorian.org/lessons/output-data-as-html-file</guid>
+			</item>
+          
+        
+          
+			<item>
+				<title>Output Keywords in Context in an HTML File with Python</title>
+				
+					<description>Page posted on the Programming Historian</description>
+				
+				<pubDate>Tue, 17 Jul 2012 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/lessons/output-keywords-in-context-in-html-file</link>
+				<guid isPermaLink="true">http://programminghistorian.org/lessons/output-keywords-in-context-in-html-file</guid>
+			</item>
+          
+        
+          
+			<item>
+				<title>Preserving Your Research Data</title>
+				
+					<description>Page posted on the Programming Historian</description>
+				
+				<pubDate>Wed, 30 Apr 2014 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/lessons/preserving-your-research-data</link>
+				<guid isPermaLink="true">http://programminghistorian.org/lessons/preserving-your-research-data</guid>
+			</item>
+          
+        
+          
+        
+          
+			<item>
+				<title>Python Functions and Methods</title>
+				
+					<description>Page posted on the Programming Historian</description>
+				
+				<pubDate></pubDate>
+				<link>http://programminghistorian.org/lessons/deprecated/python-functions-and-methods</link>
+				<guid isPermaLink="true">http://programminghistorian.org/lessons/deprecated/python-functions-and-methods</guid>
+			</item>
+          
+        
+          
+			<item>
+				<title>Installing QGIS 2.0 and Adding Layers</title>
+				
+					<description>Page posted on the Programming Historian</description>
+				
+				<pubDate>Fri, 13 Dec 2013 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/lessons/qgis-layers</link>
+				<guid isPermaLink="true">http://programminghistorian.org/lessons/qgis-layers</guid>
+			</item>
+          
+        
+          
+			<item>
+				<title>Counting and mining research data with Unix</title>
+				
+					<description>Page posted on the Programming Historian</description>
+				
+				<pubDate>Sat, 20 Sep 2014 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/lessons/research-data-with-unix</link>
+				<guid isPermaLink="true">http://programminghistorian.org/lessons/research-data-with-unix</guid>
+			</item>
+          
+        
+          
+        
+          
+			<item>
+				<title>Sustainable Authorship in Plain Text using Pandoc and Markdown</title>
+				
+					<description>Page posted on the Programming Historian</description>
+				
+				<pubDate>Wed, 19 Mar 2014 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/lessons/sustainable-authorship-in-plain-text-using-pandoc-and-markdown</link>
+				<guid isPermaLink="true">http://programminghistorian.org/lessons/sustainable-authorship-in-plain-text-using-pandoc-and-markdown</guid>
+			</item>
+          
+        
+          
+			<item>
+				<title>Getting Started with Topic Modeling and MALLET</title>
+				
+					<description>Page posted on the Programming Historian</description>
+				
+				<pubDate>Sun, 02 Sep 2012 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/lessons/topic-modeling-and-mallet</link>
+				<guid isPermaLink="true">http://programminghistorian.org/lessons/topic-modeling-and-mallet</guid>
+			</item>
+          
+        
+          
+			<item>
+				<title>Transliterating non-ASCII characters with Python</title>
+				
+					<description>Page posted on the Programming Historian</description>
+				
+				<pubDate>Fri, 04 Oct 2013 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/lessons/transliterating</link>
+				<guid isPermaLink="true">http://programminghistorian.org/lessons/transliterating</guid>
+			</item>
+          
+        
+          
+			<item>
+				<title>What to do if you get Stuck</title>
+				
+					<description>Page posted on the Programming Historian</description>
+				
+				<pubDate>Tue, 17 Jul 2012 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/troubleshooting</link>
+				<guid isPermaLink="true">http://programminghistorian.org/troubleshooting</guid>
+			</item>
+          
+        
+          
+			<item>
+				<title>Understanding Regular Expressions</title>
+				
+					<description>Page posted on the Programming Historian</description>
+				
+				<pubDate>Sat, 22 Jun 2013 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/lessons/understanding-regular-expressions</link>
+				<guid isPermaLink="true">http://programminghistorian.org/lessons/understanding-regular-expressions</guid>
+			</item>
+          
+        
+          
+			<item>
+				<title>Up and Running with Omeka.net</title>
+				
+					<description>Page posted on the Programming Historian</description>
+				
+				<pubDate>Wed, 17 Feb 2016 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/lessons/up-and-running-with-omeka</link>
+				<guid isPermaLink="true">http://programminghistorian.org/lessons/up-and-running-with-omeka</guid>
+			</item>
+          
+        
+          
+			<item>
+				<title>Creating New Vector Layers in QGIS 2.0</title>
+				
+					<description>Page posted on the Programming Historian</description>
+				
+				<pubDate>Fri, 13 Dec 2013 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/lessons/vector-layers-qgis</link>
+				<guid isPermaLink="true">http://programminghistorian.org/lessons/vector-layers-qgis</guid>
+			</item>
+          
+        
+          
+			<item>
+				<title>Understanding Web Pages and HTML</title>
+				
+					<description>Page posted on the Programming Historian</description>
+				
+				<pubDate>Tue, 17 Jul 2012 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/lessons/viewing-html-files</link>
+				<guid isPermaLink="true">http://programminghistorian.org/lessons/viewing-html-files</guid>
+			</item>
+          
+        
+          
+			<item>
+				<title>Setting Up an Integrated Development Environment for Python (Windows)</title>
+				
+					<description>Page posted on the Programming Historian</description>
+				
+				<pubDate>Tue, 17 Jul 2012 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/lessons/windows-installation</link>
+				<guid isPermaLink="true">http://programminghistorian.org/lessons/windows-installation</guid>
+			</item>
+          
+        
+          
+			<item>
+				<title>Working with Text Files in Python</title>
+				
+					<description>Page posted on the Programming Historian</description>
+				
+				<pubDate>Tue, 17 Jul 2012 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/lessons/working-with-text-files</link>
+				<guid isPermaLink="true">http://programminghistorian.org/lessons/working-with-text-files</guid>
+			</item>
+          
+        
+          
+			<item>
+				<title>Downloading Web Pages with Python</title>
+				
+					<description>Page posted on the Programming Historian</description>
+				
+				<pubDate>Tue, 17 Jul 2012 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/lessons/working-with-web-pages</link>
+				<guid isPermaLink="true">http://programminghistorian.org/lessons/working-with-web-pages</guid>
+			</item>
+          
+        
+          
+			<item>
+				<title>Your First Lesson</title>
+				
+					<description>Page posted on the Programming Historian</description>
+				
+				<pubDate>Thu, 04 Apr 2013 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/lessons/deprecated/your-first-lesson-2</link>
+				<guid isPermaLink="true">http://programminghistorian.org/lessons/deprecated/your-first-lesson-2</guid>
+			</item>
+          
+        
+          
+			<item>
+				<title>Using the Zotero API</title>
+				
+					<description>Page posted on the Programming Historian</description>
+				
+				<pubDate>Thu, 04 Apr 2013 00:00:00 +0000</pubDate>
+				<link>http://programminghistorian.org/lessons/deprecated/zotero-api</link>
+				<guid isPermaLink="true">http://programminghistorian.org/lessons/deprecated/zotero-api</guid>
+			</item>
+          
+        
+          
+        
+          
+        
+          
+        
+	</channel>
+</rss>

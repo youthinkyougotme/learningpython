@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <meta name="citation_title" content="Counting Word Frequencies with Python" />
+
+<meta name="citation_author" content="William J. Turkel" />
+
+<meta name="citation_author" content="Adam Crymble" />
+
+<meta name="citation_publication_date" content="2012-07-17" />
+<meta name="citation_journal_title" content="Programming Historian" />
+<meta name="citation_public_url" content="http://programminghistorian.org/lessons/counting-frequencies" />
+
+
+    <!-- Mobile viewport optimized: h5bp.com/viewport -->
+    <meta name="viewport" content="width=device-width">
+    
+    <!--Font awesome CDN -->
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,700%7CCrete+Round' rel='stylesheet' type='text/css'>
+    <link href="../css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/github.css">
+    <link href='../feed.xml.rss' rel='alternate' type='application/atom+xml'>
+    <title>Counting Word Frequencies with Python | Programming Historian</title>
+        
+    <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="../js/ui.js"></script>
+    <script type="text/javascript" src="../js/ext_links.js"></script>
+    <script type="text/javascript" src="../js/header_links.js"></script>
+    <script>
+      $(document).ready(function(){
+        $('.slide-trigger').collapsable();
+      });
+    </script>
+
+    <script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-2752866-8']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+  </head>
+
+
+
+  
+  
+  
+
+  <body>
+
+    <header role="banner">
+    <h1><a href="../index.html">The Programming Historian</a></h1>
+
+	        <div class="additional">
+          <ul id="menu-main-menu" class="additional">
+            <li class="menu-item"><a href="../index.html">About</a></li>
+            <li class="menu-item"><a href="index.html">Lessons</a></li>
+            <li class="menu-item"><a href="../contribute.html">Contribute</a></li>
+            <li class="menu-item"><a href="../project-team.html">Project Team</a></li>
+            <li class="menu-item"><a href="../blog.html">Blog</a></li>
+          </ul>
+        </div>
+
+	</header>
+
+	<div role="main">
+		<article>
+			<header>
+
+                
+				
+			    <p class="kicker">July 17, 2012</p>
+				<h1><a href="counting-frequencies.html">Counting Word Frequencies with Python</a></h1>
+                <p class="byline">By 
+  
+        
+             
+                   William J. Turkel
+             
+        
+             
+                   and Adam Crymble
+             
+        
+  
+  </p>
+
+				
+				
+				<ul class="credits">Reviewed by
+				
+                      
+                           
+                                 Miriam Posner
+                           
+                      
+                           
+                                 and Jim Clifford
+                           
+                      
+                
+                <br/>
+                
+                </ul>
+                
+				
+			</header>
+
+            
+            <p><em>Note:</em> You may find it easier to complete this lesson
+                if you have already completed the 
+                <a href="normalizing-data.html">previous lesson</a>
+                in this series.</p>
+            
+
+			<div class="content">
+	              <h2 id="lesson-goals">Lesson Goals</h2>
+
+<p>Your list is now clean enough that you can begin analyzing its contents
+in meaningful ways. Counting the frequency of specific words in the list
+can provide illustrative data. Python has an easy way to count
+frequencies, but it requires the use of a new type of variable: the
+<em>dictionary</em>. Before you begin working with a dictionary, consider the
+processes used to calculate frequencies in a list.</p>
+
+<h3 id="files-needed-for-this-lesson">Files Needed For This Lesson</h3>
+
+<ul>
+  <li><code class="highlighter-rouge">obo.py</code></li>
+</ul>
+
+<p>If you do not have these files, you can
+download programming-historian-3, a (<a href="../assets/programming-historian3.zip">zip</a>) file from the previous lesson.</p>
+
+<h2 id="frequencies">Frequencies</h2>
+
+<p>Now we want to count the frequency of each word in our list. You’ve
+already seen that it is easy to process a list by using a <code class="highlighter-rouge">for</code> loop. Try
+saving and executing the following example. Recall that <code class="highlighter-rouge">+=</code> tells the
+program to append something to the end of an existing variable.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># count-list-items-1.py</span>
+
+<span class="n">wordstring</span> <span class="o">=</span> <span class="s">'it was the best of times it was the worst of times '</span>
+<span class="n">wordstring</span> <span class="o">+=</span> <span class="s">'it was the age of wisdom it was the age of foolishness'</span>
+
+<span class="n">wordlist</span> <span class="o">=</span> <span class="n">wordstring</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+
+<span class="n">wordfreq</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">wordlist</span><span class="p">:</span>
+    <span class="n">wordfreq</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">wordlist</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">w</span><span class="p">))</span>
+
+<span class="k">print</span> <span class="s">"String</span><span class="se">\n</span><span class="s">"</span> <span class="o">+</span> <span class="n">wordstring</span> <span class="o">+</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span>
+<span class="k">print</span> <span class="s">"List</span><span class="se">\n</span><span class="s">"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">wordlist</span><span class="p">)</span> <span class="o">+</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span>
+<span class="k">print</span> <span class="s">"Frequencies</span><span class="se">\n</span><span class="s">"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">wordfreq</span><span class="p">)</span> <span class="o">+</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span>
+<span class="k">print</span> <span class="s">"Pairs</span><span class="se">\n</span><span class="s">"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">wordlist</span><span class="p">,</span> <span class="n">wordfreq</span><span class="p">))</span>
+</code></pre>
+</div>
+
+<p>Here, we start with a string and split it into a list, as we’ve done
+before. We then create an (initially empty) list called <em>wordfreq</em>, go
+through each word in the <em>wordlist</em>, and count the number of times that
+word appears in the whole list. We then add each word’s count to our
+<em>wordfreq</em> list. Using the <code class="highlighter-rouge">zip</code> operation, we are able to match the first
+word of the word list with the first number in the frequency list, the
+second word and second frequency, and so on. We end up with a list of
+word and frequency pairs. The <code class="highlighter-rouge">str</code> function converts any object to a
+string so that it can be printed.</p>
+
+<p>You should get something like this:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">String</span>
+<span class="n">it</span> <span class="n">was</span> <span class="n">the</span> <span class="n">best</span> <span class="n">of</span> <span class="n">times</span> <span class="n">it</span> <span class="n">was</span> <span class="n">the</span> <span class="n">worst</span> <span class="n">of</span> <span class="n">times</span> <span class="n">it</span> <span class="n">was</span> <span class="n">the</span> <span class="n">age</span> <span class="n">of</span> <span class="n">wisdom</span> <span class="n">it</span> <span class="n">was</span> <span class="n">the</span> <span class="n">age</span> <span class="n">of</span> <span class="n">foolishness</span>
+
+<span class="n">List</span>
+<span class="p">[</span><span class="s">'it'</span><span class="p">,</span> <span class="s">'was'</span><span class="p">,</span> <span class="s">'the'</span><span class="p">,</span> <span class="s">'best'</span><span class="p">,</span> <span class="s">'of'</span><span class="p">,</span> <span class="s">'times'</span><span class="p">,</span> <span class="s">'it'</span><span class="p">,</span> <span class="s">'was'</span><span class="p">,</span>
+<span class="s">'the'</span><span class="p">,</span> <span class="s">'worst'</span><span class="p">,</span> <span class="s">'of'</span><span class="p">,</span> <span class="s">'times'</span><span class="p">,</span> <span class="s">'it'</span><span class="p">,</span> <span class="s">'was'</span><span class="p">,</span> <span class="s">'the'</span><span class="p">,</span> <span class="s">'age'</span><span class="p">,</span>
+<span class="s">'of'</span><span class="p">,</span> <span class="s">'wisdom'</span><span class="p">,</span> <span class="s">'it'</span><span class="p">,</span> <span class="s">'was'</span><span class="p">,</span> <span class="s">'the'</span><span class="p">,</span> <span class="s">'age'</span><span class="p">,</span> <span class="s">'of'</span><span class="p">,</span>
+<span class="s">'foolishness'</span><span class="p">]</span>
+
+<span class="n">Frequencies</span>
+<span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span>
+<span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+
+<span class="n">Pairs</span>
+<span class="p">[(</span><span class="s">'it'</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="s">'was'</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="s">'the'</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="s">'best'</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s">'of'</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+<span class="p">(</span><span class="s">'times'</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="s">'it'</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="s">'was'</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="s">'the'</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+<span class="p">(</span><span class="s">'worst'</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s">'of'</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="s">'times'</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="s">'it'</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+<span class="p">(</span><span class="s">'was'</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="s">'the'</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="s">'age'</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="s">'of'</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+<span class="p">(</span><span class="s">'wisdom'</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s">'it'</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="s">'was'</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="s">'the'</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+<span class="p">(</span><span class="s">'age'</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="s">'of'</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="s">'foolishness'</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span>
+</code></pre>
+</div>
+
+<p>It will pay to study the above code until you understand it before
+moving on.</p>
+
+<p>Python also includes a very convenient tool called a <a href="http://docs.python.org/tutorial/datastructures.html#list-comprehensions">list
+comprehension</a>, which can be used to do the same thing as the <code class="highlighter-rouge">for</code> loop
+more economically.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># count-list-items-1.py</span>
+
+<span class="n">wordstring</span> <span class="o">=</span> <span class="s">'it was the best of times it was the worst of times '</span>
+<span class="n">wordstring</span> <span class="o">+=</span> <span class="s">'it was the age of wisdom it was the age of foolishness'</span>
+<span class="n">wordlist</span> <span class="o">=</span> <span class="n">wordstring</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+
+<span class="n">wordfreq</span> <span class="o">=</span> <span class="p">[</span><span class="n">wordlist</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">wordlist</span><span class="p">]</span> <span class="c"># a list comprehension</span>
+
+<span class="k">print</span> <span class="s">"String</span><span class="se">\n</span><span class="s">"</span> <span class="o">+</span> <span class="n">wordstring</span> <span class="o">+</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span>
+<span class="k">print</span> <span class="s">"List</span><span class="se">\n</span><span class="s">"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">wordlist</span><span class="p">)</span> <span class="o">+</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span>
+<span class="k">print</span> <span class="s">"Frequencies</span><span class="se">\n</span><span class="s">"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">wordfreq</span><span class="p">)</span> <span class="o">+</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span>
+<span class="k">print</span> <span class="s">"Pairs</span><span class="se">\n</span><span class="s">"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">wordlist</span><span class="p">,</span> <span class="n">wordfreq</span><span class="p">))</span>
+</code></pre>
+</div>
+
+<p>If you study this list comprehension carefully, you will discover that
+it does exactly the same thing as the <code class="highlighter-rouge">for</code> loop in the previous example,
+but in a condensed manner. Either method will work fine, so use the
+version that you are most comfortable with.</p>
+
+<p>At this point we have a list of pairs, where each pair contains a word
+and its frequency. This list is a bit redundant. If ‘the’ occurs 500
+times, then this list contains five hundred copies of the pair (‘the’,
+500). The list is also ordered by the words in the original text, rather
+than listing the words in order from most to least frequent. We can
+solve both problems by converting it into a dictionary, then printing
+out the dictionary in order from the most to the least commonly
+occurring item.</p>
+
+<h2 id="python-dictionaries">Python Dictionaries</h2>
+
+<p>Both strings and lists are sequentially ordered, which means that you
+can access their contents by using an index, a number that starts at 0.
+If you have a list containing strings, you can use a pair of indexes to
+access first a particular string in the list, and then a particular
+character within that string. Study the examples below.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">s</span> <span class="o">=</span> <span class="s">'hello world'</span>
+<span class="k">print</span> <span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="o">-&gt;</span> <span class="n">h</span>
+
+<span class="k">print</span> <span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="o">-&gt;</span> <span class="n">e</span>
+
+<span class="n">m</span> <span class="o">=</span> <span class="p">[</span><span class="s">'hello'</span><span class="p">,</span> <span class="s">'world'</span><span class="p">]</span>
+<span class="k">print</span> <span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="o">-&gt;</span> <span class="n">hello</span>
+
+<span class="k">print</span> <span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="o">-&gt;</span> <span class="n">world</span>
+
+<span class="k">print</span> <span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+<span class="o">-&gt;</span> <span class="n">e</span>
+
+<span class="k">print</span> <span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="o">-&gt;</span> <span class="n">w</span>
+</code></pre>
+</div>
+
+<p>To keep track of frequencies, we’re going to use another type of Python
+object, a dictionary. The dictionary is an <em>unordered</em> collection of
+objects. That means that you can’t use an index to retrieve elements
+from it. You can, however, look them up by using a key (hence the name
+“dictionary”). Study the following example.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="s">'world'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">'hello'</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+<span class="k">print</span> <span class="n">d</span><span class="p">[</span><span class="s">'hello'</span><span class="p">]</span>
+<span class="o">-&gt;</span> <span class="mi">0</span>
+
+<span class="k">print</span> <span class="n">d</span><span class="p">[</span><span class="s">'world'</span><span class="p">]</span>
+<span class="o">-&gt;</span> <span class="mi">1</span>
+
+<span class="k">print</span> <span class="n">d</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="o">-&gt;</span> <span class="p">[</span><span class="s">'world'</span><span class="p">,</span> <span class="s">'hello'</span><span class="p">]</span>
+</code></pre>
+</div>
+
+<p>Dictionaries might be a bit confusing to a new programmer. Try to think
+of it like a language dictionary. If you don’t know (or remember)
+exactly how “bijection” differs from “surjection” you can look the two
+terms up in the <em>Oxford English Dictionary</em>. The same principle applies
+when you <code class="highlighter-rouge">print d['hello'];</code> except, rather than print a literary
+definition it prints the value associated with the keyword ‘hello’, as
+defined by you when you created the dictionary named <em>d</em>. In this case,
+that value is “0”.</p>
+
+<p>Note that you use curly braces to define a dictionary, but square
+brackets to access things within it. The <code class="highlighter-rouge">keys</code> operation returns a list
+of keys that are defined in the dictionary.</p>
+
+<h2 id="word-frequency-pairs">Word-Frequency Pairs</h2>
+
+<p>Building on what we have so far, we want a function that can convert a
+list of words into a dictionary of word-frequency pairs. The only new
+command that we will need is <code class="highlighter-rouge">dict</code>, which makes a dictionary from a list
+of pairs. Copy the following and add it to the <code class="highlighter-rouge">obo.py</code> module.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># Given a list of words, return a dictionary of</span>
+<span class="c"># word-frequency pairs.</span>
+
+<span class="k">def</span> <span class="nf">wordListToFreqDict</span><span class="p">(</span><span class="n">wordlist</span><span class="p">):</span>
+    <span class="n">wordfreq</span> <span class="o">=</span> <span class="p">[</span><span class="n">wordlist</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">wordlist</span><span class="p">]</span>
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">wordlist</span><span class="p">,</span><span class="n">wordfreq</span><span class="p">))</span>
+</code></pre>
+</div>
+
+<p>We are also going to want a function that can sort a dictionary of
+word-frequency pairs by descending frequency. Copy this and add it to
+the <code class="highlighter-rouge">obo.py</code> module, too.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># Sort a dictionary of word-frequency pairs in</span>
+<span class="c"># order of descending frequency.</span>
+
+<span class="k">def</span> <span class="nf">sortFreqDict</span><span class="p">(</span><span class="n">freqdict</span><span class="p">):</span>
+    <span class="n">aux</span> <span class="o">=</span> <span class="p">[(</span><span class="n">freqdict</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">key</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">freqdict</span><span class="p">]</span>
+    <span class="n">aux</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+    <span class="n">aux</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">aux</span>
+</code></pre>
+</div>
+
+<p>We can now write a program which takes a URL and returns word-frequency
+pairs for the web page, sorted in order of descending frequency. Copy
+the following program into Komodo Edit, save it as <code class="highlighter-rouge">html-to-freq.py</code> and
+execute it. Study the program and its output carefully before
+continuing.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c">#html-to-freq.py</span>
+
+<span class="kn">import</span> <span class="nn">urllib2</span><span class="o">,</span> <span class="nn">obo</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">'http://www.oldbaileyonline.org/print.jsp?div=t17800628-33'</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="n">html</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="n">text</span> <span class="o">=</span> <span class="n">obo</span><span class="o">.</span><span class="n">stripTags</span><span class="p">(</span><span class="n">html</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+<span class="n">wordlist</span> <span class="o">=</span> <span class="n">obo</span><span class="o">.</span><span class="n">stripNonAlphaNum</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+<span class="n">dictionary</span> <span class="o">=</span> <span class="n">obo</span><span class="o">.</span><span class="n">wordListToFreqDict</span><span class="p">(</span><span class="n">wordlist</span><span class="p">)</span>
+<span class="n">sorteddict</span> <span class="o">=</span> <span class="n">obo</span><span class="o">.</span><span class="n">sortFreqDict</span><span class="p">(</span><span class="n">dictionary</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">sorteddict</span><span class="p">:</span> <span class="k">print</span> <span class="nb">str</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<h2 id="removing-stop-words">Removing Stop Words</h2>
+
+<p>When we look at the output of our <code class="highlighter-rouge">html-to-freq.py</code> program, we see that
+a lot of the most frequent words in the text are function words like
+“the”, “of”, “to” and “and”.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">(</span><span class="mi">192</span><span class="p">,</span> <span class="s">'the'</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">105</span><span class="p">,</span> <span class="s">'i'</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">74</span><span class="p">,</span> <span class="s">'to'</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">71</span><span class="p">,</span> <span class="s">'was'</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">67</span><span class="p">,</span> <span class="s">'of'</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">62</span><span class="p">,</span> <span class="s">'in'</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">53</span><span class="p">,</span> <span class="s">'a'</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">52</span><span class="p">,</span> <span class="s">'and'</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="s">'you'</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="s">'he'</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="s">'that'</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">39</span><span class="p">,</span> <span class="s">'his'</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">36</span><span class="p">,</span> <span class="s">'it'</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>These words are usually the most common in any English language text, so
+they don’t tell us much that is distinctive about Bowsey’s trial. In
+general, we are more interested in finding the words that will help us
+differentiate this text from texts that are about different subjects. So
+we’re going to filter out the common function words. Words that are
+ignored like this are known as stop words. We’re going to use the
+following list, adapted from one posted online by <a href="http://ir.dcs.gla.ac.uk/resources/linguistic_utils/stop_words">computer scientists
+at Glasgow</a>. Copy it and put it at the beginning of the <code class="highlighter-rouge">obo.py</code>
+library that you are building.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">stopwords</span> <span class="o">=</span> <span class="p">[</span><span class="s">'a'</span><span class="p">,</span> <span class="s">'about'</span><span class="p">,</span> <span class="s">'above'</span><span class="p">,</span> <span class="s">'across'</span><span class="p">,</span> <span class="s">'after'</span><span class="p">,</span> <span class="s">'afterwards'</span><span class="p">]</span>
+<span class="n">stopwords</span> <span class="o">+=</span> <span class="p">[</span><span class="s">'again'</span><span class="p">,</span> <span class="s">'against'</span><span class="p">,</span> <span class="s">'all'</span><span class="p">,</span> <span class="s">'almost'</span><span class="p">,</span> <span class="s">'alone'</span><span class="p">,</span> <span class="s">'along'</span><span class="p">]</span>
+<span class="n">stopwords</span> <span class="o">+=</span> <span class="p">[</span><span class="s">'already'</span><span class="p">,</span> <span class="s">'also'</span><span class="p">,</span> <span class="s">'although'</span><span class="p">,</span> <span class="s">'always'</span><span class="p">,</span> <span class="s">'am'</span><span class="p">,</span> <span class="s">'among'</span><span class="p">]</span>
+<span class="n">stopwords</span> <span class="o">+=</span> <span class="p">[</span><span class="s">'amongst'</span><span class="p">,</span> <span class="s">'amoungst'</span><span class="p">,</span> <span class="s">'amount'</span><span class="p">,</span> <span class="s">'an'</span><span class="p">,</span> <span class="s">'and'</span><span class="p">,</span> <span class="s">'another'</span><span class="p">]</span>
+<span class="n">stopwords</span> <span class="o">+=</span> <span class="p">[</span><span class="s">'any'</span><span class="p">,</span> <span class="s">'anyhow'</span><span class="p">,</span> <span class="s">'anyone'</span><span class="p">,</span> <span class="s">'anything'</span><span class="p">,</span> <span class="s">'anyway'</span><span class="p">,</span> <span class="s">'anywhere'</span><span class="p">]</span>
+<span class="n">stopwords</span> <span class="o">+=</span> <span class="p">[</span><span class="s">'are'</span><span class="p">,</span> <span class="s">'around'</span><span class="p">,</span> <span class="s">'as'</span><span class="p">,</span> <span class="s">'at'</span><span class="p">,</span> <span class="s">'back'</span><span class="p">,</span> <span class="s">'be'</span><span class="p">,</span> <span class="s">'became'</span><span class="p">]</span>
+<span class="n">stopwords</span> <span class="o">+=</span> <span class="p">[</span><span class="s">'because'</span><span class="p">,</span> <span class="s">'become'</span><span class="p">,</span> <span class="s">'becomes'</span><span class="p">,</span> <span class="s">'becoming'</span><span class="p">,</span> <span class="s">'been'</span><span class="p">]</span>
+<span class="n">stopwords</span> <span class="o">+=</span> <span class="p">[</span><span class="s">'before'</span><span class="p">,</span> <span class="s">'beforehand'</span><span class="p">,</span> <span class="s">'behind'</span><span class="p">,</span> <span class="s">'being'</span><span class="p">,</span> <span class="s">'below'</span><span class="p">]</span>
+<span class="n">stopwords</span> <span class="o">+=</span> <span class="p">[</span><span class="s">'beside'</span><span class="p">,</span> <span class="s">'besides'</span><span class="p">,</span> <span class="s">'between'</span><span class="p">,</span> <span class="s">'beyond'</span><span class="p">,</span> <span class="s">'bill'</span><span class="p">,</span> <span class="s">'both'</span><span class="p">]</span>
+<span class="n">stopwords</span> <span class="o">+=</span> <span class="p">[</span><span class="s">'bottom'</span><span class="p">,</span> <span class="s">'but'</span><span class="p">,</span> <span class="s">'by'</span><span class="p">,</span> <span class="s">'call'</span><span class="p">,</span> <span class="s">'can'</span><span class="p">,</span> <span class="s">'cannot'</span><span class="p">,</span> <span class="s">'cant'</span><span class="p">]</span>
+<span class="n">stopwords</span> <span class="o">+=</span> <span class="p">[</span><span class="s">'co'</span><span class="p">,</span> <span class="s">'computer'</span><span class="p">,</span> <span class="s">'con'</span><span class="p">,</span> <span class="s">'could'</span><span class="p">,</span> <span class="s">'couldnt'</span><span class="p">,</span> <span class="s">'cry'</span><span class="p">,</span> <span class="s">'de'</span><span class="p">]</span>
+<span class="n">stopwords</span> <span class="o">+=</span> <span class="p">[</span><span class="s">'describe'</span><span class="p">,</span> <span class="s">'detail'</span><span class="p">,</span> <span class="s">'did'</span><span class="p">,</span> <span class="s">'do'</span><span class="p">,</span> <span class="s">'done'</span><span class="p">,</span> <span class="s">'down'</span><span class="p">,</span> <span class="s">'due'</span><span class="p">]</span>
+<span class="n">stopwords</span> <span class="o">+=</span> <span class="p">[</span><span class="s">'during'</span><span class="p">,</span> <span class="s">'each'</span><span class="p">,</span> <span class="s">'eg'</span><span class="p">,</span> <span class="s">'eight'</span><span class="p">,</span> <span class="s">'either'</span><span class="p">,</span> <span class="s">'eleven'</span><span class="p">,</span> <span class="s">'else'</span><span class="p">]</span>
+<span class="n">stopwords</span> <span class="o">+=</span> <span class="p">[</span><span class="s">'elsewhere'</span><span class="p">,</span> <span class="s">'empty'</span><span class="p">,</span> <span class="s">'enough'</span><span class="p">,</span> <span class="s">'etc'</span><span class="p">,</span> <span class="s">'even'</span><span class="p">,</span> <span class="s">'ever'</span><span class="p">]</span>
+<span class="n">stopwords</span> <span class="o">+=</span> <span class="p">[</span><span class="s">'every'</span><span class="p">,</span> <span class="s">'everyone'</span><span class="p">,</span> <span class="s">'everything'</span><span class="p">,</span> <span class="s">'everywhere'</span><span class="p">,</span> <span class="s">'except'</span><span class="p">]</span>
+<span class="n">stopwords</span> <span class="o">+=</span> <span class="p">[</span><span class="s">'few'</span><span class="p">,</span> <span class="s">'fifteen'</span><span class="p">,</span> <span class="s">'fifty'</span><span class="p">,</span> <span class="s">'fill'</span><span class="p">,</span> <span class="s">'find'</span><span class="p">,</span> <span class="s">'fire'</span><span class="p">,</span> <span class="s">'first'</span><span class="p">]</span>
+<span class="n">stopwords</span> <span class="o">+=</span> <span class="p">[</span><span class="s">'five'</span><span class="p">,</span> <span class="s">'for'</span><span class="p">,</span> <span class="s">'former'</span><span class="p">,</span> <span class="s">'formerly'</span><span class="p">,</span> <span class="s">'forty'</span><span class="p">,</span> <span class="s">'found'</span><span class="p">]</span>
+<span class="n">stopwords</span> <span class="o">+=</span> <span class="p">[</span><span class="s">'four'</span><span class="p">,</span> <span class="s">'from'</span><span class="p">,</span> <span class="s">'front'</span><span class="p">,</span> <span class="s">'full'</span><span class="p">,</span> <span class="s">'further'</span><span class="p">,</span> <span class="s">'get'</span><span class="p">,</span> <span class="s">'give'</span><span class="p">]</span>
+<span class="n">stopwords</span> <span class="o">+=</span> <span class="p">[</span><span class="s">'go'</span><span class="p">,</span> <span class="s">'had'</span><span class="p">,</span> <span class="s">'has'</span><span class="p">,</span> <span class="s">'hasnt'</span><span class="p">,</span> <span class="s">'have'</span><span class="p">,</span> <span class="s">'he'</span><span class="p">,</span> <span class="s">'hence'</span><span class="p">,</span> <span class="s">'her'</span><span class="p">]</span>
+<span class="n">stopwords</span> <span class="o">+=</span> <span class="p">[</span><span class="s">'here'</span><span class="p">,</span> <span class="s">'hereafter'</span><span class="p">,</span> <span class="s">'hereby'</span><span class="p">,</span> <span class="s">'herein'</span><span class="p">,</span> <span class="s">'hereupon'</span><span class="p">,</span> <span class="s">'hers'</span><span class="p">]</span>
+<span class="n">stopwords</span> <span class="o">+=</span> <span class="p">[</span><span class="s">'herself'</span><span class="p">,</span> <span class="s">'him'</span><span class="p">,</span> <span class="s">'himself'</span><span class="p">,</span> <span class="s">'his'</span><span class="p">,</span> <span class="s">'how'</span><span class="p">,</span> <span class="s">'however'</span><span class="p">]</span>
+<span class="n">stopwords</span> <span class="o">+=</span> <span class="p">[</span><span class="s">'hundred'</span><span class="p">,</span> <span class="s">'i'</span><span class="p">,</span> <span class="s">'ie'</span><span class="p">,</span> <span class="s">'if'</span><span class="p">,</span> <span class="s">'in'</span><span class="p">,</span> <span class="s">'inc'</span><span class="p">,</span> <span class="s">'indeed'</span><span class="p">]</span>
+<span class="n">stopwords</span> <span class="o">+=</span> <span class="p">[</span><span class="s">'interest'</span><span class="p">,</span> <span class="s">'into'</span><span class="p">,</span> <span class="s">'is'</span><span class="p">,</span> <span class="s">'it'</span><span class="p">,</span> <span class="s">'its'</span><span class="p">,</span> <span class="s">'itself'</span><span class="p">,</span> <span class="s">'keep'</span><span class="p">]</span>
+<span class="n">stopwords</span> <span class="o">+=</span> <span class="p">[</span><span class="s">'last'</span><span class="p">,</span> <span class="s">'latter'</span><span class="p">,</span> <span class="s">'latterly'</span><span class="p">,</span> <span class="s">'least'</span><span class="p">,</span> <span class="s">'less'</span><span class="p">,</span> <span class="s">'ltd'</span><span class="p">,</span> <span class="s">'made'</span><span class="p">]</span>
+<span class="n">stopwords</span> <span class="o">+=</span> <span class="p">[</span><span class="s">'many'</span><span class="p">,</span> <span class="s">'may'</span><span class="p">,</span> <span class="s">'me'</span><span class="p">,</span> <span class="s">'meanwhile'</span><span class="p">,</span> <span class="s">'might'</span><span class="p">,</span> <span class="s">'mill'</span><span class="p">,</span> <span class="s">'mine'</span><span class="p">]</span>
+<span class="n">stopwords</span> <span class="o">+=</span> <span class="p">[</span><span class="s">'more'</span><span class="p">,</span> <span class="s">'moreover'</span><span class="p">,</span> <span class="s">'most'</span><span class="p">,</span> <span class="s">'mostly'</span><span class="p">,</span> <span class="s">'move'</span><span class="p">,</span> <span class="s">'much'</span><span class="p">]</span>
+<span class="n">stopwords</span> <span class="o">+=</span> <span class="p">[</span><span class="s">'must'</span><span class="p">,</span> <span class="s">'my'</span><span class="p">,</span> <span class="s">'myself'</span><span class="p">,</span> <span class="s">'name'</span><span class="p">,</span> <span class="s">'namely'</span><span class="p">,</span> <span class="s">'neither'</span><span class="p">,</span> <span class="s">'never'</span><span class="p">]</span>
+<span class="n">stopwords</span> <span class="o">+=</span> <span class="p">[</span><span class="s">'nevertheless'</span><span class="p">,</span> <span class="s">'next'</span><span class="p">,</span> <span class="s">'nine'</span><span class="p">,</span> <span class="s">'no'</span><span class="p">,</span> <span class="s">'nobody'</span><span class="p">,</span> <span class="s">'none'</span><span class="p">]</span>
+<span class="n">stopwords</span> <span class="o">+=</span> <span class="p">[</span><span class="s">'noone'</span><span class="p">,</span> <span class="s">'nor'</span><span class="p">,</span> <span class="s">'not'</span><span class="p">,</span> <span class="s">'nothing'</span><span class="p">,</span> <span class="s">'now'</span><span class="p">,</span> <span class="s">'nowhere'</span><span class="p">,</span> <span class="s">'of'</span><span class="p">]</span>
+<span class="n">stopwords</span> <span class="o">+=</span> <span class="p">[</span><span class="s">'off'</span><span class="p">,</span> <span class="s">'often'</span><span class="p">,</span> <span class="s">'on'</span><span class="p">,</span><span class="s">'once'</span><span class="p">,</span> <span class="s">'one'</span><span class="p">,</span> <span class="s">'only'</span><span class="p">,</span> <span class="s">'onto'</span><span class="p">,</span> <span class="s">'or'</span><span class="p">]</span>
+<span class="n">stopwords</span> <span class="o">+=</span> <span class="p">[</span><span class="s">'other'</span><span class="p">,</span> <span class="s">'others'</span><span class="p">,</span> <span class="s">'otherwise'</span><span class="p">,</span> <span class="s">'our'</span><span class="p">,</span> <span class="s">'ours'</span><span class="p">,</span> <span class="s">'ourselves'</span><span class="p">]</span>
+<span class="n">stopwords</span> <span class="o">+=</span> <span class="p">[</span><span class="s">'out'</span><span class="p">,</span> <span class="s">'over'</span><span class="p">,</span> <span class="s">'own'</span><span class="p">,</span> <span class="s">'part'</span><span class="p">,</span> <span class="s">'per'</span><span class="p">,</span> <span class="s">'perhaps'</span><span class="p">,</span> <span class="s">'please'</span><span class="p">]</span>
+<span class="n">stopwords</span> <span class="o">+=</span> <span class="p">[</span><span class="s">'put'</span><span class="p">,</span> <span class="s">'rather'</span><span class="p">,</span> <span class="s">'re'</span><span class="p">,</span> <span class="s">'s'</span><span class="p">,</span> <span class="s">'same'</span><span class="p">,</span> <span class="s">'see'</span><span class="p">,</span> <span class="s">'seem'</span><span class="p">,</span> <span class="s">'seemed'</span><span class="p">]</span>
+<span class="n">stopwords</span> <span class="o">+=</span> <span class="p">[</span><span class="s">'seeming'</span><span class="p">,</span> <span class="s">'seems'</span><span class="p">,</span> <span class="s">'serious'</span><span class="p">,</span> <span class="s">'several'</span><span class="p">,</span> <span class="s">'she'</span><span class="p">,</span> <span class="s">'should'</span><span class="p">]</span>
+<span class="n">stopwords</span> <span class="o">+=</span> <span class="p">[</span><span class="s">'show'</span><span class="p">,</span> <span class="s">'side'</span><span class="p">,</span> <span class="s">'since'</span><span class="p">,</span> <span class="s">'sincere'</span><span class="p">,</span> <span class="s">'six'</span><span class="p">,</span> <span class="s">'sixty'</span><span class="p">,</span> <span class="s">'so'</span><span class="p">]</span>
+<span class="n">stopwords</span> <span class="o">+=</span> <span class="p">[</span><span class="s">'some'</span><span class="p">,</span> <span class="s">'somehow'</span><span class="p">,</span> <span class="s">'someone'</span><span class="p">,</span> <span class="s">'something'</span><span class="p">,</span> <span class="s">'sometime'</span><span class="p">]</span>
+<span class="n">stopwords</span> <span class="o">+=</span> <span class="p">[</span><span class="s">'sometimes'</span><span class="p">,</span> <span class="s">'somewhere'</span><span class="p">,</span> <span class="s">'still'</span><span class="p">,</span> <span class="s">'such'</span><span class="p">,</span> <span class="s">'system'</span><span class="p">,</span> <span class="s">'take'</span><span class="p">]</span>
+<span class="n">stopwords</span> <span class="o">+=</span> <span class="p">[</span><span class="s">'ten'</span><span class="p">,</span> <span class="s">'than'</span><span class="p">,</span> <span class="s">'that'</span><span class="p">,</span> <span class="s">'the'</span><span class="p">,</span> <span class="s">'their'</span><span class="p">,</span> <span class="s">'them'</span><span class="p">,</span> <span class="s">'themselves'</span><span class="p">]</span>
+<span class="n">stopwords</span> <span class="o">+=</span> <span class="p">[</span><span class="s">'then'</span><span class="p">,</span> <span class="s">'thence'</span><span class="p">,</span> <span class="s">'there'</span><span class="p">,</span> <span class="s">'thereafter'</span><span class="p">,</span> <span class="s">'thereby'</span><span class="p">]</span>
+<span class="n">stopwords</span> <span class="o">+=</span> <span class="p">[</span><span class="s">'therefore'</span><span class="p">,</span> <span class="s">'therein'</span><span class="p">,</span> <span class="s">'thereupon'</span><span class="p">,</span> <span class="s">'these'</span><span class="p">,</span> <span class="s">'they'</span><span class="p">]</span>
+<span class="n">stopwords</span> <span class="o">+=</span> <span class="p">[</span><span class="s">'thick'</span><span class="p">,</span> <span class="s">'thin'</span><span class="p">,</span> <span class="s">'third'</span><span class="p">,</span> <span class="s">'this'</span><span class="p">,</span> <span class="s">'those'</span><span class="p">,</span> <span class="s">'though'</span><span class="p">,</span> <span class="s">'three'</span><span class="p">]</span>
+<span class="n">stopwords</span> <span class="o">+=</span> <span class="p">[</span><span class="s">'three'</span><span class="p">,</span> <span class="s">'through'</span><span class="p">,</span> <span class="s">'throughout'</span><span class="p">,</span> <span class="s">'thru'</span><span class="p">,</span> <span class="s">'thus'</span><span class="p">,</span> <span class="s">'to'</span><span class="p">]</span>
+<span class="n">stopwords</span> <span class="o">+=</span> <span class="p">[</span><span class="s">'together'</span><span class="p">,</span> <span class="s">'too'</span><span class="p">,</span> <span class="s">'top'</span><span class="p">,</span> <span class="s">'toward'</span><span class="p">,</span> <span class="s">'towards'</span><span class="p">,</span> <span class="s">'twelve'</span><span class="p">]</span>
+<span class="n">stopwords</span> <span class="o">+=</span> <span class="p">[</span><span class="s">'twenty'</span><span class="p">,</span> <span class="s">'two'</span><span class="p">,</span> <span class="s">'un'</span><span class="p">,</span> <span class="s">'under'</span><span class="p">,</span> <span class="s">'until'</span><span class="p">,</span> <span class="s">'up'</span><span class="p">,</span> <span class="s">'upon'</span><span class="p">]</span>
+<span class="n">stopwords</span> <span class="o">+=</span> <span class="p">[</span><span class="s">'us'</span><span class="p">,</span> <span class="s">'very'</span><span class="p">,</span> <span class="s">'via'</span><span class="p">,</span> <span class="s">'was'</span><span class="p">,</span> <span class="s">'we'</span><span class="p">,</span> <span class="s">'well'</span><span class="p">,</span> <span class="s">'were'</span><span class="p">,</span> <span class="s">'what'</span><span class="p">]</span>
+<span class="n">stopwords</span> <span class="o">+=</span> <span class="p">[</span><span class="s">'whatever'</span><span class="p">,</span> <span class="s">'when'</span><span class="p">,</span> <span class="s">'whence'</span><span class="p">,</span> <span class="s">'whenever'</span><span class="p">,</span> <span class="s">'where'</span><span class="p">]</span>
+<span class="n">stopwords</span> <span class="o">+=</span> <span class="p">[</span><span class="s">'whereafter'</span><span class="p">,</span> <span class="s">'whereas'</span><span class="p">,</span> <span class="s">'whereby'</span><span class="p">,</span> <span class="s">'wherein'</span><span class="p">,</span> <span class="s">'whereupon'</span><span class="p">]</span>
+<span class="n">stopwords</span> <span class="o">+=</span> <span class="p">[</span><span class="s">'wherever'</span><span class="p">,</span> <span class="s">'whether'</span><span class="p">,</span> <span class="s">'which'</span><span class="p">,</span> <span class="s">'while'</span><span class="p">,</span> <span class="s">'whither'</span><span class="p">,</span> <span class="s">'who'</span><span class="p">]</span>
+<span class="n">stopwords</span> <span class="o">+=</span> <span class="p">[</span><span class="s">'whoever'</span><span class="p">,</span> <span class="s">'whole'</span><span class="p">,</span> <span class="s">'whom'</span><span class="p">,</span> <span class="s">'whose'</span><span class="p">,</span> <span class="s">'why'</span><span class="p">,</span> <span class="s">'will'</span><span class="p">,</span> <span class="s">'with'</span><span class="p">]</span>
+<span class="n">stopwords</span> <span class="o">+=</span> <span class="p">[</span><span class="s">'within'</span><span class="p">,</span> <span class="s">'without'</span><span class="p">,</span> <span class="s">'would'</span><span class="p">,</span> <span class="s">'yet'</span><span class="p">,</span> <span class="s">'you'</span><span class="p">,</span> <span class="s">'your'</span><span class="p">]</span>
+<span class="n">stopwords</span> <span class="o">+=</span> <span class="p">[</span><span class="s">'yours'</span><span class="p">,</span> <span class="s">'yourself'</span><span class="p">,</span> <span class="s">'yourselves'</span><span class="p">]</span>
+</code></pre>
+</div>
+
+<p>Now getting rid of the stop words in a list is as easy as using another
+list comprehension. Add this function to the <code class="highlighter-rouge">obo.py</code> module, too.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># Given a list of words, remove any that are</span>
+<span class="c"># in a list of stop words.</span>
+
+<span class="k">def</span> <span class="nf">removeStopwords</span><span class="p">(</span><span class="n">wordlist</span><span class="p">,</span> <span class="n">stopwords</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">w</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">wordlist</span> <span class="k">if</span> <span class="n">w</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">stopwords</span><span class="p">]</span>
+</code></pre>
+</div>
+
+<h2 id="putting-it-all-together">Putting it All Together</h2>
+
+<p>Now we have everything we need to determine word frequencies for web
+pages. Copy the following to Komodo Edit, save it as <code class="highlighter-rouge">html-to-freq-2.py</code>
+and execute it.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># html-to-freq-2.py</span>
+
+<span class="kn">import</span> <span class="nn">urllib2</span>
+<span class="kn">import</span> <span class="nn">obo</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">'http://www.oldbaileyonline.org/print.jsp?div=t17800628-33'</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="n">html</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="n">text</span> <span class="o">=</span> <span class="n">obo</span><span class="o">.</span><span class="n">stripTags</span><span class="p">(</span><span class="n">html</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+<span class="n">fullwordlist</span> <span class="o">=</span> <span class="n">obo</span><span class="o">.</span><span class="n">stripNonAlphaNum</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+<span class="n">wordlist</span> <span class="o">=</span> <span class="n">obo</span><span class="o">.</span><span class="n">removeStopwords</span><span class="p">(</span><span class="n">fullwordlist</span><span class="p">,</span> <span class="n">obo</span><span class="o">.</span><span class="n">stopwords</span><span class="p">)</span>
+<span class="n">dictionary</span> <span class="o">=</span> <span class="n">obo</span><span class="o">.</span><span class="n">wordListToFreqDict</span><span class="p">(</span><span class="n">wordlist</span><span class="p">)</span>
+<span class="n">sorteddict</span> <span class="o">=</span> <span class="n">obo</span><span class="o">.</span><span class="n">sortFreqDict</span><span class="p">(</span><span class="n">dictionary</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">sorteddict</span><span class="p">:</span> <span class="k">print</span> <span class="nb">str</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>If all went well, your output should look like this:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="s">'house'</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="s">'yes'</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="s">'prisoner'</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">19</span><span class="p">,</span> <span class="s">'mr'</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">17</span><span class="p">,</span> <span class="s">'man'</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="s">'akerman'</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="s">'mob'</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="s">'black'</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="s">'night'</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="s">'saw'</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="s">'went'</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="s">'sworn'</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="s">'room'</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="s">'pair'</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="s">'know'</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="s">'face'</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="s">'time'</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="s">'thing'</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="s">'june'</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="s">'believe'</span><span class="p">)</span>
+<span class="o">...</span>
+</code></pre>
+</div>
+
+<h2 id="suggested-readings">Suggested Readings</h2>
+
+<p>Lutz, Learning Python</p>
+
+<ul>
+  <li>Ch. 9: Tuples, Files, and Everything Else</li>
+  <li>Ch. 11: Assignment, Expressions, and print</li>
+  <li>Ch. 12: if Tests</li>
+  <li>Ch. 13: while and for Loops</li>
+</ul>
+
+<p>Pilgrim, Diving into Python</p>
+
+<ul>
+  <li>Ch. 7: <a href="http://www.diveintopython.net/regular_expressions/index.html">Regular Expressions</a></li>
+</ul>
+
+<h3 id="code-syncing">Code Syncing</h3>
+
+<p>To follow along with future lessons it is important that you have the
+right files and programs in your “programming-historian” directory. At
+the end of each chapter you can download the “programming-historian” zip
+file to make sure you have the correct code.</p>
+
+<ul>
+  <li>programming-historian-3 (<a href="../assets/programming-historian3.zip">zip</a>)</li>
+</ul>
+
+
+	        </div>
+
+            
+            <p><em>Note:</em> You are now prepared to move on to the 
+                <a href="creating-and-viewing-html-files-with-python.html">next lesson</a>
+                in this series.</p>
+            
+
+	        <div class="author-info">
+	   	        <p class="author-name">About the authors</p>
+			    <div class="author-description"><p>
+                
+                   
+                   
+                       William J. Turkel is Professor of History at the
+University of Western Ontario.
+&nbsp;
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+		        
+                   
+                   
+                   
+                   
+                       Adam Crymble is a Lecturer of Digital History at the University of
+Hertfordshire.
+&nbsp;
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+		        </p>
+			    </div>
+	        </div>
+          <div class="citation-info">
+            <p class="citation-head">Suggested Citation</p>
+            <div class="suggested-citation">
+              <p>
+              
+  
+        
+             
+                   William J. Turkel
+             
+        
+             
+                   and Adam Crymble
+             
+        
+  
+  , 
+              "Counting Word Frequencies with Python," 
+              <em>Programming Historian</em> 
+              (17 July 2012), 
+              http://programminghistorian.org/lessons/counting-frequencies
+              </p>
+            </div>
+          </div>
+        </article>
+    </div>
+
+    </div> <!-- end below-nav -->
+
+<footer role="contentinfo">
+
+          <div class="additional">
+          <ul id="menu-main-menu" class="additional">
+            <li class="menu-item"><a href="../index.html">About</a></li>
+            <li class="menu-item"><a href="index.html">Lessons</a></li>
+            <li class="menu-item"><a href="../contribute.html">Contribute</a></li>
+            <li class="menu-item"><a href="../project-team.html">Project Team</a></li>
+            <li class="menu-item"><a href="../blog.html">Blog</a></li>
+          </ul>
+        </div>
+
+
+<p><em>The Programming Historian</em> ISSN 2397-2068, is released under the <a href="http://creativecommons.org/licenses/by/2.0/" rel="license">CC-BY</a> license.</p>
+<p>The project is published by the <em>Editorial Board of the Programming Historian</em>, and first appeared in July 2012. It was last updated on 20 March 2016.</p>
+<p class="github">
+        <a href="https://github.com/programminghistorian/jekyll">Hosted on GitHub <img src="../images/GitHub-Mark-32px.png" title="GitHub logo"></a> 
+		<a href="https://github.com/programminghistorian/jekyll/commits/gh-pages/lessons/counting-frequencies.md">Previous Versions</a>&nbsp;&#183;&nbsp;
+		<a href="../feedback.html">Give Feedback</a>
+</p>
+
+</footer>
+
+
+    </body>
+</html>

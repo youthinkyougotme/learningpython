@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <meta name="citation_title" content="From HTML to List of Words (part 2)" />
+
+<meta name="citation_author" content="William J. Turkel" />
+
+<meta name="citation_author" content="Adam Crymble" />
+
+<meta name="citation_publication_date" content="2012-07-17" />
+<meta name="citation_journal_title" content="Programming Historian" />
+<meta name="citation_public_url" content="http://programminghistorian.org/lessons/from-html-to-list-of-words-2" />
+
+
+    <!-- Mobile viewport optimized: h5bp.com/viewport -->
+    <meta name="viewport" content="width=device-width">
+    
+    <!--Font awesome CDN -->
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,700%7CCrete+Round' rel='stylesheet' type='text/css'>
+    <link href="../css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/github.css">
+    <link href='../feed.xml.rss' rel='alternate' type='application/atom+xml'>
+    <title>From HTML to List of Words (part 2) | Programming Historian</title>
+        
+    <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="../js/ui.js"></script>
+    <script type="text/javascript" src="../js/ext_links.js"></script>
+    <script type="text/javascript" src="../js/header_links.js"></script>
+    <script>
+      $(document).ready(function(){
+        $('.slide-trigger').collapsable();
+      });
+    </script>
+
+    <script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-2752866-8']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+  </head>
+
+
+
+  
+  
+  
+
+  <body>
+
+    <header role="banner">
+    <h1><a href="../index.html">The Programming Historian</a></h1>
+
+	        <div class="additional">
+          <ul id="menu-main-menu" class="additional">
+            <li class="menu-item"><a href="../index.html">About</a></li>
+            <li class="menu-item"><a href="index.html">Lessons</a></li>
+            <li class="menu-item"><a href="../contribute.html">Contribute</a></li>
+            <li class="menu-item"><a href="../project-team.html">Project Team</a></li>
+            <li class="menu-item"><a href="../blog.html">Blog</a></li>
+          </ul>
+        </div>
+
+	</header>
+
+	<div role="main">
+		<article>
+			<header>
+
+                
+				
+			    <p class="kicker">July 17, 2012</p>
+				<h1><a href="from-html-to-list-of-words-2.html">From HTML to List of Words (part 2)</a></h1>
+                <p class="byline">By 
+  
+        
+             
+                   William J. Turkel
+             
+        
+             
+                   and Adam Crymble
+             
+        
+  
+  </p>
+
+				
+				
+				<ul class="credits">Reviewed by
+				
+                      
+                           
+                                 Miriam Posner
+                           
+                      
+                           
+                                 and Jim Clifford
+                           
+                      
+                
+                <br/>
+                
+                </ul>
+                
+				
+			</header>
+
+            
+            <p><em>Note:</em> You may find it easier to complete this lesson
+                if you have already completed the 
+                <a href="from-html-to-list-of-words-1.html">previous lesson</a>
+                in this series.</p>
+            
+
+			<div class="content">
+	              <h2 id="lesson-goals">Lesson Goals</h2>
+
+<p>In this lesson, you will learn the Python commands needed to implement
+the second part of the algorithm begun in the <a href="from-html-to-list-of-words-1.html">From HTML to a List of
+Words (part 1)</a>. The first half of the algorithm gets the content of
+an HTML page and saves only the content that follows the <code class="highlighter-rouge">&lt;hr/&gt;&lt;h2&gt;</code>
+tags. The second half of the algorithm does the following:</p>
+
+<ul>
+  <li>Look at every character in the <em>pageContents</em> string, one character at
+a time</li>
+  <li>If the character is a left angle bracket (&lt;) we are now inside a
+tag so ignore each following character</li>
+  <li>If the character is a right angle bracket (&gt;) we are now leaving
+the tag; ignore the current character, but look at each following
+character</li>
+  <li>If we’re not inside a tag, append the current character to a new
+variable: <em>text</em></li>
+  <li>Split the <em>text</em> string into a list of individual words that can later
+be manipulated further.</li>
+</ul>
+
+<h3 id="files-needed-for-this-lesson">Files Needed For This Lesson</h3>
+
+<ul>
+  <li><em>obo.py</em></li>
+  <li><em>trial-content.py</em></li>
+</ul>
+
+<p>If you do not have these files, you can
+download programming-historian-2, a (<a href="../assets/programming-historian2.zip">zip</a>) file from the previous lesson.</p>
+
+<h2 id="repeating-and-testing-in-python">Repeating and Testing in Python</h2>
+
+<p>The next stage in implementing the algorithm is to look at every
+character in the <em>pageContents</em> string, one at a time and decide whether
+the character belongs to HTML markup or to the content of the trial
+transcript. Before you can do this you’ll have to learn a few techniques
+for repeating tasks and for testing conditions.</p>
+
+<h3 id="looping">Looping</h3>
+
+<p>Like many programming languages, Python includes a number of <em>looping</em>
+mechanisms. The one that you want to use in this case is called a <em>for</em>
+<em>loop</em>. The version below tells the interpreter to do something for each
+character in a string named <em>pageContents</em>. The variable <em>char</em> will contain
+each character from <em>pageContents</em> in succession. We gave <em>char</em> its name;
+it does not have any special significance and could have been named
+<em>jingles</em> or <em>k</em> if we had felt so inclined. You can use the colour-coding
+in Komodo Edit as a guideline for deciding if a word is a variable with
+a user-given name (such as “<em>char</em>“) or a Python-defined name that serves
+a specific purpose (such as “<code class="highlighter-rouge">for</code>“). It is usually a good idea to give
+variables names that provide information about what they contain. This
+will make it much easier to understand a program that you haven’t looked
+at for a while. With this in mind, “<em>jingles</em>” is probably not a very good
+choice for a variable name in this case.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="n">pageContents</span><span class="p">:</span>
+    <span class="c"># do something with char</span>
+</code></pre>
+</div>
+
+<h3 id="branching">Branching</h3>
+
+<p>Next you need a way of testing the contents of a string, and choosing a
+course of action based on that test. Again, like many programming
+languages, Python includes a number of <em>branching</em> mechanisms. The one
+that you want to use here is called an <em>if statement</em>. The version below
+tests to see whether the string named <em>char</em> consists of a left angle
+bracket. As we mentioned earlier, indentation is important in Python. If
+code is indented, Python will execute it when the condition is true.</p>
+
+<p>Note that Python uses a single equals sign (=) for <em>assignment</em>, that is
+for setting one thing equal to something else. In order to test for
+<em>equality</em>, use double equals signs (==) instead. Beginning programmers
+often confuse the two.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">if</span> <span class="n">char</span> <span class="o">==</span> <span class="s">'&lt;'</span><span class="p">:</span>
+    <span class="c"># do something</span>
+</code></pre>
+</div>
+
+<p>A more general form of the if statement allows you to specify what to do
+in the event that your test condition is false.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">if</span> <span class="n">char</span> <span class="o">==</span> <span class="s">'&lt;'</span><span class="p">:</span>
+    <span class="c"># do something</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="c"># do something different</span>
+</code></pre>
+</div>
+
+<p>In Python you have the option of doing further tests after the first
+one, by using an <em>elif statement</em> (which is shorthand for else if).</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">if</span> <span class="n">char</span> <span class="o">==</span> <span class="s">'&lt;'</span><span class="p">:</span>
+    <span class="c"># do something</span>
+<span class="k">elif</span> <span class="n">char</span> <span class="o">==</span> <span class="s">'&gt;'</span><span class="p">:</span>
+    <span class="c"># do another thing</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="c"># do something completely different</span>
+</code></pre>
+</div>
+
+<h2 id="use-the-algorithm-to-remove-html-markup">Use the Algorithm to Remove HTML Markup</h2>
+
+<p>You now know enough to implement the second part of the algorithm:
+removing all HTML tags. In this part of the algorithm we want to:</p>
+
+<ul>
+  <li>Look at every character in the <em>pageContents</em> string, one character at
+a time</li>
+  <li>If the character is a left angle bracket (&lt;) we are now inside a
+tag so ignore the character</li>
+  <li>If the character is a right angle bracket (&gt;) we are now leaving
+the tag; ignore the character</li>
+  <li>If we’re not inside a tag, append the current character to a new
+variable: text</li>
+</ul>
+
+<p>To do this, you will use a for loop to look at each successive character
+in the string. You will then use an if / elif statement to determine
+whether the character is part of HTML markup or part of the content,
+then append the content characters to the <em>text</em> string. How will we keep
+track of whether or not we’re inside a tag? We can use an integer
+variable, which will be 1 (true) if the current character is inside a
+tag and 0 (false) if it’s not (in the example below we have named the
+variable <em>inside</em>).</p>
+
+<h3 id="the-striptags-routine">The stripTags Routine</h3>
+
+<p>Putting it all together, the final version of the routine is shown
+below. Note that we are expanding the <em>stripTags</em> function created above.
+Make sure you maintain the indentation as shown when you replace the old
+<em>stripTags</em> routine in <em>obo.py</em> with this new one.</p>
+
+<p>Your routine may look slightly different and as long as it works that’s
+fine. If you’ve elected to experiment, it’s probably best to try our
+version as well to make sure that your program does what ours does.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># obo.py</span>
+<span class="k">def</span> <span class="nf">stripTags</span><span class="p">(</span><span class="n">pageContents</span><span class="p">):</span>
+    <span class="n">startLoc</span> <span class="o">=</span> <span class="n">pageContents</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">"&lt;hr/&gt;&lt;h2&gt;"</span><span class="p">)</span>
+    <span class="n">pageContents</span> <span class="o">=</span> <span class="n">pageContents</span><span class="p">[</span><span class="n">startLoc</span><span class="p">:]</span>
+
+    <span class="n">inside</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="s">''</span>
+
+    <span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="n">pageContents</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">char</span> <span class="o">==</span> <span class="s">'&lt;'</span><span class="p">:</span>
+            <span class="n">inside</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">inside</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">char</span> <span class="o">==</span> <span class="s">'&gt;'</span><span class="p">):</span>
+            <span class="n">inside</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">elif</span> <span class="n">inside</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">text</span> <span class="o">+=</span> <span class="n">char</span>
+
+    <span class="k">return</span> <span class="n">text</span>
+</code></pre>
+</div>
+
+<p>There are two new Python concepts in this new code: <em>continue</em> and <em>return</em>.</p>
+
+<p>The Python continue statement tells the interpreter to jump back to the
+top of the enclosing loop. So if we are processing characters inside of
+a pair of angle brackets, we want to go get the next character in the
+<em>pageContents</em> string without adding anything to our <em>text</em> variable.</p>
+
+<p>In our previous examples we have used <code class="highlighter-rouge">print</code> extensively. This outputs
+the result of our program to the screen for the user to read. Often,
+however, we wish to allow one part of the program to send information to
+another part. When a function finishes executing, it can return a value
+to the code which called it. If we were to call <em>stripTags</em> using another
+program, we would do so like this:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c">#understanding the Return statement</span>
+
+<span class="kn">import</span> <span class="nn">obo</span>
+
+<span class="n">myText</span> <span class="o">=</span> <span class="s">"This is my &lt;h1&gt;HTML&lt;/h1&gt; message"</span>
+
+<span class="n">theResult</span> <span class="o">=</span> <span class="n">obo</span><span class="o">.</span><span class="n">stripTags</span><span class="p">(</span><span class="n">myText</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>By using <code class="highlighter-rouge">return</code>, we have been able to save the output of the <em>stripTags</em>
+function directly into a variable, which we can then resume processing
+as needed using additional code.</p>
+
+<p>Note that in the <em>stripTags</em> example from the start of this sub-section,
+the value that we want to return now is not <em>pageContents</em>, but rather the
+content which has had the HTML markup stripped out.</p>
+
+<p>To test our new <em>stripTags</em> routine, you can run <em>trial-content.py</em> again.
+Since we’ve redefined <em>stripTags</em>, the <em>trial-content.py</em> program now does
+something different (and closer to what we want). Before you continue,
+make sure that you understand why the behaviour of <em>trial-content.py</em>
+would change when we only edited <em>obo.py</em>.</p>
+
+<h2 id="python-lists">Python Lists</h2>
+
+<p>Now that you have the ability to extract raw text from web pages, you’re
+going to want to get the text in a form that is easy to process. So far,
+when you’ve needed to store information in your Python programs, you’ve
+usually used strings. There were a couple of exceptions, however. In the
+<em>stripTags</em> routine, you also made use of an <a href="http://docs.python.org/2.4/lib/typesnumeric.html">integer</a> named <em>inside</em> to
+store a 1 when you were processing a tag and a 0 when you weren’t. You
+can do mathematical operations on integers but you cannot store
+fractions or decimal numbers in integer variables.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">inside</span> <span class="o">=</span> <span class="mi">1</span>
+</code></pre>
+</div>
+
+<p>And whenever you’ve needed to read from or write to a file, you’ve used
+a special file handle like <em>f</em> in the example below.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">'helloworld.txt'</span><span class="p">,</span><span class="s">'w'</span><span class="p">)</span>
+<span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">'hello world'</span><span class="p">)</span>
+<span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</code></pre>
+</div>
+
+<p>One of the most useful <a href="http://docs.python.org/3/library/types.html">types</a> of object that Python provides,
+however, is the <em>list</em>, an ordered collection of other objects (including,
+potentially, other lists). Converting a string into a list of characters
+or words is straightforward. Type or copy the following program into
+your text editor to see two ways of achieving this. Save the file as
+<em>string-to-list.py</em> and execute it. Compare the two lists that are
+printed to the Command Output pane and see if you can figure out how the
+code works.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># string-to-list.py</span>
+
+<span class="c"># some strings</span>
+<span class="n">s1</span> <span class="o">=</span> <span class="s">'hello world'</span>
+<span class="n">s2</span> <span class="o">=</span> <span class="s">'howdy world'</span>
+
+<span class="c"># list of characters</span>
+<span class="n">charlist</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="n">s1</span><span class="p">:</span>
+    <span class="n">charlist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">char</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">charlist</span>
+
+<span class="c"># list of 'words'</span>
+<span class="n">wordlist</span> <span class="o">=</span> <span class="n">s2</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+<span class="k">print</span> <span class="n">wordlist</span>
+</code></pre>
+</div>
+
+<p>The first routine uses a for loop to step through each character in the
+string <em>s1</em>, and appends the character to the end of <em>charlist</em>. The second
+routine makes use of the split operation to break the string <em>s2</em> apart
+wherever there is whitespace (spaces, tabs, carriage returns and similar
+characters). Actually, it is a bit of a simplification to refer to the
+objects in the second list as words. Try changing <em>s2</em> in the above
+program to ‘howdy world!’ and running it again. What happened to the
+exclamation mark? Note, that you will have to save your changes before
+using Run Python again.</p>
+
+<p>Given what you’ve learned so far, you can now open a URL, download the
+web page to a string, strip out the HTML and then split the text into a
+list of words. Try executing the following program.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c">#html-to-list1.py</span>
+<span class="kn">import</span> <span class="nn">urllib2</span><span class="o">,</span> <span class="nn">obo</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">'http://www.oldbaileyonline.org/print.jsp?div=t17800628-33'</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="n">html</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="n">text</span> <span class="o">=</span> <span class="n">obo</span><span class="o">.</span><span class="n">stripTags</span><span class="p">(</span><span class="n">html</span><span class="p">)</span>
+<span class="n">wordlist</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+
+<span class="k">print</span> <span class="n">wordlist</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">120</span><span class="p">]</span>
+</code></pre>
+</div>
+
+<p>You should get something like the following.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">[</span><span class="s">'BENJAMIN'</span><span class="p">,</span> <span class="s">'BOWSEY,'</span><span class="p">,</span> <span class="s">'Breaking'</span><span class="p">,</span> <span class="s">'Peace'</span><span class="p">,</span> <span class="s">'&gt;'</span><span class="p">,</span>
+<span class="s">'riot,'</span><span class="p">,</span> <span class="s">'28th'</span><span class="p">,</span> <span class="s">'June'</span><span class="p">,</span> <span class="s">'1780.'</span><span class="p">,</span> <span class="s">'324.'</span><span class="p">,</span> <span class="s">'BENJAMIN'</span><span class="p">,</span>
+<span class="s">'BOWSEY'</span><span class="p">,</span> <span class="s">'(a'</span><span class="p">,</span> <span class="s">'blackmoor'</span><span class="p">,</span> <span class="s">')'</span><span class="p">,</span> <span class="s">'was'</span><span class="p">,</span> <span class="s">'indicted'</span><span class="p">,</span>
+<span class="s">'for'</span><span class="p">,</span> <span class="s">'that'</span><span class="p">,</span> <span class="s">'he'</span><span class="p">,</span> <span class="s">'together'</span><span class="p">,</span> <span class="s">'with'</span><span class="p">,</span> <span class="s">'five'</span><span class="p">,</span>
+<span class="s">'hundred'</span><span class="p">,</span> <span class="s">'other'</span><span class="p">,</span> <span class="s">'persons'</span><span class="p">,</span> <span class="s">'and'</span><span class="p">,</span> <span class="s">'more,'</span><span class="p">,</span> <span class="s">'did,'</span><span class="p">,</span>
+<span class="s">'unlawfully,'</span><span class="p">,</span> <span class="s">'riotously,'</span><span class="p">,</span> <span class="s">'and'</span><span class="p">,</span> <span class="s">'tumultuously'</span><span class="p">,</span>
+<span class="s">'assemble'</span><span class="p">,</span> <span class="s">'on'</span><span class="p">,</span> <span class="s">'the'</span><span class="p">,</span> <span class="s">'6th'</span><span class="p">,</span> <span class="s">'of'</span><span class="p">,</span> <span class="s">'June'</span><span class="p">,</span> <span class="s">'to'</span><span class="p">,</span>
+<span class="s">'the'</span><span class="p">,</span> <span class="s">'disturbance'</span><span class="p">,</span> <span class="s">'of'</span><span class="p">,</span> <span class="s">'the'</span><span class="p">,</span> <span class="s">'public'</span><span class="p">,</span> <span class="s">'peace'</span><span class="p">,</span>
+<span class="s">'and'</span><span class="p">,</span> <span class="s">'did'</span><span class="p">,</span> <span class="s">'begin'</span><span class="p">,</span> <span class="s">'to'</span><span class="p">,</span> <span class="s">'demolish'</span><span class="p">,</span> <span class="s">'and'</span><span class="p">,</span> <span class="s">'pull'</span><span class="p">,</span>
+<span class="s">'down'</span><span class="p">,</span> <span class="s">'the'</span><span class="p">,</span> <span class="s">'dwelling'</span><span class="p">,</span> <span class="s">'house'</span><span class="p">,</span> <span class="s">'of'</span><span class="p">,</span> <span class="s">'Richard'</span><span class="p">,</span>
+<span class="s">'Akerman'</span><span class="p">,</span> <span class="s">','</span><span class="p">,</span> <span class="s">'against'</span><span class="p">,</span> <span class="s">'the'</span><span class="p">,</span> <span class="s">'form'</span><span class="p">,</span> <span class="s">'of'</span><span class="p">,</span> <span class="s">'the'</span><span class="p">,</span>
+<span class="s">'statute,'</span><span class="p">,</span> <span class="s">'&amp;c.'</span><span class="p">,</span> <span class="s">'ROSE'</span><span class="p">,</span> <span class="s">'JENNINGS'</span><span class="p">,</span> <span class="s">','</span><span class="p">,</span> <span class="s">'Esq.'</span><span class="p">,</span>
+<span class="s">'sworn.'</span><span class="p">,</span> <span class="s">'Had'</span><span class="p">,</span> <span class="s">'you'</span><span class="p">,</span> <span class="s">'any'</span><span class="p">,</span> <span class="s">'occasion'</span><span class="p">,</span> <span class="s">'to'</span><span class="p">,</span> <span class="s">'be'</span><span class="p">,</span>
+<span class="s">'in'</span><span class="p">,</span> <span class="s">'this'</span><span class="p">,</span> <span class="s">'part'</span><span class="p">,</span> <span class="s">'of'</span><span class="p">,</span> <span class="s">'the'</span><span class="p">,</span> <span class="s">'town,'</span><span class="p">,</span> <span class="s">'on'</span><span class="p">,</span> <span class="s">'the'</span><span class="p">,</span>
+<span class="s">'6th'</span><span class="p">,</span> <span class="s">'of'</span><span class="p">,</span> <span class="s">'June'</span><span class="p">,</span> <span class="s">'in'</span><span class="p">,</span> <span class="s">'the'</span><span class="p">,</span> <span class="s">'evening?'</span><span class="p">,</span> <span class="s">'-'</span><span class="p">,</span> <span class="s">'I'</span><span class="p">,</span>
+<span class="s">'dined'</span><span class="p">,</span> <span class="s">'with'</span><span class="p">,</span> <span class="s">'my'</span><span class="p">,</span> <span class="s">'brother'</span><span class="p">,</span> <span class="s">'who'</span><span class="p">,</span> <span class="s">'lives'</span><span class="p">,</span>
+<span class="s">'opposite'</span><span class="p">,</span> <span class="s">'Mr.'</span><span class="p">,</span> <span class="s">"Akerman's"</span><span class="p">,</span> <span class="s">'house.'</span><span class="p">,</span> <span class="s">'They'</span><span class="p">,</span>
+<span class="s">'attacked'</span><span class="p">,</span> <span class="s">'Mr.'</span><span class="p">,</span> <span class="s">"Akerman's"</span><span class="p">,</span> <span class="s">'house'</span><span class="p">,</span> <span class="s">'precisely'</span><span class="p">,</span>
+<span class="s">'at'</span><span class="p">,</span> <span class="s">'seven'</span><span class="p">,</span> <span class="s">"o'clock;"</span><span class="p">,</span> <span class="s">'they'</span><span class="p">,</span> <span class="s">'were'</span><span class="p">,</span> <span class="s">'preceded'</span><span class="p">,</span>
+<span class="s">'by'</span><span class="p">,</span> <span class="s">'a'</span><span class="p">,</span> <span class="s">'man'</span><span class="p">]</span>
+</code></pre>
+</div>
+
+<p>Simply having a list of words doesn’t buy you much yet. As human beings,
+we already have the ability to read. You’re getting much closer to a
+representation that your programs can process, however.</p>
+
+<h2 id="suggested-reading">Suggested Reading</h2>
+
+<ul>
+  <li>Lutz, <em>Learning Python</em>
+    <ul>
+      <li>Ch. 7: Strings</li>
+      <li>Ch. 8: Lists and Dictionaries</li>
+      <li>Ch. 10: Introducing Python Statements</li>
+      <li>Ch. 15: Function Basics</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="code-syncing">Code Syncing</h3>
+
+<p>To follow along with future lessons it is important that you have the
+right files and programs in your programming-historian directory. At the
+end of each chapter you can download the programming-historian zip file
+to make sure you have the correct code. Note we have removed unneeded
+files from earlier lessons. Your directory may contain more files and
+that’s ok!</p>
+
+<ul>
+  <li>programming-historian-2 (<a href="../assets/programming-historian2.zip">zip</a>)</li>
+</ul>
+
+
+	        </div>
+
+            
+            <p><em>Note:</em> You are now prepared to move on to the 
+                <a href="normalizing-data.html">next lesson</a>
+                in this series.</p>
+            
+
+	        <div class="author-info">
+	   	        <p class="author-name">About the authors</p>
+			    <div class="author-description"><p>
+                
+                   
+                   
+                       William J. Turkel is Professor of History at the
+University of Western Ontario.
+&nbsp;
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+		        
+                   
+                   
+                   
+                   
+                       Adam Crymble is a Lecturer of Digital History at the University of
+Hertfordshire.
+&nbsp;
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+		        </p>
+			    </div>
+	        </div>
+          <div class="citation-info">
+            <p class="citation-head">Suggested Citation</p>
+            <div class="suggested-citation">
+              <p>
+              
+  
+        
+             
+                   William J. Turkel
+             
+        
+             
+                   and Adam Crymble
+             
+        
+  
+  , 
+              "From HTML to List of Words (part 2)," 
+              <em>Programming Historian</em> 
+              (17 July 2012), 
+              http://programminghistorian.org/lessons/from-html-to-list-of-words-2
+              </p>
+            </div>
+          </div>
+        </article>
+    </div>
+
+    </div> <!-- end below-nav -->
+
+<footer role="contentinfo">
+
+          <div class="additional">
+          <ul id="menu-main-menu" class="additional">
+            <li class="menu-item"><a href="../index.html">About</a></li>
+            <li class="menu-item"><a href="index.html">Lessons</a></li>
+            <li class="menu-item"><a href="../contribute.html">Contribute</a></li>
+            <li class="menu-item"><a href="../project-team.html">Project Team</a></li>
+            <li class="menu-item"><a href="../blog.html">Blog</a></li>
+          </ul>
+        </div>
+
+
+<p><em>The Programming Historian</em> ISSN 2397-2068, is released under the <a href="http://creativecommons.org/licenses/by/2.0/" rel="license">CC-BY</a> license.</p>
+<p>The project is published by the <em>Editorial Board of the Programming Historian</em>, and first appeared in July 2012. It was last updated on 20 March 2016.</p>
+<p class="github">
+        <a href="https://github.com/programminghistorian/jekyll">Hosted on GitHub <img src="../images/GitHub-Mark-32px.png" title="GitHub logo"></a> 
+		<a href="https://github.com/programminghistorian/jekyll/commits/gh-pages/lessons/from-html-to-list-of-words-2.md">Previous Versions</a>&nbsp;&#183;&nbsp;
+		<a href="../feedback.html">Give Feedback</a>
+</p>
+
+</footer>
+
+
+    </body>
+</html>

@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <meta name="citation_title" content="Downloading Web Pages with Python" />
+
+<meta name="citation_author" content="William J. Turkel" />
+
+<meta name="citation_author" content="Adam Crymble" />
+
+<meta name="citation_publication_date" content="2012-07-17" />
+<meta name="citation_journal_title" content="Programming Historian" />
+<meta name="citation_public_url" content="http://programminghistorian.org/lessons/working-with-web-pages" />
+
+
+    <!-- Mobile viewport optimized: h5bp.com/viewport -->
+    <meta name="viewport" content="width=device-width">
+    
+    <!--Font awesome CDN -->
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,700%7CCrete+Round' rel='stylesheet' type='text/css'>
+    <link href="../css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/github.css">
+    <link href='../feed.xml.rss' rel='alternate' type='application/atom+xml'>
+    <title>Downloading Web Pages with Python | Programming Historian</title>
+        
+    <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="../js/ui.js"></script>
+    <script type="text/javascript" src="../js/ext_links.js"></script>
+    <script type="text/javascript" src="../js/header_links.js"></script>
+    <script>
+      $(document).ready(function(){
+        $('.slide-trigger').collapsable();
+      });
+    </script>
+
+    <script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-2752866-8']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+  </head>
+
+
+
+  
+  
+  
+
+  <body>
+
+    <header role="banner">
+    <h1><a href="../index.html">The Programming Historian</a></h1>
+
+	        <div class="additional">
+          <ul id="menu-main-menu" class="additional">
+            <li class="menu-item"><a href="../index.html">About</a></li>
+            <li class="menu-item"><a href="index.html">Lessons</a></li>
+            <li class="menu-item"><a href="../contribute.html">Contribute</a></li>
+            <li class="menu-item"><a href="../project-team.html">Project Team</a></li>
+            <li class="menu-item"><a href="../blog.html">Blog</a></li>
+          </ul>
+        </div>
+
+	</header>
+
+	<div role="main">
+		<article>
+			<header>
+
+                
+				
+			    <p class="kicker">July 17, 2012</p>
+				<h1><a href="working-with-web-pages.html">Downloading Web Pages with Python</a></h1>
+                <p class="byline">By 
+  
+        
+             
+                   William J. Turkel
+             
+        
+             
+                   and Adam Crymble
+             
+        
+  
+  </p>
+
+				
+				
+				<ul class="credits">Reviewed by
+				
+                      
+                           
+                                 Miriam Posner
+                           
+                      
+                           
+                                 and Jim Clifford
+                           
+                      
+                
+                <br/>
+                
+                </ul>
+                
+				
+			</header>
+
+            
+            <p><em>Note:</em> You may find it easier to complete this lesson
+                if you have already completed the 
+                <a href="code-reuse-and-modularity.html">previous lesson</a>
+                in this series.</p>
+            
+
+			<div class="content">
+	              <h2 id="lesson-goals">Lesson Goals</h2>
+
+<p>This lesson introduces <em>Uniform Resource Locators</em> (URLs) and explains how
+to use Python to download and save the contents of a web page to your
+local hard drive.</p>
+
+<h3 id="about-urls">About URLs</h3>
+
+<p>A <em>web page</em> is a file that is stored on another computer, a machine known
+as a <em>web server</em>. When you “go to” a web page, what is actually happening
+is that your computer, the <em>client</em>, sends a request to the server (the
+<em>host</em>) out over the network, and the server replies by sending a copy of
+the page back to your machine. One way to get to a web page with your
+browser is to follow a link from somewhere else. You also have the
+ability, of course, to paste or type a Uniform Resource Locator (URL)
+directly into your browser. The URL tells your browser where to find an
+online resource by specifying the server, directory and name of the file
+to be retrieved, as well as the kind of <em>protocol</em> that the server and
+your browser will agree to use while exchanging information (like HTTP,
+the <em>Hypertext Transfer Protocol</em>). The basic structure of a URL is</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>protocol://host:port/path?query
+</code></pre>
+</div>
+
+<p>Let’s look at a few examples.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>http://oldbaileyonline.org
+</code></pre>
+</div>
+
+<p>The most basic kind of URL simply specifies the protocol and host. If
+you give this URL to your browser, it will return the main page of The
+<a href="http://www.oldbaileyonline.org/">Old Bailey Online</a> website. The default assumption is that the main
+page in a given directory will be named index, usually <code class="highlighter-rouge">index.html</code>.</p>
+
+<p>The URL can also include an optional <em>port number</em>. Without getting into
+too much detail at this point, the network protocol that underlies the
+exchange of information on the Internet allows computers to connect in
+different ways. Port numbers are used to distinguish these different
+kinds of connection. Since the default port for HTTP is 80, the
+following URL is equivalent to the previous one.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>http://oldbaileyonline.org:80
+</code></pre>
+</div>
+
+<p>As you know, there are usually many web pages on a given website. These
+are stored in directories on the server, and you can specify the path to
+a particular page. The “About” page for <em>The Old Bailey Online</em> has the
+following URL.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>http://oldbaileyonline.org/static/Project.jsp
+</code></pre>
+</div>
+
+<p>Finally, some web pages allow you to enter queries. <em>The Old Bailey
+Online</em> website, for example, is laid out in such a way that you can
+request a particular page within it by using a <em>query string</em>. The
+following URL will take you to a search results page for criminal record
+trials containing the word “arsenic”.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>http://www.oldbaileyonline.org/search.jsp?form=custom<span class="err">&amp;</span>_divs_fulltext=arsenic
+</code></pre>
+</div>
+
+<p>The snippet after the “?” represents the query. You can learn more about
+building queries in <a href="downloading-multiple-records-using-query-strings.html">Downloading Multiple Records Using Query
+Strings</a>.</p>
+
+<h3 id="opening-urls-with-python">Opening URLs with Python</h3>
+
+<p>As a digital historian you will often find yourself wanting to use data
+held in scholarly databases online. To get this data you could open URLs
+one at a time and copy and paste their contents to a text file, or you
+can use Python to automatically harvest and process webpages. To do
+this, you’re going to need to be able to open URLs with your own
+programs. The Python language includes a number of standard ways to do
+this.</p>
+
+<p>As an example, let’s work with the kind of file that you might encounter
+while doing historical research. Say you’re interested in race relations
+in eighteenth century Britain. ‘The Old Bailey Online’ (OBO) is a rich resource that provides trial transcripts from
+1674 to 1913 and is one good place to seek sources.</p>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/old-bailey.png">
+		<img src="../images/old-bailey.png" alt="The Old Bailey Online Homepage" />
+	</a>
+<figcaption>
+    <p>The Old Bailey Online Homepage</p>
+
+</figcaption>
+</figure>
+
+<p>For this example, we will be using the trial transcript of Benjamin
+Bowsey, a “black moor” who was convicted of breaking the peace during
+the <a href="http://en.wikipedia.org/wiki/Gordon_Riots">Gordon Riots</a> of 1780. The URL for the entry is</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>http://www.oldbaileyonline.org/browse.jsp?id=t17800628-33<span class="err">&amp;</span>div=t17800628-33
+</code></pre>
+</div>
+
+<p>By studying the URL we can learn a few things. First, The OBO is written
+in JSP (<em>JavaServer Pages</em>, a web programming language which outputs
+HTML), and it’s possible to retrieve individual trial entries by making
+use of the query string. Each is apparently given a unique ID number
+(<em>id=t</em> in the URL), built from the date of the trial session in the
+format (<em>YYYYMMDD</em>) and the trial number from within that court session,
+in this case: <em>33</em>. If you change the two instances of <code class="highlighter-rouge">33</code> to <code class="highlighter-rouge">34</code> in
+your browser and press Enter, you should be taken to the next trial.
+Unfortunately, not all websites have such readable and reliable URLs.</p>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/bowsey-trial-page.png">
+		<img src="../images/bowsey-trial-page.png" alt="Trial Transcript Page of Benjamin Bowsey, 1780" />
+	</a>
+<figcaption>
+    <p>Trial Transcript Page of Benjamin Bowsey, 1780</p>
+
+</figcaption>
+</figure>
+
+<p>Spend a few minutes looking at Benjamin Bowsey’s trial page. Here we are
+not so much interested in what the transcript says, but what features
+the page has. Notice the “[View as XML][]” link at the bottom that takes
+you to a heavily marked up version of the text which may be useful to
+certain types of research. You can look at a [scan of the original
+document][], which was transcribed to make this resource. And you can
+access a “[Print-friendly version][]” by clicking a link near the top of
+the entry.</p>
+
+<p>When you are processing web resources automatically, it is often a good
+idea to work with printable versions if you can, as they tend to have
+less formatting. Since we have that option, we will use the printable
+version in this lesson.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>http://www.oldbaileyonline.org/print.jsp?div=t17800628-33
+</code></pre>
+</div>
+
+<p>Now let’s try opening the page using Python. Copy the following program
+into Komodo Edit and save it as <code class="highlighter-rouge">open-webpage.py</code>. When you execute the
+program, it will <code class="highlighter-rouge">open</code> the trial file, <code class="highlighter-rouge">read</code> its contents into a Python
+string called webContent and then <code class="highlighter-rouge">print</code> the first three hundred
+characters of the string to the “Command Output” pane. Use the
+<code class="highlighter-rouge">View -&gt; Web Developer -&gt; View Page Source</code> command in Firefox to verify
+that the HTML source of the page is the same as the source that your
+program retrieved. Each browser has a different shortcut key to open the
+page source. In Firefox on PC it is <code class="highlighter-rouge">CTRL+u</code>. If you cannot find it on
+your browser, try using a search engine to find where it is. (See the
+Python library reference to learn more about [urllib2][].)</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># open-webpage.py</span>
+
+<span class="kn">import</span> <span class="nn">urllib2</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">'http://www.oldbaileyonline.org/print.jsp?div=t17800628-33'</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="n">webContent</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+<span class="k">print</span> <span class="n">webContent</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">300</span><span class="p">]</span>
+</code></pre>
+</div>
+
+<p>These five lines of code achieve an awful lot very quickly. Let us take
+a moment to make sure that everything is clear and that you can
+recognize the building blocks that allow us to make this program do what
+we want it to do.</p>
+
+<p><em>url</em>, <em>response</em>, and <em>webContent</em> are all variables that we have named
+ourselves.</p>
+
+<p><em>url</em> holds the URL of the web page that we want to download. In this
+case, it is the trial of Benjamin Bowsey.</p>
+
+<p>On the following line, we call the function <code class="highlighter-rouge">urlopen</code>, which is stored in
+a Python module named <code class="highlighter-rouge">urllib2.py</code>, and we have asked that function to
+open the website found at the URL we just specified. We then saved the
+result of that process into a variable named <em>response</em>. That variable now
+contains an open version of the requested website.</p>
+
+<p>We then use the <code class="highlighter-rouge">read</code> method, which we used earlier, to copy the contents
+of that open webpage into a new variable named <em>webContent</em>.</p>
+
+<p>Make sure you can pick out the variables (there are 3 of them), the
+modules (1), the methods (2), and the parameters (1) before you move on.</p>
+
+<p>In the resulting output, you will notice a little bit of HTML markup:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code> <span class="c">&lt;!-- MAIN CONTENT --&gt;</span>
+
+<span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"main"</span> <span class="na">class=</span><span class="s">"full"</span><span class="nt">&gt;&lt;div</span> <span class="na">id=</span><span class="s">"main2"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;div</span> <span class="na">style=</span><span class="s">"font-family:serif;"</span><span class="nt">&gt;&lt;i&gt;</span>Old Bailey Proceedings Online<span class="nt">&lt;/i&gt;</span>
+(www.oldbaileyonline.org, version 6.0, 16 March 2013),
+June 1780, trial of
+BENJAMIN                      BOWSEY
+</code></pre>
+</div>
+
+<p>Because we are using the printable version there is a lot less than most
+web pages have, but there is still more than we need. Don’t worry; you
+will soon learn how to remove that excess markup.</p>
+
+<h3 id="saving-a-local-copy-of-a-web-page">Saving a Local Copy of a Web Page</h3>
+
+<p>Given what you already know about writing to files, it is quite easy to
+modify the above program so that it writes the contents of the
+<em>webContent</em> string to a local file on our computer rather than to the
+“Command Output” pane. Copy the following program into Komodo Edit, save
+it as <code class="highlighter-rouge">save-webpage.py</code> and execute it. Using the <code class="highlighter-rouge">File -&gt; Open File</code>
+command in Firefox, open the file on your hard drive that it creates
+(<code class="highlighter-rouge">obo-t17800628-33.html</code>) to confirm that your saved copy is the same as
+the online copy.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># save-webpage.py</span>
+
+<span class="kn">import</span> <span class="nn">urllib2</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">'http://www.oldbaileyonline.org/print.jsp?div=t17800628-33'</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="n">webContent</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+<span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">'obo-t17800628-33.html'</span><span class="p">,</span> <span class="s">'w'</span><span class="p">)</span>
+<span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">webContent</span><span class="p">)</span>
+<span class="n">f</span><span class="o">.</span><span class="n">close</span>
+</code></pre>
+</div>
+
+<p>So, if you can save a single file this easily, could you write a program
+to download a bunch of files? Could you step through trial IDs, for
+example, and make your own copies of a whole bunch of them? Yep. We’ll
+get there soon.</p>
+
+<h2 id="suggested-readings">Suggested Readings</h2>
+
+<ul>
+  <li>Lutz, Mark. “Ch. 4: Introducing Python Object Types”, <em>Learning
+Python</em> (O’Reilly, 1999).</li>
+</ul>
+
+<h3 id="code-syncing">Code Syncing</h3>
+
+<p>To follow along with future lessons it is important that you have the
+right files and programs in your “programming-historian” directory. At
+the end of each lesson you can download the “programming-historian” zip
+file to make sure you have the correct code.</p>
+
+<ul>
+  <li>programming-historian-1 ([zip][])</li>
+</ul>
+
+<p>[]: ../images/bowsey-trial-page.png “bowsey-trial-page”
+  [View as XML]: http://www.oldbaileyonline.org/browse.jsp?foo=bar&amp;path=sessionsPapers/17800628.xml&amp;div=t17800628-33&amp;xml=yes
+  [scan of the original document]: http://www.oldbaileyonline.org/images.jsp?doc=178006280084
+  [Print-friendly version]: http://www.oldbaileyonline.org/print.jsp?div=t17800628-33
+  [urllib2]: https://docs.python.org/2/library/urllib2.html
+  [zip]: ../assets/programming-historian1.zip</p>
+
+	        </div>
+
+            
+            <p><em>Note:</em> You are now prepared to move on to the 
+                <a href="manipulating-strings-in-python.html">next lesson</a>
+                in this series.</p>
+            
+
+	        <div class="author-info">
+	   	        <p class="author-name">About the authors</p>
+			    <div class="author-description"><p>
+                
+                   
+                   
+                       William J. Turkel is Professor of History at the
+University of Western Ontario.
+&nbsp;
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+		        
+                   
+                   
+                   
+                   
+                       Adam Crymble is a Lecturer of Digital History at the University of
+Hertfordshire.
+&nbsp;
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+		        </p>
+			    </div>
+	        </div>
+          <div class="citation-info">
+            <p class="citation-head">Suggested Citation</p>
+            <div class="suggested-citation">
+              <p>
+              
+  
+        
+             
+                   William J. Turkel
+             
+        
+             
+                   and Adam Crymble
+             
+        
+  
+  , 
+              "Downloading Web Pages with Python," 
+              <em>Programming Historian</em> 
+              (17 July 2012), 
+              http://programminghistorian.org/lessons/working-with-web-pages
+              </p>
+            </div>
+          </div>
+        </article>
+    </div>
+
+    </div> <!-- end below-nav -->
+
+<footer role="contentinfo">
+
+          <div class="additional">
+          <ul id="menu-main-menu" class="additional">
+            <li class="menu-item"><a href="../index.html">About</a></li>
+            <li class="menu-item"><a href="index.html">Lessons</a></li>
+            <li class="menu-item"><a href="../contribute.html">Contribute</a></li>
+            <li class="menu-item"><a href="../project-team.html">Project Team</a></li>
+            <li class="menu-item"><a href="../blog.html">Blog</a></li>
+          </ul>
+        </div>
+
+
+<p><em>The Programming Historian</em> ISSN 2397-2068, is released under the <a href="http://creativecommons.org/licenses/by/2.0/" rel="license">CC-BY</a> license.</p>
+<p>The project is published by the <em>Editorial Board of the Programming Historian</em>, and first appeared in July 2012. It was last updated on 20 March 2016.</p>
+<p class="github">
+        <a href="https://github.com/programminghistorian/jekyll">Hosted on GitHub <img src="../images/GitHub-Mark-32px.png" title="GitHub logo"></a> 
+		<a href="https://github.com/programminghistorian/jekyll/commits/gh-pages/lessons/working-with-web-pages.md">Previous Versions</a>&nbsp;&#183;&nbsp;
+		<a href="../feedback.html">Give Feedback</a>
+</p>
+
+</footer>
+
+
+    </body>
+</html>

@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <meta name="citation_title" content="Setting Up an Integrated Development Environment for Python (Mac)" />
+
+<meta name="citation_author" content="William J. Turkel" />
+
+<meta name="citation_author" content="Adam Crymble" />
+
+<meta name="citation_publication_date" content="2012-07-17" />
+<meta name="citation_journal_title" content="Programming Historian" />
+<meta name="citation_public_url" content="http://programminghistorian.org/lessons/mac-installation" />
+
+
+    <!-- Mobile viewport optimized: h5bp.com/viewport -->
+    <meta name="viewport" content="width=device-width">
+    
+    <!--Font awesome CDN -->
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,700%7CCrete+Round' rel='stylesheet' type='text/css'>
+    <link href="../css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/github.css">
+    <link href='../feed.xml.rss' rel='alternate' type='application/atom+xml'>
+    <title>Setting Up an Integrated Development Environment for Python (Mac) | Programming Historian</title>
+        
+    <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="../js/ui.js"></script>
+    <script type="text/javascript" src="../js/ext_links.js"></script>
+    <script type="text/javascript" src="../js/header_links.js"></script>
+    <script>
+      $(document).ready(function(){
+        $('.slide-trigger').collapsable();
+      });
+    </script>
+
+    <script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-2752866-8']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+  </head>
+
+
+
+  
+  
+  
+
+  <body>
+
+    <header role="banner">
+    <h1><a href="../index.html">The Programming Historian</a></h1>
+
+	        <div class="additional">
+          <ul id="menu-main-menu" class="additional">
+            <li class="menu-item"><a href="../index.html">About</a></li>
+            <li class="menu-item"><a href="index.html">Lessons</a></li>
+            <li class="menu-item"><a href="../contribute.html">Contribute</a></li>
+            <li class="menu-item"><a href="../project-team.html">Project Team</a></li>
+            <li class="menu-item"><a href="../blog.html">Blog</a></li>
+          </ul>
+        </div>
+
+	</header>
+
+	<div role="main">
+		<article>
+			<header>
+
+                
+				
+			    <p class="kicker">July 17, 2012</p>
+				<h1><a href="mac-installation.html">Setting Up an Integrated Development Environment for Python (Mac)</a></h1>
+                <p class="byline">By 
+  
+        
+             
+                   William J. Turkel
+             
+        
+             
+                   and Adam Crymble
+             
+        
+  
+  </p>
+
+				
+				
+				<ul class="credits">Reviewed by
+				
+                      
+                           
+                                 Miriam Posner
+                           
+                      
+                           
+						         , Jim Clifford
+                           
+                      
+                           
+                                 and Amanda Morton
+                           
+                      
+                
+                <br/>
+                
+                </ul>
+                
+				
+			</header>
+
+            
+
+			<div class="content">
+	              <h3 id="back-up-your-computer">Back up your computer</h3>
+
+<p>Mac users can take advantage of the <a href="http://support.apple.com/kb/ht1427">Time Machine</a> for this.</p>
+
+<h3 id="install-python-v2">Install Python v.2</h3>
+
+<p>As of May 2012, Mac OS X comes preinstalled with Python 2. You can check
+to see if you have Python installed by launching the Terminal in the
+<code class="highlighter-rouge">‘Applications/Utilities’</code> directory and entering <code class="highlighter-rouge">which python</code>
+followed by the Enter key. Pushing the Enter key sends the command to
+the computer when using the terminal. If you see <code class="highlighter-rouge">‘/usr/bin/python’</code> or
+something similar containing the word ‘python’ and a bunch of slashes,
+then you are all set. If not, close the Terminal, download the latest
+stable release of the Python programming language (Version 2.7.3 as of
+May 2012) and install it by following the instructions on the <a href="http://www.python.org/">Python
+website</a>.</p>
+
+<h3 id="create-a-directory">Create a Directory</h3>
+
+<p>To stay organized, it’s best to have a dedicated directory (folder) on
+your computer where you will keep your Python programs (e.g.,
+<code class="highlighter-rouge">programming-historian</code>) and save it anywhere you like on your hard
+drive.</p>
+
+<h3 id="beautiful-soup">Beautiful Soup</h3>
+
+<p>Download the latest version of <a href="http://www.crummy.com/software/BeautifulSoup/">Beautiful Soup</a> and copy it to the
+directory where you are going to put your own programs. Beautiful Soup
+is a library (a collection of prewritten code) that makes it easy for
+Python programs to break web pages down into meaningful chunks that can
+be further processed.</p>
+
+<h3 id="install-komodo-edit">Install Komodo Edit</h3>
+
+<p>Komodo Edit is a free and open source code editor, but as we said in the
+introduction, you have many <a href="http://wiki.python.org/moin/PythonEditors/">other text editing options</a>. Some of our
+testers prefer a program called <a href="http://www.barebones.com/products/textwrangler/">TextWrangler</a>. Which you use is up to
+you, but for the sake of consistency in our lessons, we will be using
+Komodo Edit. You can download a copy of Komodo Edit from the <a href="http://www.activestate.com/komodo-edit">Komodo
+Edit website</a>. Install it from the <code class="highlighter-rouge">.DMG</code> file</p>
+
+<h5 id="start-komodo-edit">Start Komodo Edit</h5>
+
+<p>It should look something like this:</p>
+
+<p><img src="https://raw.githubusercontent.com/programminghistorian/jekyll/bc4c0f1398f54adb1add6bb156756212c28e8f78/images/komodo-edit-mac.png" alt="screenshot of Komodo Exit on OS X" /></p>
+
+<p>Komodo Edit on a Mac</p>
+
+<p>If you don’t see the Toolbox pane on the right hand side, choose
+<code class="highlighter-rouge">View-&gt;Tabs &amp; Sidebars -&gt;Toolbox</code>. It doesn’t matter if the Project pane
+is open or not. Take some time to familiarize yourself with the layout
+of the Komodo editor. The Help file is quite good</p>
+
+<h5 id="configure-komodo-edit">Configure Komodo Edit</h5>
+
+<p>Now you need to set up the editor so that you can run Python
+programs. In the Toolbox window, click on the gear icon and select
+“<code class="highlighter-rouge">New Command…</code>“. This will open a new dialog window. Rename your
+command to “<code class="highlighter-rouge">Run Python</code>” and feel free to change the icon if you
+like. In the “<code class="highlighter-rouge">Command</code>” box, type</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="o">%</span><span class="p">(</span><span class="n">python</span><span class="p">)</span> <span class="o">%</span><span class="n">f</span>
+</code></pre>
+</div>
+
+<p>and under “Start in,” enter</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="o">%</span><span class="n">D</span>
+</code></pre>
+</div>
+
+<p>Click OK. Your new Run Python command should appear in the Toolbox
+pane.</p>
+
+<h2 id="step-2--hello-world-in-python">Step 2 – “Hello World” in Python</h2>
+
+<p>It is traditional to begin programming in a new language by trying to
+create a program that says ‘hello world’ and terminates. We will show
+you how to do this in Python and HTML.</p>
+
+<p>Python is a good programming language for beginners because it is very
+high-level. It is possible, in other words, to write short programs that
+accomplish a lot. The shorter the program, the more likely it is for the
+whole thing to fit on one screen, and the easier it is to keep track of
+all of it in your mind.</p>
+
+<p>The languages that we will be using are all interpreted. This means that
+there is a special computer program (known as an interpreter) that knows
+how to follow instructions written in that language. One way to use the
+interpreter is to store all of your instructions in a file, and then run
+the interpreter on the file. A file that contains programming language
+instructions is known as a program. The interpreter will execute each of
+the instructions that you gave it in your program and then stop. Let’s
+try this.</p>
+
+<p>In your text editor, create a new file, enter the following two-line
+program and save it to your <code class="highlighter-rouge">programming-historian</code> directory as
+<code class="highlighter-rouge">hello-world.py</code></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># hello-world.py</span>
+<span class="k">print</span> <span class="s">'hello world'</span>
+</code></pre>
+</div>
+
+<p>Your chosen text editor should have a “<code class="highlighter-rouge">Run</code>” button that will allow you
+to execute your program. If you are using TextWrangler, click on the
+“#!” button and Run. If all went well, it should look something like
+this:</p>
+
+<p>![TextWrangler-hello-world][]</p>
+
+<p>“Hello World” in Python on a Mac</p>
+
+<h3 id="interacting-with-a-python-shell">Interacting with a Python shell</h3>
+
+<p>Another way to interact with an interpreter is to use what is known as a
+shell. You can type in a statement and press the Enter key, and the
+shell will respond to your command. Using a shell is a great way to test
+statements to make sure that they do what you think they should. This is
+done slightly differently on Mac, Linux and Windows.</p>
+
+<p>You can run a Python shell by launching the “terminal”. On the Mac, open
+the Finder and double-click on <code class="highlighter-rouge">Applications -&gt; Utilities -&gt; Terminal</code>
+then typing “<code class="highlighter-rouge">python</code>” into the window that opens on your screen. At the
+Python shell prompt, type</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">print</span> <span class="s">'hello world'</span>
+</code></pre>
+</div>
+
+<p>and press Enter. The computer will respond with</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">hello</span> <span class="n">world</span>
+</code></pre>
+</div>
+
+<p>When we want to represent an interaction with the shell, we will use
+<code class="highlighter-rouge">-&gt;</code> to indicate the shell’s response to your command, as shown below:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">print</span> <span class="s">'hello world'</span>
+<span class="o">-&gt;</span> <span class="n">hello</span> <span class="n">world</span>
+</code></pre>
+</div>
+
+<p>On your screen, it will look more like this:</p>
+
+<p>![hello world terminal on a Mac][]</p>
+
+<p>Python Shell in Mac Terminal</p>
+
+<p>Now that you and your computer are up and running, we can move onto some
+more interesting tasks. If you are working through the Python lessons in
+order, we suggest you next try ‘[Viewing HTML Files][].’</p>
+
+<p>[]: ../images/komodo-edit-mac.png “komodo-edit-mac”
+  [TextWrangler-hello-world]: ../images/TextWrangler-hello-world.png
+  [hello world terminal on a Mac]: ../images/hello-world-terminal.png “hello-world-terminal”
+  [Viewing HTML Files]: /lessons/viewing-html-files</p>
+
+	        </div>
+
+            
+
+	        <div class="author-info">
+	   	        <p class="author-name">About the authors</p>
+			    <div class="author-description"><p>
+                
+                   
+                   
+                       William J. Turkel is Professor of History at the
+University of Western Ontario.
+&nbsp;
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+		        
+                   
+                   
+                   
+                   
+                       Adam Crymble is a Lecturer of Digital History at the University of
+Hertfordshire.
+&nbsp;
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+		        </p>
+			    </div>
+	        </div>
+          <div class="citation-info">
+            <p class="citation-head">Suggested Citation</p>
+            <div class="suggested-citation">
+              <p>
+              
+  
+        
+             
+                   William J. Turkel
+             
+        
+             
+                   and Adam Crymble
+             
+        
+  
+  , 
+              "Setting Up an Integrated Development Environment for Python (Mac)," 
+              <em>Programming Historian</em> 
+              (17 July 2012), 
+              http://programminghistorian.org/lessons/mac-installation
+              </p>
+            </div>
+          </div>
+        </article>
+    </div>
+
+    </div> <!-- end below-nav -->
+
+<footer role="contentinfo">
+
+          <div class="additional">
+          <ul id="menu-main-menu" class="additional">
+            <li class="menu-item"><a href="../index.html">About</a></li>
+            <li class="menu-item"><a href="index.html">Lessons</a></li>
+            <li class="menu-item"><a href="../contribute.html">Contribute</a></li>
+            <li class="menu-item"><a href="../project-team.html">Project Team</a></li>
+            <li class="menu-item"><a href="../blog.html">Blog</a></li>
+          </ul>
+        </div>
+
+
+<p><em>The Programming Historian</em> ISSN 2397-2068, is released under the <a href="http://creativecommons.org/licenses/by/2.0/" rel="license">CC-BY</a> license.</p>
+<p>The project is published by the <em>Editorial Board of the Programming Historian</em>, and first appeared in July 2012. It was last updated on 20 March 2016.</p>
+<p class="github">
+        <a href="https://github.com/programminghistorian/jekyll">Hosted on GitHub <img src="../images/GitHub-Mark-32px.png" title="GitHub logo"></a> 
+		<a href="https://github.com/programminghistorian/jekyll/commits/gh-pages/lessons/mac-installation.md">Previous Versions</a>&nbsp;&#183;&nbsp;
+		<a href="../feedback.html">Give Feedback</a>
+</p>
+
+</footer>
+
+
+    </body>
+</html>

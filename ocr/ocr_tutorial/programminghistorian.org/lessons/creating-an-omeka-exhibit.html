@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <meta name="citation_title" content="Creating an Omeka Exhibit" />
+
+<meta name="citation_author" content="Miriam Posner" />
+
+<meta name="citation_author" content="Megan R. Brett" />
+
+<meta name="citation_publication_date" content="2016-02-24" />
+<meta name="citation_journal_title" content="Programming Historian" />
+<meta name="citation_public_url" content="http://programminghistorian.org/lessons/creating-an-omeka-exhibit" />
+
+
+    <!-- Mobile viewport optimized: h5bp.com/viewport -->
+    <meta name="viewport" content="width=device-width">
+    
+    <!--Font awesome CDN -->
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,700%7CCrete+Round' rel='stylesheet' type='text/css'>
+    <link href="../css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/github.css">
+    <link href='../feed.xml.rss' rel='alternate' type='application/atom+xml'>
+    <title>Creating an Omeka Exhibit | Programming Historian</title>
+        
+    <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="../js/ui.js"></script>
+    <script type="text/javascript" src="../js/ext_links.js"></script>
+    <script type="text/javascript" src="../js/header_links.js"></script>
+    <script>
+      $(document).ready(function(){
+        $('.slide-trigger').collapsable();
+      });
+    </script>
+
+    <script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-2752866-8']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+  </head>
+
+
+
+  
+  
+  
+
+  <body>
+
+    <header role="banner">
+    <h1><a href="../index.html">The Programming Historian</a></h1>
+
+	        <div class="additional">
+          <ul id="menu-main-menu" class="additional">
+            <li class="menu-item"><a href="../index.html">About</a></li>
+            <li class="menu-item"><a href="index.html">Lessons</a></li>
+            <li class="menu-item"><a href="../contribute.html">Contribute</a></li>
+            <li class="menu-item"><a href="../project-team.html">Project Team</a></li>
+            <li class="menu-item"><a href="../blog.html">Blog</a></li>
+          </ul>
+        </div>
+
+	</header>
+
+	<div role="main">
+		<article>
+			<header>
+
+                
+				
+			    <p class="kicker">February 24, 2016</p>
+				<h1><a href="creating-an-omeka-exhibit.html">Creating an Omeka Exhibit</a></h1>
+                <p class="byline">By 
+  
+        
+             
+                   Miriam Posner
+             
+        
+             
+                   and Megan R. Brett
+             
+        
+  
+  </p>
+
+				
+				
+				      <!-- No reviewers -->
+                      <br/><br/>
+                
+				
+			</header>
+
+            
+
+			<div class="content">
+	              <p>Now that you’ve <a href="link.html">added items to your Omeka site</a> and grouped them into collections, you’re ready for the next step: taking your users on a guided tour through the items you’ve collected.</p>
+
+<h2 id="before-you-begin-map-your-exhibit">Before you begin: Map your exhibit</h2>
+
+<p>It pays to do some thinking before you launch into creating an exhibit. You’ll be creating sections and pages, and you’ll need to give some thought to the argument you want to make and how you intend to make it. In the lesson that follows, I use the silly example of my dogs. But what if I were discussing, say, silent film? My sections might be thematic (comedies, romances, dramas), chronological (early silent film, the transitional period, classical era), or stylistic (modernist, impressionist, narrative). It all depends on the message I want to convey to the site’s visitors. You might draw out a map of your exhibit, showing where you want to put each digital asset.</p>
+
+<h2 id="add-an-exhibit">Add an exhibit</h2>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/createoexhibit2.png">
+		<img src="../images/createoexhibit2.png" alt="Create an exhibit page" />
+	</a>
+<figcaption>
+    <p>Create an exhibit page</p>
+
+</figcaption>
+</figure>
+
+<p>A collection is just a list of objects. An exhibit is a guided tour through your items, complete with descriptive text and customized layouts. To create one, click on the <strong>Exhibits</strong> tab and then <strong>Add an exhibit</strong>. Fill out the form on the top half of the page. A <strong>slug</strong> is a machine-readable name for your exhibit and will become part of your URL.</p>
+
+<h2 id="add-a-page">Add a page</h2>
+<p>Pages are where you’ll stick the actual items in your exhibit. An exhibit can have multiple pages, and you can drag and drop them to rearrange the order, even making some pages sub-sections of others.</p>
+
+<p>Click on the green <strong>Add Page</strong> button. On the following page, you’ll enter some information and pick a layout for your exhibit page.</p>
+
+<h2 id="add-a-content-block-to-your-page">Add a content block to your page</h2>
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/createoexhibit2.png">
+		<img src="../images/createoexhibit2.png" alt="Add a page fields" />
+	</a>
+<figcaption>
+    <p>Add a page fields</p>
+
+</figcaption>
+</figure>
+
+<p>On the page that follows, you’ll seen an option for <strong>Page Title</strong> and <strong>Slug</strong>. Fill those in.</p>
+
+<p>You’ll see the option for <strong>New Block</strong>. Pages are made up of blocks, which can be files and test, just files, or just text.</p>
+
+<p>Click the <strong>File with Text</strong> option and then the green <strong>Add new content block</strong></p>
+
+<h2 id="add-content-to-your-content-block">Add content to your content block</h2>
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/createoexhibit3.png">
+		<img src="../images/createoexhibit3.png" alt="Add a item and file to your content block" />
+	</a>
+<figcaption>
+    <p>Add a item and file to your content block</p>
+
+</figcaption>
+</figure>
+
+<p>In <strong>Block 1 (File with Text)</strong> click the <strong>Add Item</strong> button.</p>
+
+<p>In the window which opens, click on your item and then click <strong>Select Item</strong>. You can add a caption if you want. Click the green <strong>Apply</strong> button.</p>
+
+<p>I also added some filler text to the <strong>Text</strong> field.</p>
+
+<p>When you’re done, click the <strong>View Public Page</strong> button to see how your Omeka site looks.</p>
+
+<h2 id="you-have-an-omeka-site">You have an Omeka site!</h2>
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/createoexhibit4.png">
+		<img src="../images/createoexhibit4.png" alt="Bertie the dog is an exhibit item" />
+	</a>
+<figcaption>
+    <p>Bertie the dog is an exhibit item</p>
+
+</figcaption>
+</figure>
+
+<p>Now your site has items, collections, and an exhibit — all the basic units of an Omeka site!</p>
+
+	        </div>
+
+            
+
+	        <div class="author-info">
+	   	        <p class="author-name">About the authors</p>
+			    <div class="author-description"><p>
+                
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                       Miriam Posner is the digital humanities program coordinator at the
+University of California, Los Angeles.
+&nbsp;
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+		        
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+		        </p>
+			    </div>
+	        </div>
+          <div class="citation-info">
+            <p class="citation-head">Suggested Citation</p>
+            <div class="suggested-citation">
+              <p>
+              
+  
+        
+             
+                   Miriam Posner
+             
+        
+             
+                   and Megan R. Brett
+             
+        
+  
+  , 
+              "Creating an Omeka Exhibit," 
+              <em>Programming Historian</em> 
+              (24 February 2016), 
+              http://programminghistorian.org/lessons/creating-an-omeka-exhibit
+              </p>
+            </div>
+          </div>
+        </article>
+    </div>
+
+    </div> <!-- end below-nav -->
+
+<footer role="contentinfo">
+
+          <div class="additional">
+          <ul id="menu-main-menu" class="additional">
+            <li class="menu-item"><a href="../index.html">About</a></li>
+            <li class="menu-item"><a href="index.html">Lessons</a></li>
+            <li class="menu-item"><a href="../contribute.html">Contribute</a></li>
+            <li class="menu-item"><a href="../project-team.html">Project Team</a></li>
+            <li class="menu-item"><a href="../blog.html">Blog</a></li>
+          </ul>
+        </div>
+
+
+<p><em>The Programming Historian</em> ISSN 2397-2068, is released under the <a href="http://creativecommons.org/licenses/by/2.0/" rel="license">CC-BY</a> license.</p>
+<p>The project is published by the <em>Editorial Board of the Programming Historian</em>, and first appeared in July 2012. It was last updated on 20 March 2016.</p>
+<p class="github">
+        <a href="https://github.com/programminghistorian/jekyll">Hosted on GitHub <img src="../images/GitHub-Mark-32px.png" title="GitHub logo"></a> 
+		<a href="https://github.com/programminghistorian/jekyll/commits/gh-pages/lessons/creating-an-omeka-exhibit.md">Previous Versions</a>&nbsp;&#183;&nbsp;
+		<a href="../feedback.html">Give Feedback</a>
+</p>
+
+</footer>
+
+
+    </body>
+</html>

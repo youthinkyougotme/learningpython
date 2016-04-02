@@ -1,0 +1,360 @@
+First: Nelson
+Mid: W
+Last: Aldrich
+City: Providence
+Stat: RI
+WRes: 1727 Massachusetts ave
+Page: 3
+
+
+First: Augustus
+Mid: 0
+Last: Bacon
+City: Macon
+Stat: Ga
+WRes: 18th st and Oregon ave
+Page: 16
+
+
+First: Joseph
+Mid: W
+Last: Bailey
+City: Gainesville
+Stat: Tex
+WRes: Stoneleigh Court
+Page: 2
+
+
+First: John
+Mid: H
+Last: Bankhead
+City: Fayette
+Stat: Ala
+WRes: Riggs House
+Page: I
+
+
+First: Albert
+Mid: J
+Last: Beveridge
+City: Indianapolis
+Stat: Ind
+WRes: 1155 Sixteenth street
+Page: 27
+
+
+First: William
+Mid: E
+Last: Borah
+City: Boise
+Stat: Idaho
+WRes: Stoneleigh Court
+Page: 19
+
+
+First: Jonathan,jr
+Mid: -
+Last: Bourne
+City: Portland
+Stat: Oreg
+WRes: Stoneleigh Court
+Page: 102
+
+
+First: William
+Mid: 0
+Last: Bradley
+City: Louisville
+Stat: Ky
+WRes: Congress Hall
+Page: 37
+
+
+First: Frank
+Mid: B
+Last: Brandegee
+City: New London
+Stat: Conn
+WRes: 1521 K street
+Page: -
+
+
+First: Frank
+Mid: 0
+Last: Briggs
+City: Trenton
+Stat: NJ
+WRes: 2204 R street
+Page: -
+
+
+First: Joseph
+Mid: L
+Last: Bristow
+City: Salina
+Stat: Kans
+WRes: 2823 Thirteenth street
+Page: 34
+
+
+First: Norris
+Mid: -
+Last: Brown
+City: Kearney
+Stat: Nebr
+WRes: The Portland
+Page: 68
+
+
+First: Morgan
+Mid: G
+Last: Bulkeley
+City: Hartford
+Stat: Conn
+WRes: 1701 Twenty-second st .
+Page: -
+
+
+First: Elmer
+Mid: J
+Last: Burkett
+City: Lincoln
+Stat: Nebr
+WRes: 1816 Nineteenth street
+Page: Ee
+
+
+First: Henry
+Mid: E
+Last: Burnham
+City: Manchester
+Stat: NH The Richmond
+WRes: -
+Page: 70
+
+
+First: Julius
+Mid: C
+Last: II Burrows
+City: Kalamazoo
+Stat: Mich
+WRes: 1406 Massachusetts ave
+Page: 52
+
+
+First: Theodore
+Mid: E
+Last: Burton
+City: Cleveland
+Stat: Ohio
+WRes: The Rochambeau
+Page: 93
+
+
+First: Thomas
+Mid: H
+Last: Carter
+City: Helena
+Stat: Mont
+WRes: 1528 Sixteenth street
+Page: 67
+
+
+First: George
+Mid: -
+Last: Chamberlain
+City: 1749 Q street
+Stat: -
+WRes: -
+Page: 102
+
+
+First: Moses
+Mid: E
+Last: Clapp
+City: St Paul
+Stat: Minn
+WRes: 1310 Euclid street
+Page: 56
+
+
+First: Clarence
+Mid: D
+Last: II Clark
+City: Evanston
+Stat: Wyo
+WRes: The Burlington
+Page: 137
+
+
+First: James
+Mid: P
+Last: Clarke
+City: Little Rock
+Stat: Ark
+WRes: -
+Page: 4
+
+
+First: Alexander
+Mid: S
+Last: Clay
+City: Marietta
+Stat: Ga
+WRes: The Normandie
+Page: 16
+
+
+First: W
+Mid: Murray
+Last: Crane
+City: Dalton
+Stat: Mass
+WRes: 1915 Massachusetts ave
+Page: 48
+
+
+First: Coe
+Mid: -
+Last: Crawford
+City: I
+Stat: -
+WRes: Huron, S Dak
+Page: eeea
+
+
+First: Charles
+Mid: A
+Last: Culberson
+City: Dallas
+Stat: Tex
+WRes: The Connecticut
+Page: 121
+
+
+First: Shelby
+Mid: M
+Last: Cullom
+City: Springfield
+Stat: Ill
+WRes: 1413 Massachusetts ave
+Page: 20
+
+
+First: Albert
+Mid: B
+Last: Cummins
+City: Des Moines
+Stat: Iowa
+WRes: 1524 Eighteenth street
+Page: 31
+
+
+First: Charles
+Mid: -
+Last: Curtis
+City: Topeka
+Stat: Kans
+WRes: 2034 0 street
+Page: 34
+
+
+First: John
+Mid: W
+Last: Daniel
+City: Lynchburg
+Stat: Va
+WRes: -
+Page: 127
+
+
+First: Jeff
+Mid: -
+Last: Davis
+City: Little Rock
+Stat: Ark
+WRes: 1312 Twenty-first street
+Page: 4
+
+
+First: Chauncey
+Mid: M
+Last: IlDepew
+City: New York
+Stat: NY
+WRes: 1775 N street
+Page: 74
+
+
+First: Charles
+Mid: -
+Last: Dick
+City: Akron
+Stat: Ohio
+WRes: The Mendota
+Page: 93
+
+
+First: William
+Mid: P
+Last: Dillingham
+City: Waterbury
+Stat: Vt
+WRes: The Cochran
+Page: 126
+
+
+First: Joseph
+Mid: M
+Last: Dixon
+City: Missoula
+Stat: Mont
+WRes: 1818 Nineteenth street
+Page: 67
+
+
+First: Jonathan
+Mid: P
+Last: Dolliver
+City: Fort Dodge
+Stat: Iowa
+WRes: 1415 Massachusetts aye
+Page: 31
+
+
+First: Henry
+Mid: A
+Last: IlduPont
+City: 1-Elkins
+Stat: Stephen B
+WRes: Winterthur, Del
+Page: 
+
+
+First: W
+Mid: Va
+Last: Elkins
+City: 1711 Massachusetts ave
+Stat: -
+WRes: 1626 K street
+Page: 13132
+
+
+First: D
+Mid: Upshaw
+Last: Fletcher
+City: Jacksonville
+Stat: Fla
+WRes: 1455 Massachusetts ave
+Page: 14
+
+
+First: Frank
+Mid: P
+Last: Mint
+City: Los Angeles
+Stat: Cal
+WRes: 2205 Massachusetts ave
+Page: 6
+
+

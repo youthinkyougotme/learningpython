@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <meta name="citation_title" content="Creating New Items in Zotero" />
+
+<meta name="citation_author" content="Amanda Morton" />
+
+<meta name="citation_publication_date" content="2013-04-01" />
+<meta name="citation_journal_title" content="Programming Historian" />
+<meta name="citation_public_url" content="http://programminghistorian.org/lessons/creating-new-items-in-zotero" />
+
+
+    <!-- Mobile viewport optimized: h5bp.com/viewport -->
+    <meta name="viewport" content="width=device-width">
+    
+    <!--Font awesome CDN -->
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,700%7CCrete+Round' rel='stylesheet' type='text/css'>
+    <link href="../css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/github.css">
+    <link href='../feed.xml.rss' rel='alternate' type='application/atom+xml'>
+    <title>Creating New Items in Zotero | Programming Historian</title>
+        
+    <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="../js/ui.js"></script>
+    <script type="text/javascript" src="../js/ext_links.js"></script>
+    <script type="text/javascript" src="../js/header_links.js"></script>
+    <script>
+      $(document).ready(function(){
+        $('.slide-trigger').collapsable();
+      });
+    </script>
+
+    <script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-2752866-8']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+  </head>
+
+
+
+  
+  
+  
+
+  <body>
+
+    <header role="banner">
+    <h1><a href="../index.html">The Programming Historian</a></h1>
+
+	        <div class="additional">
+          <ul id="menu-main-menu" class="additional">
+            <li class="menu-item"><a href="../index.html">About</a></li>
+            <li class="menu-item"><a href="index.html">Lessons</a></li>
+            <li class="menu-item"><a href="../contribute.html">Contribute</a></li>
+            <li class="menu-item"><a href="../project-team.html">Project Team</a></li>
+            <li class="menu-item"><a href="../blog.html">Blog</a></li>
+          </ul>
+        </div>
+
+	</header>
+
+	<div role="main">
+		<article>
+			<header>
+
+                
+				
+			    <p class="kicker">April 1, 2013</p>
+				<h1><a href="creating-new-items-in-zotero.html">Creating New Items in Zotero</a></h1>
+                <p class="byline">By 
+  
+        Amanda Morton
+  
+  </p>
+
+				
+				
+				<ul class="credits">Reviewed by
+				
+				      Fred Gibbs
+                
+                <br/>
+                
+                Recommended for 
+                Beginning
+                
+                
+                 Users
+                
+                </ul>
+                
+				
+			</header>
+
+            
+
+			<div class="content">
+	              <h2 id="using-python-to-create-an-new-zotero-item">Using Python to Create an New Zotero Item</h2>
+
+<p>In <a href="intro-to-the-zotero-api.html">Intro to the Zotero API</a>, you learned a little bit about Zotero; now you can
+access some of its functions using Python scripts. In this lesson, you
+will create a new item in a Zotero library and add some basic metadata
+such as title and date.</p>
+
+<h3 id="creating-a-new-zotero-item">Creating a new Zotero Item</h3>
+
+<p>It will be helpful to remember that Zotero began as a citation
+management system, and that an <em>item</em> on Zotero contains only metadata;
+it’s a bit like a library calling card. To upload file contents into
+Zotero, you would create an <em>attachment</em> to that item. But for now you
+will start by creating a new Zotero Item and assigning some information
+to metadata fields.</p>
+
+<p>Your first step is to import the python modules that you will need for
+this program.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">libZotero</span> <span class="kn">import</span> <span class="n">zotero</span>
+<span class="kn">import</span> <span class="nn">urllib2</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+</code></pre>
+</div>
+
+<p>Your next line of code will connect to the zotero group library for this lesson
+using the unique group id and API key. (You can also replace the first number
+in the line with your own group or user ID, but if you are trying to connect to
+an individual user library, you must change the word <code class="highlighter-rouge">group</code> to the word
+<code class="highlighter-rouge">user</code> and create your own API key.)</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c">#links to zotero group library</span>
+<span class="n">zlib</span> <span class="o">=</span> <span class="n">zotero</span><span class="o">.</span><span class="n">Library</span><span class="p">(</span><span class="s">'group'</span><span class="p">,</span> <span class="s">'155975'</span><span class="p">,</span><span class="s">'&lt;null&gt;'</span><span class="p">,</span> <span class="s">'f4Bfk3OTYb7bukNwfcKXKNLG'</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>Now that you have imported the required modules and connected to your
+zotero library, you can create a new item and assign it some metadata.
+Start by using the following code to create a new item of the type
+<em>document</em> and set the title to <em>Python Lesson Document.</em></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c">#create a new item of type document</span>
+<span class="n">newItem</span> <span class="o">=</span> <span class="n">zotero</span><span class="o">.</span><span class="n">getTemplateItem</span><span class="p">(</span><span class="s">'document'</span><span class="p">)</span>
+
+<span class="c">#sets the title of the item to Python Lesson Document</span>
+<span class="n">newItem</span><span class="o">.</span><span class="nb">set</span><span class="p">(</span><span class="s">'title'</span><span class="p">,</span> <span class="s">'Python Lesson Document'</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>Next you will add two more types of metadata to your item. First, you
+will add an abstract note, which is basically a short description of the
+item you have created. Then you will set the item’s creation date to the
+current date.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c">#adds a new abstract note</span>
+<span class="n">newItem</span><span class="o">.</span><span class="nb">set</span><span class="p">(</span><span class="s">'abstractNote'</span><span class="p">,</span> <span class="s">'Created using a zotero python library and the write api'</span><span class="p">)</span>
+
+<span class="c">#sets date to current date</span>
+<span class="n">now</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">today</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">"</span><span class="si">%</span><span class="s">Y-</span><span class="si">%</span><span class="s">m-</span><span class="si">%</span><span class="s">d"</span><span class="p">)</span>
+<span class="n">newItem</span><span class="o">.</span><span class="nb">set</span><span class="p">(</span><span class="s">'date'</span><span class="p">,</span> <span class="n">now</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>Now that you have set the important metadata for your item, you can make
+a request to the API to create that item. This code has set the
+<em>writeFailure</em> property to display an error message if the item is not
+successfully created.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># make the request to the API to create the item</span>
+<span class="c"># a Zotero Item object will be returned</span>
+<span class="c"># if the creation went okay it will have a writeFailure property set to False</span>
+<span class="n">createdItem</span> <span class="o">=</span> <span class="n">zlib</span><span class="o">.</span><span class="n">createItem</span><span class="p">(</span><span class="n">newItem</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">createdItem</span><span class="o">.</span><span class="n">writeFailure</span> <span class="o">!=</span> <span class="bp">False</span><span class="p">:</span>
+   <span class="k">print</span><span class="p">(</span><span class="n">createdItem</span><span class="o">.</span><span class="n">writeFailure</span><span class="p">[</span><span class="s">'code'</span><span class="p">])</span>
+   <span class="k">print</span><span class="p">(</span><span class="n">createdItem</span><span class="o">.</span><span class="n">writeFailure</span><span class="p">[</span><span class="s">'message'</span><span class="p">])</span>
+</code></pre>
+</div>
+
+<p>Your last step is to add a <em>tag</em> to your new item. The following code
+will tag your item as <em>python lesson</em> and update the item with the new
+tag. Just as in the last segment, this code contains a <em>writeFailure</em>
+property that will print an error message if the item has not updated
+correctly.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c">#adds a new tag to the new item</span>
+<span class="n">tagname</span> <span class="o">=</span> <span class="s">'python lesson'</span>
+
+<span class="c">#in the bracket (tagname, '&lt;tag type:0&gt;')</span>
+<span class="n">createdItem</span><span class="o">.</span><span class="n">addTag</span><span class="p">(</span><span class="n">tagname</span><span class="p">,</span> <span class="s">'0'</span><span class="p">)</span>
+
+<span class="c">#updates the item with the new tag</span>
+<span class="n">updatedItem</span> <span class="o">=</span> <span class="n">zlib</span><span class="o">.</span><span class="n">writeUpdatedItem</span><span class="p">(</span><span class="n">createdItem</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">updatedItem</span><span class="o">.</span><span class="n">writeFailure</span> <span class="o">!=</span> <span class="bp">False</span><span class="p">:</span>
+   <span class="k">print</span><span class="p">(</span><span class="s">"Error updating item"</span><span class="p">)</span>
+   <span class="k">print</span><span class="p">(</span><span class="n">updatedItem</span><span class="o">.</span><span class="n">writeFailure</span><span class="p">[</span><span class="s">'code'</span><span class="p">])</span>
+   <span class="k">print</span><span class="p">(</span><span class="n">updatedItem</span><span class="o">.</span><span class="n">writeFailure</span><span class="p">[</span><span class="s">'message'</span><span class="p">])</span>
+</code></pre>
+</div>
+
+<p>At last, you have created a new item with a title and a tag name. This
+last line of code will confirm the item you have just created.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">print</span> <span class="s">'Created new item &lt;</span><span class="si">%</span><span class="s">s&gt; with new tag &lt;</span><span class="si">%</span><span class="s">s&gt;'</span> <span class="o">%</span> <span class="p">(</span><span class="n">createdItem</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="n">tagname</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>If all has gone according to plan, your output should look like this:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>Created new item <span class="nt">&lt;Python</span> <span class="err">Lesson</span> <span class="err">Document</span><span class="nt">&gt;</span> with new tag <span class="nt">&lt;python</span> <span class="err">lesson</span><span class="nt">&gt;</span>
+</code></pre>
+</div>
+
+<p>You can also check your Zotero library to find the document that you
+made using Python. The title, abstract, and date should be filled out,
+and the tag should appear also.</p>
+
+<p>By editing the program above, you can create items with different types
+(such as books, journal articles, or newspapers) and specify more precise titles,
+creation dates, and tags. To see a list of all the Item Types available
+in the Zotero API, use your browser to navigate to this URL:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>https://api.zotero.org/itemTypes
+</code></pre>
+</div>
+
+<p>You can then see the fields available in each Item Type template by
+navigating to the following URL, replacing <code class="highlighter-rouge">document</code> with the key for the
+Item Type that interests you:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>https://api.zotero.org/items/new?itemType=document
+</code></pre>
+</div>
+
+<p>For example, the list of Item Types returned by the first URL shows a type called <code class="highlighter-rouge">videoRecording</code>. 
+In our code above, you could request a template for that type by changing the
+<code class="highlighter-rouge">document</code> argument in our <code class="highlighter-rouge">getItemTemplate()</code> function with <code class="highlighter-rouge">videoRecording</code>. To 
+see which fields are available in this template, you could navigate in your browser to the 
+appropriate URL:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>https://api.zotero.org/items/new?itemType=videoRecording
+</code></pre>
+</div>
+
+<p>For more details, see the documentation on write requests for the <a href="https://www.zotero.org/support/dev/web_api/v3/write_requests">Zotero API</a>.</p>
+
+
+	        </div>
+
+            
+            <p><em>Note:</em> You are now prepared to move on to the 
+                <a href="counting-frequencies-from-zotero-items.html">next lesson</a>
+                in this series.</p>
+            
+
+	        <div class="author-info">
+	   	        <p class="author-name">About the author</p>
+			    <div class="author-description"><p>
+                
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                       Amanda Morton is a DH Fellow at the Center for History and New Media.
+&nbsp;
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+		        </p>
+			    </div>
+	        </div>
+          <div class="citation-info">
+            <p class="citation-head">Suggested Citation</p>
+            <div class="suggested-citation">
+              <p>
+              
+  
+        Amanda Morton
+  
+  , 
+              "Creating New Items in Zotero," 
+              <em>Programming Historian</em> 
+              (01 April 2013), 
+              http://programminghistorian.org/lessons/creating-new-items-in-zotero
+              </p>
+            </div>
+          </div>
+        </article>
+    </div>
+
+    </div> <!-- end below-nav -->
+
+<footer role="contentinfo">
+
+          <div class="additional">
+          <ul id="menu-main-menu" class="additional">
+            <li class="menu-item"><a href="../index.html">About</a></li>
+            <li class="menu-item"><a href="index.html">Lessons</a></li>
+            <li class="menu-item"><a href="../contribute.html">Contribute</a></li>
+            <li class="menu-item"><a href="../project-team.html">Project Team</a></li>
+            <li class="menu-item"><a href="../blog.html">Blog</a></li>
+          </ul>
+        </div>
+
+
+<p><em>The Programming Historian</em> ISSN 2397-2068, is released under the <a href="http://creativecommons.org/licenses/by/2.0/" rel="license">CC-BY</a> license.</p>
+<p>The project is published by the <em>Editorial Board of the Programming Historian</em>, and first appeared in July 2012. It was last updated on 20 March 2016.</p>
+<p class="github">
+        <a href="https://github.com/programminghistorian/jekyll">Hosted on GitHub <img src="../images/GitHub-Mark-32px.png" title="GitHub logo"></a> 
+		<a href="https://github.com/programminghistorian/jekyll/commits/gh-pages/lessons/creating-new-items-in-zotero.md">Previous Versions</a>&nbsp;&#183;&nbsp;
+		<a href="../feedback.html">Give Feedback</a>
+</p>
+
+</footer>
+
+
+    </body>
+</html>

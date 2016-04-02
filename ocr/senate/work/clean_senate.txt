@@ -1,0 +1,640 @@
+*ttAldrich, Nelson W  Providence, R. I... . 1727 Massachusetts ave. "3
+
+['Aldrich, Nelson W', 'Providence, RI', '1727 Massachusetts ave', '3']
+----
+First: Nelson
+Mid: W
+Last: Aldrich
+City: Providence
+Stat: RI
+WRes: 1727 Massachusetts ave
+Page: 3
+
+
+
+Nelson,W,Aldrich,Providence,RI,1727 Massachusetts ave,3
+
+Bacon, Augustus 0  Macon, Ga  18th st. and Oregon ave . 16
+
+['Bacon, Augustus 0', 'Macon, Ga', '18th st and Oregon ave', '16']
+----
+First: Augustus
+Mid: 0
+Last: Bacon
+City: Macon
+Stat: Ga
+WRes: 18th st and Oregon ave
+Page: 16
+
+
+
+Augustus,0,Bacon,Macon,Ga,18th st and Oregon ave,16
+
+*Bailey, Joseph W  Gainesville, Tex Stoneleigh Court  I2I
+
+['Bailey, Joseph W', 'Gainesville, Tex', 'Stoneleigh Court', 'I2I']
+----
+First: Joseph
+Mid: W
+Last: Bailey
+City: Gainesville
+Stat: Tex
+WRes: Stoneleigh Court
+Page: 2
+
+
+
+Joseph,W,Bailey,Gainesville,Tex,Stoneleigh Court,2
+
+*ttBankhead, John H  Fayette, Ala  Riggs House  I
+
+['Bankhead, John H', 'Fayette, Ala', 'Riggs House', 'I']
+----
+First: John
+Mid: H
+Last: Bankhead
+City: Fayette
+Stat: Ala
+WRes: Riggs House
+Page: I
+
+
+
+John,H,Bankhead,Fayette,Ala,Riggs House,I
+
+*Beveridge, Albert J   Indianapolis, Ind . . 1155 Sixteenth street... • 27
+
+['Beveridge, Albert J', 'Indianapolis, Ind', '1155 Sixteenth street', '\xe2\x80\xa2 27']
+----
+First: Albert
+Mid: J
+Last: Beveridge
+City: Indianapolis
+Stat: Ind
+WRes: 1155 Sixteenth street
+Page: 27
+
+
+
+Albert,J,Beveridge,Indianapolis,Ind,1155 Sixteenth street,27
+
+*Borah, William E  Boise, Idaho  Stoneleigh Court  19
+
+['Borah, William E', 'Boise, Idaho', 'Stoneleigh Court', '19']
+----
+First: William
+Mid: E
+Last: Borah
+City: Boise
+Stat: Idaho
+WRes: Stoneleigh Court
+Page: 19
+
+
+
+William,E,Borah,Boise,Idaho,Stoneleigh Court,19
+
+*Bourne, Jonathan,jr  Portland, Oreg  Stoneleigh Court  102
+
+['Bourne, Jonathan,jr', 'Portland, Oreg', 'Stoneleigh Court', '102']
+----
+First: Jonathan,jr
+Mid: -
+Last: Bourne
+City: Portland
+Stat: Oreg
+WRes: Stoneleigh Court
+Page: 102
+
+
+
+Jonathan,jr,-,Bourne,Portland,Oreg,Stoneleigh Court,102
+
+11Bradley, William 0  Louisville, Ky  Congress Hall  37
+
+['Bradley, William 0', 'Louisville, Ky', 'Congress Hall', '37']
+----
+First: William
+Mid: 0
+Last: Bradley
+City: Louisville
+Stat: Ky
+WRes: Congress Hall
+Page: 37
+
+
+
+William,0,Bradley,Louisville,Ky,Congress Hall,37
+
+Brandegee, Frank B  New London, Conn. 1521 K street
+
+['Brandegee, Frank B', 'New London, Conn', '1521 K street', '-']
+----
+First: Frank
+Mid: B
+Last: Brandegee
+City: New London
+Stat: Conn
+WRes: 1521 K street
+Page: -
+
+
+
+Frank,B,Brandegee,New London,Conn,1521 K street,-
+
+*Briggs, Frank 0   Trenton, N. J  2204 R street
+
+['Briggs, Frank 0', 'Trenton, NJ', '2204 R street', '-']
+----
+First: Frank
+Mid: 0
+Last: Briggs
+City: Trenton
+Stat: NJ
+WRes: 2204 R street
+Page: -
+
+
+
+Frank,0,Briggs,Trenton,NJ,2204 R street,-
+
+*Bristow, Joseph L  Salina, Kans.   2823 Thirteenth street. . 34
+
+['Bristow, Joseph L', 'Salina, Kans', '2823 Thirteenth street', '34']
+----
+First: Joseph
+Mid: L
+Last: Bristow
+City: Salina
+Stat: Kans
+WRes: 2823 Thirteenth street
+Page: 34
+
+
+
+Joseph,L,Bristow,Salina,Kans,2823 Thirteenth street,34
+
+*Brown, Norris  Kearney, Nebr  The Portland  68
+
+['Brown, Norris', 'Kearney, Nebr', 'The Portland', '68']
+----
+First: Norris
+Mid: -
+Last: Brown
+City: Kearney
+Stat: Nebr
+WRes: The Portland
+Page: 68
+
+
+
+Norris,-,Brown,Kearney,Nebr,The Portland,68
+
+*Bulkeley, Morgan G  Hartford, Conn . . . . 1701 Twenty-second st .
+
+['Bulkeley, Morgan G', 'Hartford, Conn', '1701 Twenty-second st .', '-']
+----
+First: Morgan
+Mid: G
+Last: Bulkeley
+City: Hartford
+Stat: Conn
+WRes: 1701 Twenty-second st .
+Page: -
+
+
+
+Morgan,G,Bulkeley,Hartford,Conn,1701 Twenty-second st .,-
+
+*Burkett, Elmer J  Lincoln, Nebr  1816 Nineteenth street . . Ese
+
+['Burkett, Elmer J', 'Lincoln, Nebr', '1816 Nineteenth street', 'Ese']
+----
+First: Elmer
+Mid: J
+Last: Burkett
+City: Lincoln
+Stat: Nebr
+WRes: 1816 Nineteenth street
+Page: Ee
+
+
+
+Elmer,J,Burkett,Lincoln,Nebr,1816 Nineteenth street,Ee
+
+*1-11Burnham, Henry E  Manchester, N. H The Richmond  70
+
+['Burnham, Henry E', 'Manchester, NH The Richmond', '-', '70']
+----
+First: Henry
+Mid: E
+Last: Burnham
+City: Manchester
+Stat: NH The Richmond
+WRes: -
+Page: 70
+
+
+
+Henry,E,Burnham,Manchester,NH The Richmond,-,70
+
+*II Burrows, Julius C  Kalamazoo, Mich . . 1406 Massachusetts ave . 52
+
+['II Burrows, Julius C', 'Kalamazoo, Mich', '1406 Massachusetts ave', '52']
+----
+First: Julius
+Mid: C
+Last: II Burrows
+City: Kalamazoo
+Stat: Mich
+WRes: 1406 Massachusetts ave
+Page: 52
+
+
+
+Julius,C,II Burrows,Kalamazoo,Mich,1406 Massachusetts ave,52
+
+Burton, Theodore E  Cleveland, Ohio . The Rochambeau  93
+
+['Burton, Theodore E', 'Cleveland, Ohio', 'The Rochambeau', '93']
+----
+First: Theodore
+Mid: E
+Last: Burton
+City: Cleveland
+Stat: Ohio
+WRes: The Rochambeau
+Page: 93
+
+
+
+Theodore,E,Burton,Cleveland,Ohio,The Rochambeau,93
+
+*Carter, Thomas H   Helena, Mont  1528 Sixteenth street... 67
+
+['Carter, Thomas H', 'Helena, Mont', '1528 Sixteenth street', '67']
+----
+First: Thomas
+Mid: H
+Last: Carter
+City: Helena
+Stat: Mont
+WRes: 1528 Sixteenth street
+Page: 67
+
+
+
+Thomas,H,Carter,Helena,Mont,1528 Sixteenth street,67
+
+*1-Chamberlain, George E B. Portland, Oreg  1749 Q street  102
+
+['Chamberlain, George EB Portland, Oreg', '1749 Q street', '-', '102']
+----
+First: George
+Mid: -
+Last: Chamberlain
+City: 1749 Q street
+Stat: -
+WRes: -
+Page: 102
+
+
+
+George,-,Chamberlain,1749 Q street,-,-,102
+
+*1Clapp, Moses E  St. Paul, Minn   1310 Euclid street   56
+
+['Clapp, Moses E', 'St Paul, Minn', '1310 Euclid street', '56']
+----
+First: Moses
+Mid: E
+Last: Clapp
+City: St Paul
+Stat: Minn
+WRes: 1310 Euclid street
+Page: 56
+
+
+
+Moses,E,Clapp,St Paul,Minn,1310 Euclid street,56
+
+*1-1- II Clark, Clarence D  Evanston, Wyo The Burlington  137
+
+[' II Clark, Clarence D', 'Evanston, Wyo', 'The Burlington', '137']
+----
+First: Clarence
+Mid: D
+Last: II Clark
+City: Evanston
+Stat: Wyo
+WRes: The Burlington
+Page: 137
+
+
+
+Clarence,D,II Clark,Evanston,Wyo,The Burlington,137
+
+Clarke, James P  Little Rock, Ark     4
+
+['Clarke, James P', 'Little Rock, Ark', '-', '4']
+----
+First: James
+Mid: P
+Last: Clarke
+City: Little Rock
+Stat: Ark
+WRes: -
+Page: 4
+
+
+
+James,P,Clarke,Little Rock,Ark,-,4
+
+*1-Clay, Alexander S  Marietta, Ga  The Normandie  16
+
+['Clay, Alexander S', 'Marietta, Ga', 'The Normandie', '16']
+----
+First: Alexander
+Mid: S
+Last: Clay
+City: Marietta
+Stat: Ga
+WRes: The Normandie
+Page: 16
+
+
+
+Alexander,S,Clay,Marietta,Ga,The Normandie,16
+
+*Crane, W. Murray  Dalton, Mass  1915 Massachusetts ave. 48
+
+['Crane, W Murray', 'Dalton, Mass', '1915 Massachusetts ave', '48']
+----
+First: W
+Mid: Murray
+Last: Crane
+City: Dalton
+Stat: Mass
+WRes: 1915 Massachusetts ave
+Page: 48
+
+
+
+W,Murray,Crane,Dalton,Mass,1915 Massachusetts ave,48
+
+Crawford, Coe I  Huron, S. Dak  The Kenesaw  "7
+
+['Crawford, Coe', 'I', 'Huron, S Dak', 'The Kenesaw', '7']
+----
+First: Coe
+Mid: -
+Last: Crawford
+City: I
+Stat: -
+WRes: Huron, S Dak
+Page: eeea
+
+
+
+Coe,-,Crawford,I,-,Huron, S Dak,eeea
+
+* Culberson, Charles A  Dallas, Tex  The Connecticut  121
+
+[' Culberson, Charles A', 'Dallas, Tex', 'The Connecticut', '121']
+----
+First: Charles
+Mid: A
+Last: Culberson
+City: Dallas
+Stat: Tex
+WRes: The Connecticut
+Page: 121
+
+
+
+Charles,A,Culberson,Dallas,Tex,The Connecticut,121
+
+Cullom, Shelby M  Springfield, Ill  1413 Massachusetts ave. 20
+
+['Cullom, Shelby M', 'Springfield, Ill', '1413 Massachusetts ave', '20']
+----
+First: Shelby
+Mid: M
+Last: Cullom
+City: Springfield
+Stat: Ill
+WRes: 1413 Massachusetts ave
+Page: 20
+
+
+
+Shelby,M,Cullom,Springfield,Ill,1413 Massachusetts ave,20
+
+Cummins, Albert B  Des Moines, Iowa . 1524 Eighteenth street . 31
+
+['Cummins, Albert B', 'Des Moines, Iowa', '1524 Eighteenth street', '31']
+----
+First: Albert
+Mid: B
+Last: Cummins
+City: Des Moines
+Stat: Iowa
+WRes: 1524 Eighteenth street
+Page: 31
+
+
+
+Albert,B,Cummins,Des Moines,Iowa,1524 Eighteenth street,31
+
+*1.11Curtis, Charles   Topeka, Kans  2034 0 street  34 
+
+['. 11Curtis, Charles', 'Topeka, Kans', '2034 0 street', '34']
+----
+First: Charles
+Mid: -
+Last: Curtis
+City: Topeka
+Stat: Kans
+WRes: 2034 0 street
+Page: 34
+
+
+
+Charles,-,Curtis,Topeka,Kans,2034 0 street,34
+
+Daniel, John W  Lynchburg, Va      127
+
+['Daniel, John W', 'Lynchburg, Va', '-', '127']
+----
+First: John
+Mid: W
+Last: Daniel
+City: Lynchburg
+Stat: Va
+WRes: -
+Page: 127
+
+
+
+John,W,Daniel,Lynchburg,Va,-,127
+
+tttDavis, Jeff  Little Rock, Ark .. 1312 Twenty-first street. 4
+
+['Davis, Jeff', 'Little Rock, Ark', '1312 Twenty-first street', '4']
+----
+First: Jeff
+Mid: -
+Last: Davis
+City: Little Rock
+Stat: Ark
+WRes: 1312 Twenty-first street
+Page: 4
+
+
+
+Jeff,-,Davis,Little Rock,Ark,1312 Twenty-first street,4
+
+*IlDepew, Chauncey M  New York, N. Y 1775 N street   74
+
+['IlDepew, Chauncey M', 'New York, NY', '1775 N street', '74']
+----
+First: Chauncey
+Mid: M
+Last: IlDepew
+City: New York
+Stat: NY
+WRes: 1775 N street
+Page: 74
+
+
+
+Chauncey,M,IlDepew,New York,NY,1775 N street,74
+
+*Dick, Charles  Akron, Ohio  The Mendota  93
+
+['Dick, Charles', 'Akron, Ohio', 'The Mendota', '93']
+----
+First: Charles
+Mid: -
+Last: Dick
+City: Akron
+Stat: Ohio
+WRes: The Mendota
+Page: 93
+
+
+
+Charles,-,Dick,Akron,Ohio,The Mendota,93
+
+Dillingham, William P  Waterbury, Vt  The Cochran   126
+
+['Dillingham, William P', 'Waterbury, Vt', 'The Cochran', '126']
+----
+First: William
+Mid: P
+Last: Dillingham
+City: Waterbury
+Stat: Vt
+WRes: The Cochran
+Page: 126
+
+
+
+William,P,Dillingham,Waterbury,Vt,The Cochran,126
+
+*D ixon, Joseph M  Missoula, Mont . . 1818 Nineteenth street . . 67
+
+['D ixon, Joseph M', 'Missoula, Mont', '1818 Nineteenth street', '67']
+----
+First: Joseph
+Mid: M
+Last: Dixon
+City: Missoula
+Stat: Mont
+WRes: 1818 Nineteenth street
+Page: 67
+
+
+
+Joseph,M,Dixon,Missoula,Mont,1818 Nineteenth street,67
+
+*Dolliver, Jonathan P  Fort Dodge, Iowa .. .1415 Massachusetts aye . 31
+
+['Dolliver, Jonathan P', 'Fort Dodge, Iowa', '. 1415 Massachusetts aye', '31']
+----
+First: Jonathan
+Mid: P
+Last: Dolliver
+City: Fort Dodge
+Stat: Iowa
+WRes: 1415 Massachusetts aye
+Page: 31
+
+
+
+Jonathan,P,Dolliver,Fort Dodge,Iowa,1415 Massachusetts aye,31
+
+Ildu Pont, Henry A  *1-Elkins, Stephen B  Winterthur, Del ...
+
+['Ildu Pont, Henry A', '1-Elkins, Stephen B', 'Winterthur, Del', '']
+----
+First: Henry
+Mid: A
+Last: IlduPont
+City: 1-Elkins
+Stat: Stephen B
+WRes: Winterthur, Del
+Page: 
+
+
+
+Henry,A,IlduPont,1-Elkins,Stephen B,Winterthur, Del,
+
+Elkins, W. Va  1711 Massachusetts ave. 1626 K street  13 132
+
+['Elkins, W Va', '1711 Massachusetts ave', '1626 K street', '13 132']
+----
+First: W
+Mid: Va
+Last: Elkins
+City: 1711 Massachusetts ave
+Stat: -
+WRes: 1626 K street
+Page: 13132
+
+
+
+W,Va,Elkins,1711 Massachusetts ave,-,1626 K street,13132
+
+*1-1-Fletcher, D. Upshaw  Jacksonville, Fla... 1455 Massachusetts ave. 14
+
+['Fletcher, D Upshaw', 'Jacksonville, Fla', '1455 Massachusetts ave', '14']
+----
+First: D
+Mid: Upshaw
+Last: Fletcher
+City: Jacksonville
+Stat: Fla
+WRes: 1455 Massachusetts ave
+Page: 14
+
+
+
+D,Upshaw,Fletcher,Jacksonville,Fla,1455 Massachusetts ave,14
+
+*Mint, Frank P  Los Angeles, Cal ... 2205 Massachusetts ave . 6
+
+['Mint, Frank P', 'Los Angeles, Cal', '2205 Massachusetts ave', '6']
+----
+First: Frank
+Mid: P
+Last: Mint
+City: Los Angeles
+Stat: Cal
+WRes: 2205 Massachusetts ave
+Page: 6
+
+
+
+Frank,P,Mint,Los Angeles,Cal,2205 Massachusetts ave,6
+

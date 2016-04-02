@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html>
+
+	  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <meta name="citation_title" content="Instructions for Authors" />
+
+<meta name="citation_publication_date" content="" />
+<meta name="citation_journal_title" content="Programming Historian" />
+<meta name="citation_public_url" content="http://programminghistorian.org/new-lesson-workflow" />
+
+
+    <!-- Mobile viewport optimized: h5bp.com/viewport -->
+    <meta name="viewport" content="width=device-width">
+    
+    <!--Font awesome CDN -->
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,700%7CCrete+Round' rel='stylesheet' type='text/css'>
+    <link href="css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/github.css">
+    <link href='feed.xml.rss' rel='alternate' type='application/atom+xml'>
+    <title>Instructions for Authors | Programming Historian</title>
+        
+    <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="js/ui.js"></script>
+    <script type="text/javascript" src="js/ext_links.js"></script>
+    <script type="text/javascript" src="js/header_links.js"></script>
+    <script>
+      $(document).ready(function(){
+        $('.slide-trigger').collapsable();
+      });
+    </script>
+
+    <script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-2752866-8']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+  </head>
+
+
+
+
+  <body>
+
+    <header role="banner">
+    <h1><a href="index.html">The Programming Historian</a></h1>
+
+	        <div class="additional">
+          <ul id="menu-main-menu" class="additional">
+            <li class="menu-item"><a href="index.html">About</a></li>
+            <li class="menu-item"><a href="lessons/index.html">Lessons</a></li>
+            <li class="menu-item"><a href="contribute.html">Contribute</a></li>
+            <li class="menu-item"><a href="project-team.html">Project Team</a></li>
+            <li class="menu-item"><a href="blog.html">Blog</a></li>
+          </ul>
+        </div>
+
+	</header>
+
+	<div role="main">
+		<article>
+			<header>
+				<h1>Instructions for Authors</h1>
+			</header>
+
+			<div class="content">
+	              <p>This page contains instructions for authors for submitting a new lesson
+to the <em>Programming Historian</em>.</p>
+
+<h1 id="proposing-a-new-lesson">Proposing a New Lesson</h1>
+
+<figure>
+    <img src="images/author-sm.png" width="180px" style="float: left; margin-right: 15px; margin-bottom: 15px;" />
+
+</figure>
+
+<p>If you have an idea for a new lesson, or have already written a tutorial
+that you think could be adapted for the <em>Programming Historian</em>, contact
+<a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#105;&#050;&#109;&#105;&#108;&#108;&#105;&#103;&#064;&#117;&#119;&#097;&#116;&#101;&#114;&#108;&#111;&#111;&#046;&#099;&#097;">Ian Milligan</a> to discuss your idea. This initial contact is not meant to be a form of gatekeeping. Instead, we hope that it will help you and us think about how we can frame your idea to have the biggest impact. It also gives us a chance to check that no one else is working on the same concept, which we hope helps minimise duplicated effort and maximise our acceptance rate. Once our editor has given you the go-ahead to pursue your idea, he or
+she will post the tentative lesson title, and a brief description to the
+public <a href="https://github.com/programminghistorian/jekyll/wiki/Lesson-Pipeline">Lesson Pipeline wiki page</a>. This is a way of planting your flag
+in the sand, and helps us avoid multiple people concurrently writing the
+same or very similar lessons.</p>
+
+<p>There is no standard lesson at the <em>Programming Historian</em>. Topics vary
+widely, as does the expected technical proficiency. We encourage this
+variety, and welcome all kinds of lesson proposals. Lessons may be
+rather straightforward and discrete tasks; they may be quite complex and
+technically sophisticated. Longer and more involved lessons can be
+divided into smaller sub-lessons that can be worked through in sequence.</p>
+
+<p>We do insist that all lessons have a clearly defined goal and are
+written with a particular audience in mind. Lessons should explain at
+the outset exactly what skills or results they will impart; lessons
+should conclude only after they have provided a tangible skill to the
+reader.</p>
+
+<p>You can get a better sense of what we’re looking for by reading our
+<a href="http://reviewer-guidelines.html">reviewer guidlines</a> or looking at our <a href="lessons/index.html">published lessons</a>.</p>
+
+<h1 id="writing-a-new-lesson">Writing a New Lesson</h1>
+
+<p>In order to get lessons published as quickly and professionally as
+possible, we ask that authors adhere to the following styleguide.</p>
+
+<p>Please note that we do not have a budget to hire a copyeditor as this is
+a volunteer-driven project, so we are grateful for your attention to
+detail.</p>
+
+<h2 id="use-plain-text">Use Plain Text</h2>
+
+<p>Because our site is hosted on GitHub Pages, your lesson must be written
+in a plain-text editor of your choice. For Mac, we recommend free text
+editors such as <a href="http://www.barebones.com/products/textwrangler/">TextWrangler</a> or TextEdit (which comes with Mac OS X).
+For Windows, you can use Notepad or the enhanced <a href="https://notepad-plus-plus.org/">Notepad++</a>. The
+specific editor you choose is not important, but submitting and
+formatting your lesson will be much easier if you begin the whole
+process in plain text. Please contact a member of the <a href="http://project-team.html">project team</a> if
+you have questions or concerns.</p>
+
+<h2 id="name-the-lesson-file">Name the Lesson File</h2>
+
+<p>Name your new lesson file following these guidelines:</p>
+
+<ul>
+  <li>Make the filename short, but descriptive; this filename will
+eventually become the <a href="https://en.wikipedia.org/wiki/Semantic_URL#Slug">slug</a> for the lesson’s URL when published.
+Think about how potential readers might search for something like
+your lesson. A keyword-rich slug is a good way to get
+search-engine traffic.</li>
+  <li>Do not put spaces or underscores in the filename; use
+hyphens instead.</li>
+  <li>The filename extension should be <code class="highlighter-rouge">.md</code> (markdown).</li>
+</ul>
+
+<h2 id="add-a-metadata-block">Add a Metadata Block</h2>
+
+<p>Our system uses special <a href="https://en.wikipedia.org/wiki/YAML">YAML</a> front-matter blocks to store metadata
+about each lesson. Use the following example to create a YAML block for
+your lesson. This should appear at the very top of your lesson file, 
+and <strong>must be followed by a blank line.</strong>
+(Note: you will not know the names of your reviewers. Leave this blank
+for now.)</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>---
+title: Data Mining the Internet Archive Collection
+authors:
+- Caleb McDaniel
+date: 2014-03-03
+reviewers:
+- William J. Turkel
+layout: default
+---
+</code></pre>
+</div>
+
+<p>Because colons are a special character in YAML, values that contain
+colons (for example, a title that also has a subtitle) must be handled
+using YAML’s syntax for block literals:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>---
+title: |
+    Getting Started with Topic Models: A MALLET Primer
+authors:
+- Ian Milligan
+- Shawn Graham
+- Scott Weingart
+date: 2014-03-03
+reviewers:
+- William J. Turkel
+layout: default
+---
+</code></pre>
+</div>
+
+<p>You must use the “list” format shown above for the authors and reviewers
+fields, even if there is only one author or reviewer.</p>
+
+<p>Don’t forget to put a blank line after the final <code class="highlighter-rouge">---</code> in your YAML block
+before proceeding with your lesson.</p>
+
+<h2 id="write-in-markdown">Write in Markdown</h2>
+
+<p>All new lessons should be formatted as Markdown files. Markdown is a simple
+mark-up language that is best written in a text editor (do not use MS Word or
+Open Office). Our site uses <a href="https://pages.github.com/">GitHub Pages</a>, which
+are powered by <a href="http://jekyllrb.com/">Jekyll</a>, to automatically convert the
+Markdown written by our authors into the HTML pages that you can find here on
+the website.</p>
+
+<p>The following resources and cheatsheets will tell you all that you need to know
+about formatting a lesson in Markdown:</p>
+
+<ul>
+  <li><a href="https://guides.github.com/features/mastering-markdown/">GitHub Guide to Markdown</a></li>
+  <li><a href="https://help.github.com/articles/markdown-basics">Markdown Basics</a></li>
+  <li><a href="https://help.github.com/articles/github-flavored-markdown">Github Flavored Markdown</a></li>
+</ul>
+
+<p>Even this page is written in Markdown, as you can see by inspecting <a href="https://raw.githubusercontent.com/programminghistorian/jekyll/gh-pages/new-lesson-workflow.md">the
+raw text on GitHub</a>.</p>
+
+<p>For our site, Figures, Tables, Code Blocks, Quotation Marks, and
+Emphasis require special handling. Please follow the instructions below:</p>
+
+<h3 id="figures">Figures</h3>
+
+<p>The <code class="highlighter-rouge">figure</code> and <code class="highlighter-rouge">figcaption</code> <a href="http://html5doctor.com/the-figure-figcaption-elements/">elements provided by HTML5</a> provide
+useful ways to link text with an image. To implement figures in your
+lesson, use the following line of code in the body of your lesson:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>{% include figure.html src="../images/filename" caption="Caption to image" %}
+</code></pre>
+</div>
+
+<p>The only parts of that line you’ll have to modify are <code class="highlighter-rouge">filename</code> and
+<code class="highlighter-rouge">Caption to image</code>. Note that you may use Markdown within caption text,
+e.g. to mark text as bold or italic.</p>
+
+<p>When the Markdown is rendered by our system, this line will produce HTML
+that looks like this:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;figure&gt;</span>
+    <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"../images/filename"</span><span class="nt">&gt;</span>
+       <span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">"../images/filename"</span> <span class="na">alt=</span><span class="s">"Caption to image"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;/a&gt;</span>
+<span class="nt">&lt;figcaption&gt;</span>
+    Caption to image
+<span class="nt">&lt;/figcaption&gt;</span>
+<span class="nt">&lt;/figure&gt;</span>
+</code></pre>
+</div>
+
+<p>Note that when figure tags are added this way, the image will not show
+up in the preview on Github or in other Markdown preview programs, but
+it will be visible on the <em>Programming Historian</em> website. See an
+<a href="https://github.com/programminghistorian/jekyll/commit/476f6d466d7dc4c36048954d2e1f309a597a4b87#diff-f61eee270fe5a122a0163ebf0e2f8725L28">example of the preview with figures here</a>, and the <a href="lessons/automated-downloading-with-wget.html#lesson-goals">live version here</a>.</p>
+
+<p>If you use any images in your lesson, please give them consistent,
+serially numbered filenames that clearly relate to the lesson in which
+they will appear. We recommend that you use the same hyphenated filename
+slug as the lesson itself (or an abbreviated version if the lesson title
+is rather long), followed by numbers to indicate which figure it is (For
+example, <code class="highlighter-rouge">counting-frequencies-1.png</code>, <code class="highlighter-rouge">counting-frequencies-2.png</code>, and
+so on.) Make sure the images are in web-friendly formats such as PNG or
+JPEG and sized appropriately (both in terms of pixels and bytes).</p>
+
+<p>We recommend that you place all the images for your lesson in a local
+subdirectory called <code class="highlighter-rouge">images</code>.</p>
+
+<h3 id="tables">Tables</h3>
+
+<p>To create HTML tables, use the <a href="https://michelf.ca/projects/php-markdown/extra/#table">extended table syntax</a>. Do not use
+tables in an attempt to over-ride formatting on our site. HTML tables
+should only be used to represent tabular information.</p>
+
+<p>The key principle to note when constructing a markdown table is that
+columns are separated by pipe characters (<code class="highlighter-rouge">|</code>), and the header row is
+set off by dashes from the other rows.</p>
+
+<p>Here’s an example:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>| First Header  | Second Header |
+| ------------- | ------------- |
+| Content Cell  | Content Cell  |
+| Content Cell  | Content Cell  |
+</code></pre>
+</div>
+
+<p>Note that the columns do not have to line up for the table to render
+correctly. For example, this also would work:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>| First | Second |
+| ------------- | ------------- |
+| Content | Content  |
+| Content Cell  | Content Cell  |
+</code></pre>
+</div>
+
+<p>Adding colons to the dashed line separating the header row from the
+others can also control column alignment, as explained in the <a href="https://michelf.ca/projects/php-markdown/extra/#table">full
+instructions for this feature</a>.</p>
+
+<h3 id="footnotes">Footnotes</h3>
+
+<p>Our platform does not support footnotes, even though many Markdown
+parsers (like <a href="http://johnmacfarlane.net/pandoc/">pandoc</a>) do. Please use links instead.</p>
+
+<h3 id="code-blocks">Code Blocks</h3>
+
+<p>If you want to include code in a lesson, or to show the output of a
+program, use a <em>code block</em>. On a new line, use three backticks
+(<code class="highlighter-rouge">`</code>) to open a code block, followed by the language of your code
+(eg, <code class="highlighter-rouge">python</code> or <code class="highlighter-rouge">html</code>). Then paste in your code, and when finished,
+close the code block with three more backticks. The code will then be
+offset in the finished version and will look like this:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">print</span> <span class="s">'hello world'</span>
+</code></pre>
+</div>
+
+<p>You can also read more on <a href="https://help.github.com/articles/github-flavored-markdown/#fenced-code-blocks">fenced code blocks</a>.</p>
+
+<h3 id="smart-quotes">Smart Quotes</h3>
+
+<p>Do not use stylized quotation marks or inverted commas such as those
+automatically inserted by Microsoft Word or rich-text editors. These
+cause havoc for readers because quotation marks are used frequently in
+code, but the stylized curly marks that look nice in essays are
+considered distinct entities by the computer and will cause code to
+crash. To avoid this problem we strongly reccommend that you do not use
+MS Word or Open Office (word processors) when writing a lesson. Use a
+text editor instead.</p>
+
+<h3 id="emphasis-tagging">Emphasis Tagging</h3>
+
+<p>Try to use backticks (<code class="highlighter-rouge">`</code> ) for reserved code words (as in <code class="highlighter-rouge">for</code>
+loop) and file names (e.g., <code class="highlighter-rouge">obo.py</code>). All other emphasis is done with
+paired asterisks (<code class="highlighter-rouge">*</code>) (as in <code class="highlighter-rouge">*client*</code>, <code class="highlighter-rouge">*protocol*</code>, <code class="highlighter-rouge">*The Old Bailey
+Online*</code>).</p>
+
+<h2 id="submit-your-lesson">Submit Your Lesson</h2>
+
+<p>Once your lesson file has been drafted and named, you can submit it to
+the Programming Historian via a GitHub <a href="https://help.github.com/articles/using-pull-requests/">pull request</a>.</p>
+
+<p>There are various ways to do this, using both command line tools and
+programs like <a href="https://mac.github.com/">GitHub for Mac</a> or <a href="https://windows.github.com/">GitHub for Windows</a>, it is also
+possible to create a basic pull request using nothing but your web
+browser—even if you have never used GitHub or git before. The
+following steps will show you how to use this in-browser method.</p>
+
+<p>Should you encounter any problems or have any questions as you prepare your
+pull request, please contact <a href="http://wcm1.web.rice.edu">Caleb McDaniel</a> for
+assistance.</p>
+
+<h3 id="making-a-pull-request-using-only-your-browser">Making a Pull Request Using Only Your Browser</h3>
+
+<ol>
+  <li><a href="https://help.github.com/articles/signing-up-for-a-new-github-account/">Create an account</a> on GitHub if you don’t have one already, and
+make sure you are logged in.</li>
+  <li>Navigate to the Programming Historian repository at
+<a href="https://github.com/programminghistorian/jekyll">https://github.com/programminghistorian/jekyll</a>.</li>
+  <li>Click on the <em>Fork</em> button in the upper-right-hand corner, just
+below your profile picture. After a few seconds, you will now be on
+the page for your forked repo; take a look at the URL to see how it
+differs from the main Programming Historian repo. It will look
+something like this: <code class="highlighter-rouge">https://github.com/YOUR_USERNAME/jekyll</code>.</li>
+  <li>Locate the drop-down <em>branch</em> menu, in the upper-left hand corner of
+the page. It should show <code class="highlighter-rouge">gh-pages</code> as the branch you are
+currently on. Click on this drop-down menu, and notice that you can
+navigate to a different branch or create a new one. You need to
+create a new branch, and you can do so by beginning to type the name
+for your branch in the text box. It is easiest to use the same name
+you used for your lesson file, but without the file extension. Once
+you’ve typed in your new branch name, click on <em>Create branch</em> or
+just hit enter. GitHub will automatically switch to this new branch,
+which you can confirm by looking at the same drop-down menu you
+found at the beginning of this step.</li>
+  <li>Scroll down and click on the <code class="highlighter-rouge">lessons</code> folder.</li>
+  <li>Click on the “New file” button (somewhat near the top right of the page, below “the “watch”/”star”/”fork” buttons).</li>
+  <li>Now you will see the screen where you can manually enter the text of
+your lesson. First, in the filename box, enter the name of your
+local file, following the <a href="new-lesson-workflow.html#name-the-lesson-file">naming conventions described above</a> and
+being sure to use the <code class="highlighter-rouge">.md</code> file extension. Then, copy and paste the
+text of your lesson from your text editor.</li>
+  <li>Scroll down until you see the green <em>Commit New File</em> button. Click
+on this button, leaving all the default options as they are. On the
+screen that now appears, you should see a message at the top of the
+page that reads “This branch is 1 commit ahead of
+programminghistorian:gh-pages.” To the right of this message is a
+link that reads <em>Pull Request.</em> Click on that link, and then click
+on the green <em>Create Pull Request</em> button. (If you’d like, you can
+also add a comment in the provided box before creating your
+pull request. For example, you might want to mention the name of the
+editor you’ve been working with, or ask for feedback about a
+specific part of your lesson.)</li>
+</ol>
+
+<p>That’s it! You’ve submitted your new lesson via pull request! You should
+now see your lesson listed with the other <a href="https://github.com/programminghistorian/jekyll/pulls">pending pull requests on our
+repo</a>. If you click on the Pull Request there, you can make additional
+comments on the pull request page. Editors and reviewers will also leave
+comments for you here.</p>
+
+<p>As a final step, you should contact your editor to ask about how to
+submit any lessons images or data files for review. If you are
+comfortable using git outside of the browser (for example, using the
+command line or GitHub’s GUI programs), then you may also add these
+images and data files to your pull request.</p>
+
+<h3 id="updating-your-pull-request-in-the-browser">Updating Your Pull Request in the Browser</h3>
+
+<p>If an editor or reviewer suggests changes to your Pull Request that you
+would like to implement in your lesson, navigate back to your forked
+<code class="highlighter-rouge">jekyll</code> repository (the one that contains your username in the URL).
+Then, locate the drop-down menu for <em>branches</em> near the top of the page,
+click on it, and select the branch that you created when submitting your
+pull request. (There should also be a link directly to this branch on
+your pull request’s page.)</p>
+
+<p>Now, after confirming you are on your fork and your new branch, find
+your lesson in the lessons directory, click on it, and click the pencil
+icon in the upper-right-hand corner, which allows you to edit the file
+in the browser. Once you make the desired edits, scroll to the bottom,
+briefly describe your changes in the provided text boxes, and click the
+green “Commit Changes” button. Your new changes should now automatically
+be included in your original pull request. Navigate back to the pull
+request page on the Programming Historian repo site to see if the
+changes have appeared.</p>
+
+<h3 id="learning-more-about-pull-requests">Learning More about Pull Requests</h3>
+
+<p>If all you intend to do is submit one lesson to Programming Historian
+and never contribute to the GitHub repo again, the above in-browser pull
+request method should work for you. But this method has several
+limitations. For example, it won’t allow you to add your lesson images
+or data files to your pull request. And using only your browser makes it
+more difficult to contribute again to the Programming Historian in the
+future.</p>
+
+<p>That’s why we encourage you to learn more about GitHub and the git
+workflow using <a href="https://guides.github.com/activities/forking/">GitHub Guides</a>, official directions for <a href="https://help.github.com/articles/fork-a-repo/">forking</a> and
+<a href="https://help.github.com/articles/using-pull-requests/">pull requesting</a> or <a href="https://gun.io/blog/how-to-github-fork-branch-and-pull-request/">independent tutorials</a>. Richard
+Zach’s <a href="https://github.com/rzach/git4phi">Git for Philosophers</a>, for example, is a helpful introduction to
+collaborative writing on GitHub aimed at academics in the humanities.</p>
+
+<p>Learning about these methods will make it easier for you to perform more
+advanced tasks with Git, such as adding images and data files to pull
+requests for the Programming Historian, or keeping your forked
+repository synchronized with changes in our main repo.</p>
+
+<h3 id="send-a-bio-blurb">Send a Bio Blurb</h3>
+
+<p>After submitting a lesson via a pull request, if you haven’t done so
+already, send your editor a short 1 or 2 sentence bio statement that
+will appear at the end of your lesson, following the model of other
+lessons.</p>
+
+<h2 id="wait-for-reviewer-feedback">Wait for Reviewer Feedback</h2>
+
+<p>At this point, the editor will ask at least two others to review your
+lesson and make suggestions for improvements. We aim to complete this
+process within four weeks, but sometimes delays occur or people get busy and the process can take longer than we hoped.</p>
+
+<p>If at any point you are unsure of your role or what to do next, feel free to post a question to clarify and an editor will respond as soon as they can. You’ll understand that sometimes it will take the editor a few days to respond, but we hope the improvements to the finished lesson will be worth the wait.</p>
+
+<p>In keeping with the ideas of public scholarship and open peer review, we generally encourage discussions to stay on GitHub as outlined in our editorial workflow. However, we also want everyone to feel comfortable and we recognise that in some cases a private word may be more appropriate. If you feel the need to discuss a matter related to a tutorial or a matter related to the review, please feel free to <a href="project-team.html">email the assigned editor directly</a>, or to contact one of our dedicated ombudspersons, <a href="project-team.html">Miriam Posner or Ian Milligan</a>.</p>
+
+<p>Once the Programming Historian’s editorial team has decided that your
+lesson is ready for publication, we will “accept” the pull request and
+it will be merged into our main repository. When that process is
+completed, the “Pull Request” will be closed. Congratulations! You’ve
+published a lesson to the Programming Historian!</p>
+
+
+	        </div>
+        </article>
+    </div>
+
+    </body>
+
+	</div> <!-- end below-nav -->
+
+<footer role="contentinfo">
+
+          <div class="additional">
+          <ul id="menu-main-menu" class="additional">
+            <li class="menu-item"><a href="index.html">About</a></li>
+            <li class="menu-item"><a href="lessons/index.html">Lessons</a></li>
+            <li class="menu-item"><a href="contribute.html">Contribute</a></li>
+            <li class="menu-item"><a href="project-team.html">Project Team</a></li>
+            <li class="menu-item"><a href="blog.html">Blog</a></li>
+          </ul>
+        </div>
+
+
+<p><em>The Programming Historian</em> ISSN 2397-2068, is released under the <a href="http://creativecommons.org/licenses/by/2.0/" rel="license">CC-BY</a> license.</p>
+<p>The project is published by the <em>Editorial Board of the Programming Historian</em>, and first appeared in July 2012. It was last updated on 20 March 2016.</p>
+<p class="github">
+        <a href="https://github.com/programminghistorian/jekyll">Hosted on GitHub <img src="images/GitHub-Mark-32px.png" title="GitHub logo"></a> 
+		<a href="https://github.com/programminghistorian/jekyll/commits/gh-pages/new-lesson-workflow.md">Previous Versions</a>&nbsp;&#183;&nbsp;
+		<a href="feedback.html">Give Feedback</a>
+</p>
+
+</footer>
+
+
+</html>

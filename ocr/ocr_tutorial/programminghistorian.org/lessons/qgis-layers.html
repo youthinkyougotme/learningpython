@@ -1,0 +1,1327 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <meta name="citation_title" content="Installing QGIS 2.0 and Adding Layers" />
+
+<meta name="citation_author" content="Jim Clifford" />
+
+<meta name="citation_author" content="Josh MacFadyen" />
+
+<meta name="citation_author" content="Daniel Macfarlane" />
+
+<meta name="citation_publication_date" content="2013-12-13" />
+<meta name="citation_journal_title" content="Programming Historian" />
+<meta name="citation_public_url" content="http://programminghistorian.org/lessons/qgis-layers" />
+
+
+    <!-- Mobile viewport optimized: h5bp.com/viewport -->
+    <meta name="viewport" content="width=device-width">
+    
+    <!--Font awesome CDN -->
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,700%7CCrete+Round' rel='stylesheet' type='text/css'>
+    <link href="../css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/github.css">
+    <link href='../feed.xml.rss' rel='alternate' type='application/atom+xml'>
+    <title>Installing QGIS 2.0 and Adding Layers | Programming Historian</title>
+        
+    <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="../js/ui.js"></script>
+    <script type="text/javascript" src="../js/ext_links.js"></script>
+    <script type="text/javascript" src="../js/header_links.js"></script>
+    <script>
+      $(document).ready(function(){
+        $('.slide-trigger').collapsable();
+      });
+    </script>
+
+    <script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-2752866-8']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+  </head>
+
+
+
+  
+  
+  
+
+  <body>
+
+    <header role="banner">
+    <h1><a href="../index.html">The Programming Historian</a></h1>
+
+	        <div class="additional">
+          <ul id="menu-main-menu" class="additional">
+            <li class="menu-item"><a href="../index.html">About</a></li>
+            <li class="menu-item"><a href="index.html">Lessons</a></li>
+            <li class="menu-item"><a href="../contribute.html">Contribute</a></li>
+            <li class="menu-item"><a href="../project-team.html">Project Team</a></li>
+            <li class="menu-item"><a href="../blog.html">Blog</a></li>
+          </ul>
+        </div>
+
+	</header>
+
+	<div role="main">
+		<article>
+			<header>
+
+                
+				
+			    <p class="kicker">December 13, 2013</p>
+				<h1><a href="qgis-layers.html">Installing QGIS 2.0 and Adding Layers</a></h1>
+                <p class="byline">By 
+  
+        
+             
+                   Jim Clifford
+             
+        
+             
+  		         , Josh MacFadyen
+             
+        
+             
+                   and Daniel Macfarlane
+             
+        
+  
+  </p>
+
+				
+				
+				<ul class="credits">Reviewed by
+				
+                      
+                           
+                                 Finn Arne Jørgensen
+                           
+                      
+                           
+						         , Sarah Simpkin
+                           
+                      
+                           
+                                 and Adam Crymble
+                           
+                      
+                
+                <br/>
+                
+                Recommended for 
+                Beginning
+                
+                
+                 Users
+                
+                </ul>
+                
+				
+			</header>
+
+            
+
+			<div class="content">
+	              <h2 id="lesson-goals">Lesson Goals</h2>
+
+<p>In this lesson you will install QGIS software, download geospatial files
+like shapefiles and GeoTIFFs, and create a map out of a number of vector
+and raster layers. Quantum or QGIS is an open source alternative to the
+industry leader, ArcGIS from ESRI. QGIS is multiplatform, which means it
+runs on Windows, Macs, and Linux and it has many of the functions most
+commonly used by historians. ArcGIS is prohibitively expensive and only
+runs on Windows (though software can be purchased to allow it to run on
+Mac). However, many universities have site licenses, meaning students
+and employees have access to free copies of the software (try contacting
+your map librarian, computer services, or the geography department).
+QGIS is ideal for those without access to a free copy of Arc and it is
+also a good option for learning basic GIS skills and deciding if you
+want to install a copy of ArcGIS on your machine. Moreover, any work you
+do in QGIS can be exported to ArcGIS at a later date if you decide to
+upgrade. The authors tend to use both and are happy to run QGIS on Mac
+and Linux computers for basic tasks, but still return to ArcGIS for more
+advanced work. In many cases it is not lack of functions, but stability
+issues that bring us back to ArcGIS. For those who are learning Python
+with the Programming Historian, you will be glad to know that both QGIS
+and ArcGIS use Python as their main scripting language.</p>
+
+<h2 id="installing-qgis">Installing QGIS</h2>
+
+<p>Navigate to the <a href="http://hub.qgis.org/projects/quantum-gis/wiki/Download">QGIS Download page</a>. The procedure is a little
+different depending on your operating system. Click on the appropriate
+Operating System. Follow the instructions below.</p>
+
+<h4 id="mac-instructions">Mac Instructions</h4>
+
+<ul>
+  <li>For most people it will be best to choose Master release (the one
+that has a single installer package). You will still need to install
+other software packages before installing QGIS. Under 4.2, click on
+the link (<a href="http://www.kyngchaos.com/software/qgis">KyngChaos Qgis download page</a>) and download the
+following two files (see screen shot below): 1) GDAL complete 1.10
+framework package (under Requirements) and 2) QGIS 2.0.1 (under
+Download) for your respective Mac OS (this works with Lion, Mountain
+Lion, and Snow Leopard – no word yet on using it with the
+forthcoming Mavericks). Install these like any other Mac programs.</li>
+</ul>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/qgis1.png">
+		<img src="../images/qgis1.png" alt="Figure 1: Click to view full-size image" />
+	</a>
+<figcaption>
+    <p>Figure 1: Click to view full-size image</p>
+
+</figcaption>
+</figure>
+
+<ul>
+  <li>once the frameworks are installed, download and install QGIS.</li>
+  <li>as with any other Mac application you are using for the first time,
+you will have to go find the QGIS application in Applications</li>
+</ul>
+
+<h4 id="windows-instructions">Windows Instructions</h4>
+
+<ul>
+  <li>under Standalone Installer, click on the link to Download QGIS</li>
+</ul>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/qgis2.jpg">
+		<img src="../images/qgis2.jpg" alt="Figure 2" />
+	</a>
+<figcaption>
+    <p>Figure 2</p>
+
+</figcaption>
+</figure>
+
+<ul>
+  <li>double-click on the <code class="highlighter-rouge">.exe</code> file to execute</li>
+</ul>
+
+<p>QGIS is very simple to install in most versions of Linux. Follow the
+instructions on the download page.</p>
+
+<h3 id="prince-edward-island-data">Prince Edward Island Data</h3>
+
+<p>We will be using some government data from the Canadian province of
+Prince Edward Island. PEI is a great example because there is a lot of
+data for free online and because it is Canada’s smallest province,
+making the downloads quick! Download PEI shapefiles:</p>
+
+<ul>
+  <li>Navigate to the links below in your web browser, read/accept the
+license agreement, and then download the following (they will ask
+for your name and email with each download). We created the final
+two shapefiles, so they should download directly:</li>
+</ul>
+
+<ol>
+  <li><a href="http://www.gov.pe.ca/gis/license_agreement.php3?name=coastline&amp;file_format=SHP">http://www.gov.pe.ca/gis/license_agreement.php3?name=coastline&amp;file_format=SHP</a></li>
+  <li><a href="http://www.gov.pe.ca/gis/license_agreement.php3?name=lot_town&amp;file_format=SHP">http://www.gov.pe.ca/gis/license_agreement.php3?name=lot_town&amp;file_format=SHP</a></li>
+  <li><a href="http://www.gov.pe.ca/gis/license_agreement.php3?name=hydronetwork&amp;file_format=SHP">http://www.gov.pe.ca/gis/license_agreement.php3?name=hydronetwork&amp;file_format=SHP</a></li>
+  <li><a href="http://www.gov.pe.ca/gis/license_agreement.php3?name=forest_35&amp;file_format=SHP">http://www.gov.pe.ca/gis/license_agreement.php3?name=forest_35&amp;file_format=SHP</a></li>
+  <li><a href="http://www.gov.pe.ca/gis/license_agreement.php3?name=nat_parks&amp;file_format=SHP">http://www.gov.pe.ca/gis/license_agreement.php3?name=nat_parks&amp;file_format=SHP</a></li>
+  <li><a href="../assets/PEI_highway.zip">PEI Highways</a></li>
+  <li><a href="../assets/PEI_placenames.zip">PEI Places</a></li>
+</ol>
+
+<ul>
+  <li>After downloading all seven files, move them into a folder and unzip
+the zipped files. Take a look at the contents of the folders. You
+will notice four files with the same name, but different file types.
+When you navigate to these folders from GIS software, you will find
+that you only need to click on the .shp and that the other three
+formats support this file in the background. It is important when
+moving files on your computer to always move and keep all four files
+together. This is one reason Shapefiles are normally shared using
+zip compression. Remember the folder in which you save uncompressed
+shapefile folders, as you will need to find them from within QGIS in
+a few minutes.</li>
+</ul>
+
+<h2 id="starting-your-gis-project">Starting Your GIS Project</h2>
+
+<p>Open QGIS. The first thing we need to do is set up the <a href="http://en.wikipedia.org/wiki/Spatial_reference_system">Coordinate
+Reference System</a> (CRS) correctly. The CRS is the map projection and
+projections are the various ways to represent real world places on
+two-dimensional maps. The default is WGS84 (it is increasingly common to
+use WGS 84 which is compatible with Google Earth type software), but
+since most of our data and examples are created by Canadian governments
+we recommend using NAD 83 (North American Datum, 1983). For more on NAD
+83 and the Federal Government’s datum, see <a href="http://www.nrcan.gc.ca/earth-sciences/geography-boundary/mapping/topographic-mapping/10272">NRCan’s website</a>. PEI has
+its own NAD 83 coordinate reference system which uses a <a href="http://www.gov.pe.ca/gis/index.php3?number=77865&amp;lang=E">Double
+Stereographic projection</a>. Managing the CRS of different layers of
+information and making sure they are working correctly is one of the
+most complicated aspects of GIS for beginners. Nonetheless, if the
+software is setup correctly, it should convert the CRS and allow you to
+work with data imported from different sources. <em>Select Project
+Properties</em></p>
+
+<ul>
+  <li>Mac: Project–&gt;Project Properties</li>
+</ul>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/qgis3.png">
+		<img src="../images/qgis3.png" alt="Figure 3" />
+	</a>
+<figcaption>
+    <p>Figure 3</p>
+
+</figcaption>
+</figure>
+
+<ul>
+  <li>Windows: Settings-&gt; Project Properties</li>
+</ul>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/qgis4.png">
+		<img src="../images/qgis4.png" alt="Figure 4" />
+	</a>
+<figcaption>
+    <p>Figure 4</p>
+
+</figcaption>
+</figure>
+
+<ul>
+  <li>In the left window pane select CRS (second from the top)</li>
+  <li>
+    <p>click Enable ‘on the fly’ CRS transformation button on top left</p>
+  </li>
+  <li>in the Filter box enter ‘2291′ – this quickly navigates to the best
+Coordinate reference system for Prince Edward Island.</li>
+  <li>under the box titled Coordinate reference systems of the world,
+select ‘NAD83(CSRS98) / Prince Edward Isl. (Stereographic)’ and hit
+OK</li>
+</ul>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/qgis5.png">
+		<img src="../images/qgis5.png" alt="Figure 5" />
+	</a>
+<figcaption>
+    <p>Figure 5</p>
+
+</figcaption>
+</figure>
+
+<ul>
+  <li>notice the projection has changed in the bottom right corner of the
+QGIS window. Next to that you will see the geographic location of
+your mouse pointer in metres</li>
+  <li>under Project menu, select Save Project (you should save your
+project after each step)</li>
+</ul>
+
+<p>You are now set up to work on the tutorial project, but might have a few
+questions about what CRS to use for your own project. WGS83 might work
+in the short term, particularly if you are working on a fairly large
+scale, but it will be difficult to accurately work on local maps. One
+hint is to learn what CRS or Projections is used for paper maps of the
+region. If you are scanning a good quality paper map to use as the base
+layer it might be a good idea to use the same projection. You can also
+try searching the internet for the more common CRS for a particular
+region. For those of you working on North American projects identifying
+the correct NAD83 for your region will often be the best CRS. Here are a
+few links to other resources that will help you choose a CRS for your
+own project: <a href="http://qgis.spatialthoughts.com/2012/04/tutorial-working-with-projections-in.html">Tutorial: Working with Projections in QGIS</a></p>
+
+<h3 id="building-a-base-map">Building a Base Map</h3>
+
+<p>Now that your computer is driving with the right directions, it’s time
+to add some information that makes sense to humans. Your project should
+start with a base map, or a selection of geospatial information that
+lets your readers recognize real world features on the map. For most
+users this will be comprised of several ‘layers’ of vector and raster
+data, which can be rearranged, coloured, and labeled in such a way that
+they make sense to your readers and your project’s objectives. A
+relatively new feature on many GIS programs is the availability of
+pre-fab base maps, but since this technology is under development for
+open source platforms like QGIS we will walk through the process of
+creating our own base map by adding vector and raster layers in this
+module. For those who would like to add pre-fab base maps to QGIS, you
+can try installing the ‘OpenLayers’ Plugin under Plugins-&gt;Manage and
+Install Plugins. Select “Get More” on the left. Click OpenLayers and
+then click Install plugin. Click OK and then click close. Once
+installed, you’ll find OpenLayers in the Plugins Menu. Try installing
+some of the different Google and OpenStreetMaps layers. At the time of
+writing this module, the OpenLayers plugin (v. 1.1.1) installs but fails
+to work properly on any Mac using OSX. It appears to work more
+consistently on QGIS running on Windows 7. Give it a try, as we expect
+it will only get better in the months ahead. Note, however, that the
+projection for some of these global maps do not correct on the fly, so
+the satellite images might not alway sync up with data projected in a
+different CRS.</p>
+
+<h2 id="opening-vectors">Opening Vectors</h2>
+
+<p>Vectors <a href="http://www.gislounge.com/geodatabases-explored-vector-and-raster-data/">defined</a>: GIS uses points, lines, and polygons, also known as
+<strong>vector</strong> data. Its first order of work is to arrange these points,
+lines, and polygons and project them accurately on maps. Points may be
+towns or telephone poles; lines could represent rivers, roads, or
+railroads; and polygons could encompass a farmer’s lot or larger
+political boundaries. However, it is also possible to attach historical
+data to these geographical places and study how people interacted with
+and changed their physical environments. The population of towns
+changed, rivers moved their courses, lots were subdivided, and land was
+planted with various crops.</p>
+
+<ul>
+  <li>under Layer on toolbar, choose Add Vector Layer (alternatively the
+same icon you see next to ‘Add Vector Layer’ can also be selected
+from the tool bar on the upper left side)</li>
+</ul>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/qgis6.png">
+		<img src="../images/qgis6.png" alt="Figure 6" />
+	</a>
+<figcaption>
+    <p>Figure 6</p>
+
+</figcaption>
+</figure>
+
+<ul>
+  <li>click Browse, find your downloaded Prince Edward Island shapefiles
+in the folder</li>
+  <li>open the coastline_polygon folder</li>
+</ul>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/qgis7.png">
+		<img src="../images/qgis7.png" alt="Figure 7" />
+	</a>
+<figcaption>
+    <p>Figure 7</p>
+
+</figcaption>
+</figure>
+
+<ul>
+  <li>select coastline_polygon.shp, then select ‘OK’, and you should see
+the island’s coastline on your screen. Sometimes QGIS adds a
+coloured background (see the image above). If you have a coloured
+background, follow the steps below. If not, skip down the page to
+the ***.</li>
+  <li>right click the layer (coastline_polygon) in the Layers menu and
+choose Properties.\</li>
+</ul>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/qgis8.png">
+		<img src="../images/qgis8.png" alt="Figure 8" />
+	</a>
+<figcaption>
+    <p>Figure 8</p>
+
+</figcaption>
+</figure>
+
+<ul>
+  <li>
+    <p>In the ensuing window, click Style in the left pane</p>
+  </li>
+  <li>
+    <p>There are a range of options, but we want to get rid of the
+background all together. Click <strong>Simple fill</strong>.</p>
+  </li>
+</ul>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/qgis9.png">
+		<img src="../images/qgis9.png" alt="Figure 9" />
+	</a>
+<figcaption>
+    <p>Figure 9</p>
+
+</figcaption>
+</figure>
+
+<ul>
+  <li>Then choose ‘<strong>No Brush</strong>’ in the <strong>Fill style</strong> drop down menu.
+<strong>Click OK.</strong></li>
+</ul>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/qgis10.png">
+		<img src="../images/qgis10.png" alt="Figure 10" />
+	</a>
+<figcaption>
+    <p>Figure 10</p>
+
+</figcaption>
+</figure>
+
+<p>***</p>
+
+<ul>
+  <li>Choose Add Vector Layer again.</li>
+  <li>click Browse, find your downloaded Prince Edward Island shapefiles
+in the folder</li>
+  <li>select ‘PEI_HYDRONETWORK’</li>
+  <li>click on ‘PEI_HYDRONETWORK.shp’ and then hit ‘Open’</li>
+  <li>right click the layer in the Layers menu and choose Properties.</li>
+  <li>select Style tab, and choose an appropriate blue to color the
+hydronetwork and select ‘OK’ at the bottom right of the window</li>
+</ul>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/qgis11.png">
+		<img src="../images/qgis11.png" alt="Figure 11" />
+	</a>
+<figcaption>
+    <p>Figure 11</p>
+
+</figcaption>
+</figure>
+
+<ul>
+  <li>Your map should now look like this:</li>
+</ul>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/qgis12-300x199.png">
+		<img src="../images/qgis12-300x199.png" alt="Figure 12: Click to see full-size image" />
+	</a>
+<figcaption>
+    <p>Figure 12: Click to see full-size image</p>
+
+</figcaption>
+</figure>
+
+<ul>
+  <li>Choose Add Vector Layer again.</li>
+  <li>click Browse, find your downloaded Prince Edward Island shapefiles
+in the folder</li>
+  <li>double-click on ‘1935 inventory_region.shp’ and then hit ‘Open’</li>
+</ul>
+
+<p>This will add a dense map showing the different forest cover in 1935.
+However, to see the different categories, you will need to change the
+symbology to represent the different categories of forest with different
+colours. We will need to know which column of the database tables
+includes the forest category information, so the first step is to open
+and inspect the attribute table.</p>
+
+<ul>
+  <li>right click on the 1935_inventory_region layer in the Layers
+window on the left and click on Open Attribute Table</li>
+</ul>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/qgis13.png">
+		<img src="../images/qgis13.png" alt="Figure 13" />
+	</a>
+<figcaption>
+    <p>Figure 13</p>
+
+</figcaption>
+</figure>
+
+<p>An Attribute Table will open. It has a number of categories and
+identifiers. Of particular interest is the LANDUSE category which
+provides information on the forest cover in 1935. We will now show you
+how to display these categories on the map.</p>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/qgis14.png">
+		<img src="../images/qgis14.png" alt="Figure 14" />
+	</a>
+<figcaption>
+    <p>Figure 14</p>
+
+</figcaption>
+</figure>
+
+<ul>
+  <li>Close the Attribute Table, and right click on the
+1935_inventory_region layer again and this time choose Properties
+(alternatively, the shortcut is to double click on the
+1935_inventory_region layer).</li>
+  <li>click Style along the left</li>
+</ul>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/qgis15.png">
+		<img src="../images/qgis15.png" alt="Figure 15" />
+	</a>
+<figcaption>
+    <p>Figure 15</p>
+
+</figcaption>
+</figure>
+
+<ul>
+  <li>on the menu bar that reads ‘Single Symbol’ select ‘Categorized’</li>
+</ul>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/qgis16.png">
+		<img src="../images/qgis16.png" alt="Figure 16" />
+	</a>
+<figcaption>
+    <p>Figure 16</p>
+
+</figcaption>
+</figure>
+
+<ul>
+  <li>beside Column choose ‘Landuse’</li>
+  <li>under Color ramp choose Greens</li>
+  <li>click ‘Classify’ below and to the left</li>
+  <li>in Symbol Column, choose the furthest down dark green square (with
+no value beside it) and hit the ‘Delete’ button (to the right of
+Classify); also delete the Developed category, as we want to
+highlight forested areas. Click ‘OK’</li>
+</ul>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/qgis17.png">
+		<img src="../images/qgis17.png" alt="Figure 17" />
+	</a>
+<figcaption>
+    <p>Figure 17</p>
+
+</figcaption>
+</figure>
+
+<ul>
+  <li>
+    <p>in Layers sidebar menu, click on the little arrow beside
+1935_inventory_region to view the legend.</p>
+  </li>
+  <li>
+    <p>You can now see the extent of the forests in 1935. Try using the
+magnifying glass tool to zoom in and inspect the different landuses.</p>
+  </li>
+</ul>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/qgis18-300x283.png">
+		<img src="../images/qgis18-300x283.png" alt="Figure 18: Click to see full-size image" />
+	</a>
+<figcaption>
+    <p>Figure 18: Click to see full-size image</p>
+
+</figcaption>
+</figure>
+
+<ul>
+  <li>To get back to the full island, right click on any of the layers and
+choose ‘<strong>Zoom to Layer Extent.</strong>’</li>
+</ul>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/qgis19.png">
+		<img src="../images/qgis19.png" alt="Figure 19" />
+	</a>
+<figcaption>
+    <p>Figure 19</p>
+
+</figcaption>
+</figure>
+
+<ul>
+  <li>Next, we will add a layer of roads.</li>
+  <li>under Layer on toolbar, choose Add Vector Layer</li>
+  <li>click Browse, find your downloaded Prince Edward Island shapefiles
+in the folder</li>
+  <li>select ‘PEI_highway.shp’</li>
+  <li>in the Layers menu on the left, double-click ‘PEI_highway_ship’
+and select Style from the menu on the left (if it isn’t already
+selected)</li>
+  <li>click on ‘Single Symbol’ on top left and select ‘Categorized’</li>
+  <li>beside Column choose ‘TYPE’</li>
+  <li>click Classify</li>
+</ul>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/qgis20.png">
+		<img src="../images/qgis20.png" alt="Figure 20" />
+	</a>
+<figcaption>
+    <p>Figure 20</p>
+
+</figcaption>
+</figure>
+
+<ul>
+  <li>
+    <p>in the Symbol column, double-click beside ‘primary’ – in the ensuing
+window, there is a box with different symbols. Scroll down and find
+‘primary road’.</p>
+  </li>
+  <li>
+    <p>You are back in the Style window. Repeat for the item that called
+‘primary_link’ in the Label column.</p>
+  </li>
+</ul>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/qgis21.png">
+		<img src="../images/qgis21.png" alt="Figure 21" />
+	</a>
+<figcaption>
+    <p>Figure 21</p>
+
+</figcaption>
+</figure>
+
+<ul>
+  <li>click Symbol beside secondary and change color to black and width to
+0.7</li>
+  <li>repeat for secondary link</li>
+  <li>click OK. You will now have the highways and other major roads
+represented on the map</li>
+</ul>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/qgis22.png">
+		<img src="../images/qgis22.png" alt="Figure 22: Click to see full-size image" />
+	</a>
+<figcaption>
+    <p>Figure 22: Click to see full-size image</p>
+
+</figcaption>
+</figure>
+
+<ul>
+  <li>under Layer on toolbar, choose Add Vector Layer</li>
+  <li>click Browse, find your downloaded Prince Edward Island shapefiles
+in the folder</li>
+  <li>select ‘PEI_placenames_shp’</li>
+  <li>double click on ‘PEI_placenames’ and select ‘Open’</li>
+  <li>in the Layers window, double-click on the PEI_placenames layer.
+Choose Labels tab along the left (under Style). At the top, select
+the box beside ‘Label this layer with’ and in the dropdown box
+beside that select ‘Placename’</li>
+</ul>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/qgis23.png">
+		<img src="../images/qgis23.png" alt="Figure 23" />
+	</a>
+<figcaption>
+    <p>Figure 23</p>
+
+</figcaption>
+</figure>
+
+<ul>
+  <li>Change Font size to ‘18′</li>
+  <li>Click ‘OK’ and examine the results on the map</li>
+</ul>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/qgis24.png">
+		<img src="../images/qgis24.png" alt="Figure 24: Click to see full-size image" />
+	</a>
+<figcaption>
+    <p>Figure 24: Click to see full-size image</p>
+
+</figcaption>
+</figure>
+
+<ul>
+  <li>Labelling is where QGIS falls well short of real cartography – it
+will take tinkering to adjust settings to display the detail desired
+for a presentation. Try going back to the Labels tab and changing
+the different settings to see how symbols and displays change.</li>
+</ul>
+
+<p>Note that in the Layers menu you can add and remove the various layers
+we’ve added to the map much the same way you did in Google Earth. Click
+on the check boxes to remove and add the various layers. Drag and drop
+layers to change the the order they appear. Dragging a layer to the top
+will place it above the rest of the layers and make it the most
+prominent. For example, if you drag ‘coastline_polygon’ to the top, you
+have a simplified outline of the province along with place names.</p>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/qgis25.png">
+		<img src="../images/qgis25.png" alt="Figure 25: Click to see full-size image" />
+	</a>
+<figcaption>
+    <p>Figure 25: Click to see full-size image</p>
+
+</figcaption>
+</figure>
+
+<ul>
+  <li>Along the toolbar on the top left of the main window are icons that
+allow you to explore the map. The hand symbol, for example, allows
+you to click on the map and move it around, while the magnifying
+glass symbols with plus and minus on them allow you to zoom in and
+out. Play with these and familiarize yourself with the various
+functions</li>
+</ul>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/qgis26.png">
+		<img src="../images/qgis26.png" alt="Figure 26" />
+	</a>
+<figcaption>
+    <p>Figure 26</p>
+
+</figcaption>
+</figure>
+
+<ul>
+  <li>having created a map using vector layers, we will now add or use our
+first raster layer. This is a good time to save your work.</li>
+</ul>
+
+<p><strong>Opening Rasters</strong>: <strong>Raster</strong> data are digital images made up of grids.
+All remote sensing data such as satellite images or <a href="http://en.wikipedia.org/wiki/Orthophoto">aerial photos</a>
+are rasters, but usually you can’t see the grids in these images because
+they are made up of tiny pixels. Each pixel has its own value and when
+those values are symbolized in colour or greyscale they make up an image
+that is useful for display or topographical analysis. A scanned
+historical map is also brought into GIS in raster format.</p>
+
+<ul>
+  <li>download: <a href="../assets/PEI_CumminsMap1927_compLZW.tif">PEI_CumminsMap1927.tif</a> to your project folder.</li>
+  <li>under Layer on toolbar, choose Add Raster Layer (alternatively the
+same icon you see next to ‘Add Raster Layer’ can also be selected
+from the tool bar along the left side of the window)</li>
+</ul>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/qgis27.png">
+		<img src="../images/qgis27.png" alt="Figure 27" />
+	</a>
+<figcaption>
+    <p>Figure 27</p>
+
+</figcaption>
+</figure>
+
+<ul>
+  <li>find the file you have downloaded titled ‘PEI_CumminsMap1927.tif’</li>
+  <li>you will be prompted to define this layer’s coordinate system. In
+the Filter box search for ‘2291′, then in the box below select
+‘NAD83(CSRS98) / Prince Edward Isl. (Stereographic)…’</li>
+</ul>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/qgis28.png">
+		<img src="../images/qgis28.png" alt="Figure 28" />
+	</a>
+<figcaption>
+    <p>Figure 28</p>
+
+</figcaption>
+</figure>
+
+<ul>
+  <li>If the program does not prompt you for the CRS you need to change it
+yourself. Double click the PEI_CummingMap1927_compLZW layer and
+choose ‘<strong>General</strong>’ from the menu on the left. Click ‘<strong>Specify…</strong>’
+beside the box showing the incorrect Coordinate reference system.
+Then follow the instructions above (choose 2291).</li>
+</ul>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/qgis29.png">
+		<img src="../images/qgis29.png" alt="Figure 29" />
+	</a>
+<figcaption>
+    <p>Figure 29</p>
+
+</figcaption>
+</figure>
+
+<ul>
+  <li>In the Layers window, the map should appear below the vector data.
+Move it to the bottom of the menu if necessary:</li>
+</ul>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/qgis30.png">
+		<img src="../images/qgis30.png" alt="Figure 30" />
+	</a>
+<figcaption>
+    <p>Figure 30</p>
+
+</figcaption>
+</figure>
+
+<ul>
+  <li>Now we would like to make the coastline more visible, so
+double-click on ‘coastline_polygon’ and select ‘Style’ on the left.
+In the box under Symbol layers, select ‘Simple fill’ and options
+appear in the box to the right. Click on the menu next to ‘Border’
+and make it red, and then beside Border width change it to 0.5, and
+click OK.</li>
+</ul>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/qgis31.png">
+		<img src="../images/qgis31.png" alt="Figure 31" />
+	</a>
+<figcaption>
+    <p>Figure 31</p>
+
+</figcaption>
+</figure>
+
+<ul>
+  <li>You are now able to see the background raster map through the
+‘coastline_polygon’ layer. Zoom in for closer inspection, and you
+should be able to see the coastline layer clearly. Notice that the
+alignment is relatively good, but not perfect. We will learn more in
+lesson 4 about the challenges of georeferencing historical maps to
+give them real world coordinates.</li>
+</ul>
+
+<!--figure tags without plugin: http://stackoverflow.com/questions/19331362/using-an-image-caption-in-markdown-jekyll -->
+
+<figure>
+	<a href="../images/qgis32.png">
+		<img src="../images/qgis32.png" alt="Figure 32" />
+	</a>
+<figcaption>
+    <p>Figure 32</p>
+
+</figcaption>
+</figure>
+
+<p><strong>You have learned how to install QGIS and add layers. Make sure you
+save your work!</strong></p>
+
+<p><em>This lesson is part of the <a href="http://geospatialhistorian.wordpress.com/">Geospatial Historian</a>.</em></p>
+
+
+	        </div>
+
+            
+            <p><em>Note:</em> You are now prepared to move on to the 
+                <a href="vector-layers-qgis.html">next lesson</a>
+                in this series.</p>
+            
+
+	        <div class="author-info">
+	   	        <p class="author-name">About the authors</p>
+			    <div class="author-description"><p>
+                
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                       Jim Clifford is an assistant professor in the Department of History
+at the University of Saskatchewan.
+&nbsp;
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+		        
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                       Josh MacFadyen is a Project Coordinator at the Network in Canadian
+History & Environment.
+&nbsp;
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+		        
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                       Daniel Macfarlane is a Visiting Scholar in the School of Canadian
+Studies at Carleton University.
+&nbsp;
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+		        </p>
+			    </div>
+	        </div>
+          <div class="citation-info">
+            <p class="citation-head">Suggested Citation</p>
+            <div class="suggested-citation">
+              <p>
+              
+  
+        
+             
+                   Jim Clifford
+             
+        
+             
+  		         , Josh MacFadyen
+             
+        
+             
+                   and Daniel Macfarlane
+             
+        
+  
+  , 
+              "Installing QGIS 2.0 and Adding Layers," 
+              <em>Programming Historian</em> 
+              (13 December 2013), 
+              http://programminghistorian.org/lessons/qgis-layers
+              </p>
+            </div>
+          </div>
+        </article>
+    </div>
+
+    </div> <!-- end below-nav -->
+
+<footer role="contentinfo">
+
+          <div class="additional">
+          <ul id="menu-main-menu" class="additional">
+            <li class="menu-item"><a href="../index.html">About</a></li>
+            <li class="menu-item"><a href="index.html">Lessons</a></li>
+            <li class="menu-item"><a href="../contribute.html">Contribute</a></li>
+            <li class="menu-item"><a href="../project-team.html">Project Team</a></li>
+            <li class="menu-item"><a href="../blog.html">Blog</a></li>
+          </ul>
+        </div>
+
+
+<p><em>The Programming Historian</em> ISSN 2397-2068, is released under the <a href="http://creativecommons.org/licenses/by/2.0/" rel="license">CC-BY</a> license.</p>
+<p>The project is published by the <em>Editorial Board of the Programming Historian</em>, and first appeared in July 2012. It was last updated on 20 March 2016.</p>
+<p class="github">
+        <a href="https://github.com/programminghistorian/jekyll">Hosted on GitHub <img src="../images/GitHub-Mark-32px.png" title="GitHub logo"></a> 
+		<a href="https://github.com/programminghistorian/jekyll/commits/gh-pages/lessons/qgis-layers.md">Previous Versions</a>&nbsp;&#183;&nbsp;
+		<a href="../feedback.html">Give Feedback</a>
+</p>
+
+</footer>
+
+
+    </body>
+</html>

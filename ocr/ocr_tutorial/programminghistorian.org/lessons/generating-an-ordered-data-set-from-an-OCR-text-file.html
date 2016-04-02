@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <meta name="citation_title" content="Generating an Ordered Data Set from an OCR Text File" />
+
+<meta name="citation_author" content="Jon Crump" />
+
+<meta name="citation_publication_date" content="2014-11-25" />
+<meta name="citation_journal_title" content="Programming Historian" />
+<meta name="citation_public_url" content="http://programminghistorian.org/lessons/generating-an-ordered-data-set-from-an-OCR-text-file" />
+
+
+    <!-- Mobile viewport optimized: h5bp.com/viewport -->
+    <meta name="viewport" content="width=device-width">
+    
+    <!--Font awesome CDN -->
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,700%7CCrete+Round' rel='stylesheet' type='text/css'>
+    <link href="../css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/github.css">
+    <link href='../feed.xml.rss' rel='alternate' type='application/atom+xml'>
+    <title>Generating an Ordered Data Set from an OCR Text File | Programming Historian</title>
+        
+    <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="../js/ui.js"></script>
+    <script type="text/javascript" src="../js/ext_links.js"></script>
+    <script type="text/javascript" src="../js/header_links.js"></script>
+    <script>
+      $(document).ready(function(){
+        $('.slide-trigger').collapsable();
+      });
+    </script>
+
+    <script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-2752866-8']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+  </head>
+
+
+
+  
+  
+  
+
+  <body>
+
+    <header role="banner">
+    <h1><a href="../index.html">The Programming Historian</a></h1>
+
+	        <div class="additional">
+          <ul id="menu-main-menu" class="additional">
+            <li class="menu-item"><a href="../index.html">About</a></li>
+            <li class="menu-item"><a href="index.html">Lessons</a></li>
+            <li class="menu-item"><a href="../contribute.html">Contribute</a></li>
+            <li class="menu-item"><a href="../project-team.html">Project Team</a></li>
+            <li class="menu-item"><a href="../blog.html">Blog</a></li>
+          </ul>
+        </div>
+
+	</header>
+
+	<div role="main">
+		<article>
+			<header>
+
+                
+				
+			    <p class="kicker">November 25, 2014</p>
+				<h1><a href="generating-an-ordered-data-set-from-an-OCR-text-file.html">Generating an Ordered Data Set from an OCR Text File</a></h1>
+                <p class="byline">By 
+  
+        Jon Crump
+  
+  </p>
+
+				
+				
+				<ul class="credits">Reviewed by
+				
+                      
+                           
+                                 Fred Gibbs
+                           
+                      
+                           
+                                 and Brandon Hawk
+                           
+                      
+                
+                <br/>
+                
+                Recommended for 
+                
+                
+                Advanced
+                 Users
+                
+                </ul>
+                
+				
+			</header>
+
+            
+
+			<div class="content">
+	              <h1 id="generating-an-ordered-data-set-from-a-text-file">Generating an Ordered Data Set from a Text File</h1>
+
+<h2 id="lesson-goals">Lesson goals:</h2>
+
+<p>This tutorial illustrates strategies for taking raw OCR output from a scanned text, parsing it to isolate and correct essential elements of metadata, and generating an ordered data set (a python dictionary) from it. These illustrations are specific to a particular text, but the overall strategy, and some of the individual procedures, can be adapted to organize any scanned text, even if it doesn’t look like this one.</p>
+
+<h3 id="table-of-contents">Table of Contents</h3>
+<ol>
+  <li><a href="generating-an-ordered-data-set-from-an-OCR-text-file.html#prelim">Preliminaries</a>
+    <ul>
+      <li><a href="generating-an-ordered-data-set-from-an-OCR-text-file.html#levenshtein-distance">Levenshtein Distance Function</a></li>
+      <li><a href="generating-an-ordered-data-set-from-an-OCR-text-file.html#Roman-Numerals">Roman Numerals Function</a></li>
+      <li><a href="generating-an-ordered-data-set-from-an-OCR-text-file.html#imports-globals">Imports</a></li>
+      <li><a href="generating-an-ordered-data-set-from-an-OCR-text-file.html#regex-review">Regex Review</a></li>
+      <li><a href="generating-an-ordered-data-set-from-an-OCR-text-file.html#deployment">Deploying the code snippets</a></li>
+    </ul>
+  </li>
+  <li><a href="generating-an-ordered-data-set-from-an-OCR-text-file.html#OCRprocessing">Iterative processing of OCR output texts</a>
+    <ul>
+      <li><a href="generating-an-ordered-data-set-from-an-OCR-text-file.html#pages">Chunk up the text by pages</a></li>
+      <li><a href="generating-an-ordered-data-set-from-an-OCR-text-file.html#charters">Chunk up the text by charter</a></li>
+      <li><a href="generating-an-ordered-data-set-from-an-OCR-text-file.html#folios">Fixing folio markers</a></li>
+      <li><a href="generating-an-ordered-data-set-from-an-OCR-text-file.html#summary">Fixing the summary lines</a></li>
+      <li><a href="generating-an-ordered-data-set-from-an-OCR-text-file.html#footnotes">Fixing the footnotes</a></li>
+    </ul>
+  </li>
+  <li><a href="generating-an-ordered-data-set-from-an-OCR-text-file.html#dictionary">Creating the dictionary</a>
+    <ul>
+      <li><a href="generating-an-ordered-data-set-from-an-OCR-text-file.html#first-pass">Generate the skeleton dictionary</a></li>
+      <li><a href="generating-an-ordered-data-set-from-an-OCR-text-file.html#second-pass">Add marginal notation and summary lines</a></li>
+      <li><a href="generating-an-ordered-data-set-from-an-OCR-text-file.html#third-pass">Assign footnotes to their respective charters</a></li>
+      <li><a href="generating-an-ordered-data-set-from-an-OCR-text-file.html#fourth-pass">Parse and assign dates</a></li>
+    </ul>
+  </li>
+  <li><a href="generating-an-ordered-data-set-from-an-OCR-text-file.html#completed-dict">Completed dictionary</a>
+    <ul>
+      <li><a href="generating-an-ordered-data-set-from-an-OCR-text-file.html#applications">Applications</a></li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="introduction">Introduction</h2>
+<p>It is often the case that historians involved in digital projects wish to work with digitized texts, so they think “OK, I’ll just scan this fabulously rich and useful collection of original source material and do wonderful things with the digital text that results”. (Those of us who have done this, now smile ruefully). Such historians quickly discover that even the best OCR results in unacceptably high error rates. So the historian now thinks “OK I’ll get some grant money, and I’ll enlist the help of an army of RAs/Grad students/Undergrads/Barely literate street urchins, to correct errors in my OCR output. (We smile again, even more sadly now).</p>
+
+<ol>
+  <li>
+    <p>There is little funding for this kind of thing. Increasingly, projects in the humanities have focused upon NLP/Data Mining/Machine Learning/Graph Analysis, and the like, frequently overlooking the fundamental problem of generating useable digital texts. The presumption has often been, well, Google scanned all that stuff didn’t they? What’s the matter with their scans?</p>
+  </li>
+  <li>
+    <p>Even if you had such an army of helpers, proof-reading the OCR output of, say, a collection of twelfth century Italian charters transcribed and published in 1935, will quickly drive them all mad, make their eyes bleed, and the result will still be a great wad of text containing a great many errors, and you will <strong>still</strong> have to do <strong>something</strong> to it before it becomes useful in any context.</p>
+  </li>
+</ol>
+
+<p>Going through a text file line by line and correcting OCR errors one at a time is hugely error-prone, as any proof reader will tell you. There are ways to automate some of this tedious work. A scripting language like Perl or Python can allow you to search your OCR output text for common errors and correct them using “Regular Expressions”, a language for describing patterns in text. (So called because they express a <a href="http://en.wikipedia.org/wiki/Regular_language">“regular language”</a>. See L.T. O’Hara’s <a href="cleaning-ocrd-text-with-regular-expressions.html">tutorial on Regular Expressions</a> here at the PM.) Regular Expressions, however, are only useful if the expressions you are searching for are … well … regular. Unfortunately, much of what you have in OCR output is highly <em>irregular</em>. If you could impose some order on it: create an ordered data set out of it, your Regular Expression tools would become much more powerful.</p>
+
+<p>Consider, for example, what happens if your OCR interpreted a lot of strings like this “21 July, 1921” as “2l July, 192l”, turning the integer ‘1’ into an ‘l’. You would love to be able to write a search and replace script that would turn all instances of 2l into 21, but then what would happen if you had lots of occurrences of strings like this in your text: “2lb. hammer”. You’d get a bunch of 21b. hammers; not what you want. If only you could tell your script: only change 2l into 21 in sections where there are dates, not weights. If you had an ordered data set, you could do things like that.</p>
+
+<p>Very often the texts that historians wish to digitize are, in fact, ordered data sets: ordered collections of primary source documents, or a legal code say, or a cartulary. But the editorial structure imposed upon such resources is usually designed for a particular kind of data retrieval technology i.e., a codex, a book. For a digitized text you need a different kind of structure. If you can get rid of the book related infrastructure and reorganize the text according to the sections and divisions that you’re interested in, you will wind up with data that is much easier to do search and replace operations on, and as a bonus, your text will become immediately useful in a variety of other contexts as well.</p>
+
+<p>This is where a scripting language like Python comes very much in handy. For our project we wanted to prepare some of the documents from a 12th century collection of <em>imbreviatura</em> from the Italian scribe known as <a href="http://www.worldcat.org/oclc/17591390">Giovanni Scriba</a> so that they could be marked up by historians for subsequent NLP analysis or potentially for other purposes as well. The pages of the 1935 published edition look like this.</p>
+
+<p><img src="../images/gs_pg110.png" alt="GS page 110" /></p>
+
+<p>The OCR output from such scans look like this even after some substantial clean-up (I’ve wrapped the longest lines so that they fit here):</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>110	MARIO CHIAUDANO MATTIA MORESCO
+    professi sunt Alvernacium habere de i;psa societate lb. .c., in reditu
+    tracto predicto capitali .ccc. lb. proficuum. debent dividere per medium. Ultra
+    vero .cc. lb. capitalis Ingo de Volta lb. .xiv. habet quas cum ipso capitali de
+    scicietate extrahere debet. Dedit preterea prefatus Ingo de Volta licenciam (1)
+    ipsi Ingoni Nocentio portandi lb. .xxxvII. 2 Oberti Spinule et Ib. .xxvII.
+    Wuilielmi Aradelli. Actum ante domum W. Buronis .MCLVII., .iiii. kalendas
+    iulias, indicione quarta (2).
+L f o. 26 v.] .	CCVIII.
+Ingone Della Volta si obbliga verso Ingone Nocenzio di indennizzarlo di ogni
+danno che gli fosse derivato dalle societa che egli aveva con i suoi figli (28
+giugno 1157).
+Testes Ingonis Nocentii] .
+    Die loco (3) ,predicto et testibus Wuilielmo Burone, Bono Iohanne
+    Malfiiastro, Anselmo de Cafara, W. de Racedo, Wuilielmo Callige Pallii. Ego Ingo
+    de Volta promitto tibi Ingoni Nocentio quod si aliquod dampnum acciderit tibi
+    pro societate vel societatibus quam olim habueris cum filiis meis ego illud
+    totum tibi restaurato et hoc tibi promitto sub pena dupli de quanto inde dampno
+    habueris. Do tibi preterea licentiam accipiendi bisancios quos ultra mare
+    acciipere debeo et inde facias tona fide quicquid tibi videbitur et inde ab omni
+    danpno te absolvo quicquid inde contingerit.
+CCIX.
+    Guglielmo di Razedo dichiara d'aver ricevuto in societatem da Guglielmo
+Barone una somma di denaro che portera laboratum ultramare (28 giugno 1157).
+Wuilielmi Buronis] .
+        Testes Anselmus de Cafara, Albertus de Volta, W. Capdorgol, Corsus
+Serre, Angelotus, Ingo Noncencius. Ego W. de Raeedo profiteor me accepisse a te
+Wuilielmo Burone lb. duocentum sexaginta tre et s. .XIII. 1/2 in societatem ad
+quartam proficui, eas debeo portare laboratum ultra mare et inde quo voluero, in
+reditu,
+(11 Licentiam in sopralinea in potestatem cancellato.
+(2) A margine le postille: Pro Ingone Nocentio scripta e due pro Alvernacio.
+(3) Cancellato: et testibus supradictis.
+</code></pre>
+</div>
+
+<p>In the scan of the original, the reader’s eye readily parses the page: the layout has meaning. But as you can see, reduced to plain text like this, none of the metadata implied by the page layout and typography can be differentiated by automated processes.</p>
+
+<p>You can see from the scan that each charter has the following metadata associated with it.</p>
+
+<ul>
+  <li>Charter number</li>
+  <li>Page number</li>
+  <li>Folio number</li>
+  <li>An Italian summary, ending in a date of some kind</li>
+  <li>A line, usually ending with a ‘]’ that marks a marginal notation in the original</li>
+  <li>Frequently a collection of in-text numbered footnote markers, whose text appears at the bottom of each page, sequentially numbered, and restarting from 1 on each new page.</li>
+  <li>The Latin text of the charter itself</li>
+</ul>
+
+<p>This is typical of such resources, though editorial conventions will vary widely. The point is: this is an <strong>ordered</strong> data set, not just a great big string of characters. With some fairly straightforward Python scripts, we can turn our OCR output into an ordered data set, in this case, a <a href="https://docs.python.org/2/tutorial/datastructures.html#dictionaries">python dictionary</a>, <strong>before</strong> we start trying to proofread the Latin charter texts. With such an ordered data set in hand, we can do proofreading, and potentially many other kinds of tasks, much more effectively.</p>
+
+<p>So, the aim of this tutorial is to take a plain text file, like the OCR output above and turn it into a python dictionary with fields for the Latin text of the charter and for each of the metadata elements mentioned above:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span>
+<span class="o">.</span>
+<span class="o">.</span>
+<span class="o">.</span> 
+ <span class="mi">52</span><span class="p">:</span> <span class="p">{</span><span class="s">'chid'</span><span class="p">:</span> <span class="s">'GScriba_LII'</span><span class="p">,</span>
+      <span class="s">'chno'</span><span class="p">:</span> <span class="mi">52</span><span class="p">,</span>
+      <span class="s">'date'</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">1156</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">27</span><span class="p">),</span>
+      <span class="s">'folio'</span><span class="p">:</span> <span class="s">'[fo. 6 r.]'</span><span class="p">,</span>
+      <span class="s">'footnotes'</span><span class="p">:</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="s">'Cancellato: m.'</span><span class="p">)],</span>
+      <span class="s">'marginal'</span><span class="p">:</span> <span class="s">'no marginal]'</span><span class="p">,</span>
+      <span class="s">'pgno'</span><span class="p">:</span> <span class="mi">29</span><span class="p">,</span>
+      <span class="s">'summary'</span><span class="p">:</span> <span class="s">'I consoli di Genova riconoscono con sentenza il diritto di Romano di Casella di pagarsi sui beni di Gerardo Confector per un credito che aveva verso il medesimo (27 marzo 1156).'</span><span class="p">,</span>
+      <span class="s">'text'</span><span class="p">:</span> <span class="p">[</span><span class="s">'    In pontili capituli consules E. Aurie, W. Buronus, Ogerius Ventus laudaverunt quod Romanus de Casella haberet in bonis Gerardi Confectoris s. .xxvi. denariorum et possit eos accipere sine contradicione eius et omnium pro eo. Hoc ideo quia, cum; Romanus ante ipsos inde conquereretur, ipso Gerardo debitum non negante, sed quod de usura esset obiiciendo, iuravit nominatus Romanus quod capitalis erat (1) et non de usura, unde ut supra laudaverunt , .MCLVI., sexto kalendas aprilis, indicione tercia.</span><span class="se">\n</span><span class="s">'</span><span class="p">]},</span>
+ <span class="mi">53</span><span class="p">:</span> <span class="p">{</span><span class="s">'chid'</span><span class="p">:</span> <span class="s">'GScriba_LIII'</span><span class="p">,</span>
+      <span class="s">'chno'</span><span class="p">:</span> <span class="mi">53</span><span class="p">,</span>
+      <span class="s">'date'</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">1156</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">27</span><span class="p">),</span>
+      <span class="s">'folio'</span><span class="p">:</span> <span class="s">'[fo. 6 r.]'</span><span class="p">,</span>
+      <span class="s">'footnotes'</span><span class="p">:</span> <span class="p">[],</span>
+      <span class="s">'marginal'</span><span class="p">:</span> <span class="s">'Belmusti]'</span><span class="p">,</span>
+      <span class="s">'pgno'</span><span class="p">:</span> <span class="mi">29</span><span class="p">,</span>
+      <span class="s">'summary'</span><span class="p">:</span> <span class="s">"Maestro Arnaldo e Giordan nipote del fu Giovanni di Piacenza si obbligano di pagare una somma nell'ottava della prossima Pasqua, per merce ricevuta (27 marzo 1156)."</span><span class="p">,</span>
+      <span class="s">'text'</span><span class="p">:</span> <span class="p">[</span><span class="s">'  Testes Conradus Porcellus, Albericus, Vassallus Gambalixa, Petrus Artodi. Nos Arnaldus magister et Iordan nepos quondam Iohannis Placentie accepimus a te Belmusto tantum bracile unde promittimus dare tibi vel tuo certo misso lb. .xLIII. denariorum usque octavam proximi pasce, quod si non fecerimus penam dupli tibi stipulanti promittimus, bona pignori, possis unumquemque convenire de toto. Actum prope campanile Sancti Laurentii, millesimo centesimo .Lv., sexto kalendas aprilis, indictione tercia.</span><span class="se">\n</span><span class="s">'</span><span class="p">]},</span>
+<span class="o">.</span>
+<span class="o">.</span>
+<span class="o">.</span> <span class="n">etc</span><span class="o">.</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>Remember, this is just a text representation of a data structure that lives in computer memory. Python calls this sort of structure a ‘dictionary’, other programming languages may call it a ‘hash’, or an ‘associative array’. The point is that it is infinitely easier to do any sort of programmatic analysis or manipulation of a digital text if it is in such a form, rather than in the form of a plain text file. The advantage is that such a data structure can be queried, or calculations can be performed on the data, without first having to parse the text.</p>
+
+<h2 id="a-nameprelima-a-couple-of-useful-functions-before-we-start"><a name="prelim"></a> A couple of useful functions before we start:</h2>
+<p>We’re going to borrow a couple of functions written by others. They both represent some pretty sophisticated programming. Understanding what’s going on in these functions is instructive, but not necessary. Reading and using other people’s code is how you learn programming, and is the soul of the Open-Source movement. Even if you don’t fully understand how somebody does it, you can nevertheless test functions like this to see that they reliably do what they say they can, and then just apply it to your immediate problem if they are relevant.</p>
+
+<h3 id="a-namelevenshtein-distancea-levenshtein-distance"><a name="levenshtein-distance"></a> Levenshtein distance</h3>
+<p>You will note that some of the metadata listed above is page-bound and some of it is charter-bound. Getting these untangled from each other is our aim. There is a class of page-bound data that is useless for our purposes, and only meaningful in the context of a physical book: page headers and footers. In our text, these look like this on <em>recto</em> leaves (in a codex, a book, <em>recto</em> is the right-side page, and <em>verso</em> its reverse, the left-side page)</p>
+
+<p><img src="../images/gs_recto_header.png" alt="recto header" /></p>
+
+<p>and this on <em>verso</em> leaves:</p>
+
+<p><img src="../images/gs_verso_header.png" alt="verso header" /></p>
+
+<p>We’d like to preserve the page number information for each charter on the page, but the header text isn’t useful to us and will just make any search and replace operation more difficult. So we’d like to find header text and replace it with a string that’s easy to find with a Regular Expression, and store the page number.</p>
+
+<p>Unfortunately, regular expressions won’t help you much here. This text can appear on any line of our OCR output text, and the ways in which OCR software can foul it up are effectively limitless. Here are some examples of page headers, both <em>recto</em> and <em>verso</em> in our raw OCR output.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>260	11141110 CH[AUDANO MATTIA MORESCO
+IL CIRTOL4RE DI CIOVINN1 St'Itlltl	269
+IL CJIRTOL.%RE DI G:OVeNNl FIM P%	297
+IL CIP.TQLIRE DI G'OVeNNI SCI Dt	r.23
+332	T1uu:0 CHIAUDANO M:11TIA MGRESCO
+IL CIRTOL.'RE DI G:OV.I\N( sca:FR	339
+342	NI .\ßlO CHIAUDANO 9LtTTIA MORESCO
+</code></pre>
+</div>
+
+<p>These strings are not regular enough to reliably find with regular expressions; however, if you know what the strings are <em>supposed</em> to look like, you can compose some kind of string similarity algorithm to test each string against an exemplar and measure the likelihood that it is a page header. Fortunately, I didn’t have to compose such an algorithm, Vladimir Levenshtein did it for us in 1965 (see: <a href="http://en.wikipedia.org/wiki/Levenshtein_distance">http://en.wikipedia.org/wiki/Levenshtein_distance</a>). A computer language can encode this algorithm in any number of ways; here’s an effective Python function that will work for us:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="nf">lev</span><span class="p">(</span><span class="n">seq1</span><span class="p">,</span> <span class="n">seq2</span><span class="p">):</span>
+    <span class="s">""" Return Levenshtein distance metric
+    (ripped from http://pydoc.net/Python/Whoosh/2.3.2/whoosh.support.levenshtein/)
+     """</span>
+    <span class="n">oneago</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">thisrow</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">seq2</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">seq1</span><span class="p">)):</span>
+        <span class="n">twoago</span><span class="p">,</span> <span class="n">oneago</span><span class="p">,</span> <span class="n">thisrow</span> <span class="o">=</span> <span class="n">oneago</span><span class="p">,</span> <span class="n">thisrow</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">seq2</span><span class="p">)</span> <span class="o">+</span> <span class="p">[</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+    
+        <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">seq2</span><span class="p">)):</span>
+            <span class="n">delcost</span> <span class="o">=</span> <span class="n">oneago</span><span class="p">[</span><span class="n">y</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="n">addcost</span> <span class="o">=</span> <span class="n">thisrow</span><span class="p">[</span><span class="n">y</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="n">subcost</span> <span class="o">=</span> <span class="n">oneago</span><span class="p">[</span><span class="n">y</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">seq1</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">!=</span> <span class="n">seq2</span><span class="p">[</span><span class="n">y</span><span class="p">])</span>
+            <span class="n">thisrow</span><span class="p">[</span><span class="n">y</span><span class="p">]</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">delcost</span><span class="p">,</span> <span class="n">addcost</span><span class="p">,</span> <span class="n">subcost</span><span class="p">)</span>
+            <span class="c"># This block deals with transpositions</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">y</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">seq1</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">==</span> <span class="n">seq2</span><span class="p">[</span><span class="n">y</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+                <span class="ow">and</span> <span class="n">seq1</span><span class="p">[</span><span class="n">x</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">seq2</span><span class="p">[</span><span class="n">y</span><span class="p">]</span> <span class="ow">and</span> <span class="n">seq1</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">!=</span> <span class="n">seq2</span><span class="p">[</span><span class="n">y</span><span class="p">]):</span>
+                <span class="n">thisrow</span><span class="p">[</span><span class="n">y</span><span class="p">]</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">thisrow</span><span class="p">[</span><span class="n">y</span><span class="p">],</span> <span class="n">twoago</span><span class="p">[</span><span class="n">y</span> <span class="o">-</span> <span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">thisrow</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">seq2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+</code></pre>
+</div>
+
+<p>Again, this is some pretty sophisticated programming, but for our purposes all we need to know is that the <code class="highlighter-rouge">lev()</code> function takes two strings as parameters and returns a number that indicates the ‘string distance’ between them, or, how many changes had to be made to turn the first string into the second. So: <code class="highlighter-rouge">lev("fizz", "buzz")</code> returns ‘2’</p>
+
+<h3 id="a-nameroman-numeralsa-roman-to-arabic-numerals"><a name="Roman-Numerals"></a> Roman to Arabic numerals</h3>
+<p>You’ll also note that in the published edition, the charters are numbered with roman numerals. Converting roman numerals into arabic is an instructive puzzle to work out in Python. Here’s the cleanest and most elegant solution I know:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="nf">rom2ar</span><span class="p">(</span><span class="n">rom</span><span class="p">):</span>
+    <span class="s">""" From the Python tutor mailing list:
+    János Juhász janos.juhasz at VELUX.com
+    returns arabic equivalent of a Roman numeral """</span>
+    <span class="n">roman_codec</span> <span class="o">=</span> <span class="p">{</span><span class="s">'M'</span><span class="p">:</span><span class="mi">1000</span><span class="p">,</span> <span class="s">'D'</span><span class="p">:</span><span class="mi">500</span><span class="p">,</span> <span class="s">'C'</span><span class="p">:</span><span class="mi">100</span><span class="p">,</span> <span class="s">'L'</span><span class="p">:</span><span class="mi">50</span><span class="p">,</span> <span class="s">'X'</span><span class="p">:</span><span class="mi">10</span><span class="p">,</span> <span class="s">'V'</span><span class="p">:</span><span class="mi">5</span><span class="p">,</span> <span class="s">'I'</span><span class="p">:</span><span class="mi">1</span><span class="p">}</span>
+    <span class="n">roman</span> <span class="o">=</span> <span class="n">rom</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+    <span class="n">roman</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">roman</span><span class="p">)</span>
+    <span class="n">roman</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+    <span class="n">decimal</span> <span class="o">=</span> <span class="p">[</span><span class="n">roman_codec</span><span class="p">[</span><span class="n">ch</span><span class="p">]</span> <span class="k">for</span> <span class="n">ch</span> <span class="ow">in</span> <span class="n">roman</span><span class="p">]</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">decimal</span><span class="p">):</span>
+        <span class="n">act</span> <span class="o">=</span> <span class="n">decimal</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">decimal</span><span class="p">)</span> <span class="ow">and</span> <span class="n">act</span> <span class="o">&lt;</span> <span class="nb">max</span><span class="p">(</span><span class="n">decimal</span><span class="p">):</span>
+            <span class="n">act</span> <span class="o">=</span> <span class="o">-</span><span class="n">act</span>
+        <span class="n">result</span> <span class="o">+=</span> <span class="n">act</span>
+
+    <span class="k">return</span> <span class="n">result</span>
+</code></pre>
+</div>
+<p>(run &lt;<a href="../assets/Roman_to_Arabic.txt">this little script</a>&gt; to see in detail how <code class="highlighter-rouge">rome2ar</code> works. Elegant programming like this can offer insight; like poetry.)</p>
+
+<h2 id="a-nameimports-globalsa-some-other-things-well-need"><a name="imports-globals"></a> Some other things we’ll need:</h2>
+<p>At the top of your Python module, you’re going to want to import some python modules that are a part of the standard library. (see Fred Gibbs’s tutorial <a href="installing-python-modules-pip.html"><em>Installing Python Modules with pip</em></a>).</p>
+
+<ol>
+  <li>
+    <p>First among these is the “re” (regular expression) module <code class="highlighter-rouge">import re</code>. Regular expressions are your friends. However, bear in mind Jamie Zawinski’s quip:</p>
+
+    <blockquote>
+      <p>Some people, when confronted with a problem, think “I know, I’ll use regular expressions.” Now they have two problems.</p>
+    </blockquote>
+
+    <p>(Again, have a look at L.T. O’Hara’s introduction here at the Programming Historian <a href="cleaning-ocrd-text-with-regular-expressions.html">Cleaning OCR’d text with Regular Expressions</a>)</p>
+  </li>
+  <li>
+    <p>Also: <code class="highlighter-rouge">from pprint import pprint</code>. <code class="highlighter-rouge">pprint</code> is just a pretty-printer for python objects like lists and dictionaries. You’ll want it because python dictionaries are much easier to read if they are formatted.</p>
+  </li>
+  <li>
+    <p>And: <code class="highlighter-rouge">from collections import Counter</code>. We’ll want this for the <a href="generating-an-ordered-data-set-from-an-OCR-text-file.html#footnotes">Find and normalize footnote markers and texts</a> section below. This is not really necessary, but we’ll do some counting that would require a lot of lines of fiddly code and this will save us the trouble. The collections module has lots of deep magic in it and is well worth getting familiar with. (Again, see Doug Hellmann’s PyMOTW for the <a href="http://pymotw.com/2/collections/index.html#module-collections">collections</a> module. I should also point out that his book <a href="http://doughellmann.com/pages/python-standard-library-by-example.html"><em>The Python Standard Library By Example</em></a> is one well worth having.)</p>
+  </li>
+</ol>
+
+<h2 id="a-nameregex-reviewa-a-very-brief-review-of-regular-expressions-as-they-are-implemented-in-python"><a name="regex-review"></a> A very brief review of regular expressions as they are implemented in python</h2>
+
+<p>L.T. O’Hara’s <a href="cleaning-ocrd-text-with-regular-expressions.html">introduction</a> to using python flavored regular expressions is invaluable. In this context we should review a couple of basic facts about Python’s implementation of regular expressions, the <code class="highlighter-rouge">re</code> module, which is part of Python’s standard library.</p>
+
+<ol>
+  <li><code class="highlighter-rouge">re.compile()</code> creates a regular expression object that has a number of methods. You should be familiar with <code class="highlighter-rouge">.match()</code>, and <code class="highlighter-rouge">.search()</code>, but also <code class="highlighter-rouge">.findall()</code> and <code class="highlighter-rouge">.finditer()</code></li>
+  <li>Bear in mind the difference between <code class="highlighter-rouge">.match()</code> and <code class="highlighter-rouge">.search()</code>: <code class="highlighter-rouge">.match()</code> will only match at the <strong>beginning</strong> of a line, whereas <code class="highlighter-rouge">.search()</code> will match anywhere in the line <strong>but then it stops</strong>, it’ll <strong>only</strong> return the first match it finds.</li>
+  <li><code class="highlighter-rouge">.match()</code> and <code class="highlighter-rouge">.search()</code> return match objects. To retrieve the matched string you need <code class="highlighter-rouge">mymatch.group(0)</code>. If your compiled regular expression has grouping parentheses in it (like our ‘slug’ regex below), you can retrieve those substrings of the matched string using <code class="highlighter-rouge">mymatch.group(1)</code> etc.</li>
+  <li><code class="highlighter-rouge">.findall()</code> and <code class="highlighter-rouge">.finditer()</code> will return <strong>all</strong> occurrences of the matched string; <code class="highlighter-rouge">.findall()</code> returns them as a list of strings, but .finditer() returns an <strong>iterator of match objects</strong>. (read the docs on the method <a href="https://docs.python.org/2/library/re.html#re.finditer">.finditer()</a>.)</li>
+</ol>
+
+<h1 id="a-nameocrprocessinga-iterative-processing-of-text-files"><a name="OCRprocessing"></a> Iterative processing of text files</h1>
+
+<p>We’ll start with a single file of OCR output. We will iteratively generate new, corrected versions of this file by using it as input for our python scripts. Sometimes our script will make corrections automatically, more often, our scripts will simply alert us to where problems lie in the input file, and we will make corrections manually. So, for the first several operations we’re going to want to produce new and revised text files to use as input for our subsequent operations. Every time you produce a text file, you should version it and duplicate it so that you can always return to it. The next time you run your code (as you’re developing it) you might alter the file in an unhelpful way and it’s easiest just to restore the old version.</p>
+
+<p>The code in this tutorial is highly edited; it is <strong>not</strong> comprehensive. As you continue to refine your input files, you will write lots of little <em>ad hoc</em> scripts to check on the efficacy of what you’ve done so far. Versioning will ensure that such experimentation will not destroy any progress that you’ve made.</p>
+
+<p>##<a name="deployment"></a> A note on how to deploy the code in this tutorial:
+The code in this tutorial is for Python 2.7.x, Python 3 is quite a different animal.</p>
+
+<p>When you write code in a text file and then execute it, either at the command line, or from within your text editor or IDE, the Python interpreter executes the code line by line, from top to bottom. So, often the code on the bottom of the page will depend on code above it.</p>
+
+<p>One way to use the code snippets in section 2 might be to have all of them in a single file and comment out the bits that you don’t want to run. Each time you execute the file, you will want to be sure that there is a logical control flow from the <code class="highlighter-rouge">#!</code> line at the top, through your various <code class="highlighter-rouge">import</code>s and assignment of global variables, and each loop, or block.</p>
+
+<p>Or, each of the subsections in section 2 can also be treated as a separate script, each would then have to do its own <code class="highlighter-rouge">import</code>ing and assignment of global variables.</p>
+
+<p>In section 3, “Creating the Dictionary”, you will be operating on a data set in computer memory (the <code class="highlighter-rouge">charters</code> dictionary) that will be generated from the latest, most correct, input text you have. So you will want to maintain a single python module in which you define the dictionary at the top, along with your <code class="highlighter-rouge">import</code> statements and the assignment of global variables, followed by each of the four loops that will populate and then modify that dictionary.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c">#!/usr/bin/python</span>
+
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+
+<span class="c"># followed by any global variables you will need, like:</span>
+
+<span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">this_folio</span>  <span class="o">=</span> <span class="s">'[fo. 1 r.]'</span>
+<span class="n">this_page</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="c"># compiled regular expressions like:</span>
+<span class="n">slug</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="nb">compile</span><span class="p">(</span><span class="s">"(</span><span class="err">\</span><span class="s">[~~~~</span><span class="err">\</span><span class="s">sGScriba_)(.*)</span><span class="err">\</span><span class="s">s::::</span><span class="err">\</span><span class="s">s(</span><span class="err">\</span><span class="s">d+)</span><span class="err">\</span><span class="s">s~~~~</span><span class="err">\</span><span class="s">]"</span><span class="p">)</span>
+<span class="n">fol</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="nb">compile</span><span class="p">(</span><span class="s">"</span><span class="err">\</span><span class="s">[fo</span><span class="err">\</span><span class="s">.</span><span class="err">\</span><span class="s">s?</span><span class="err">\</span><span class="s">d+</span><span class="err">\</span><span class="s">s?[rv]</span><span class="err">\</span><span class="s">.</span><span class="err">\</span><span class="s">s?</span><span class="err">\</span><span class="s">]"</span><span class="p">)</span>
+<span class="n">pgbrk</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="nb">compile</span><span class="p">(</span><span class="s">"~~~~~ PAGE (</span><span class="err">\</span><span class="s">d+) ~~~~~"</span><span class="p">)</span>
+
+<span class="c"># the canonical file you will be reading from</span>
+<span class="n">fin</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">"/path/to/your/current/canonical.txt"</span><span class="p">,</span> <span class="s">'r'</span><span class="p">)</span>
+<span class="n">GScriba</span> <span class="o">=</span> <span class="n">fin</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+
+
+<span class="c"># then the empty dictionary:</span>
+<span class="n">charters</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+<span class="c"># followed by the 4 'for' loops in section 2 that will populate and then modify this dictionary</span>
+</code></pre>
+</div>
+<p>## <a name="pages"></a> Chunk up the text by pages</p>
+
+<p>First of all, we want to find all the page headers, both <em>recto</em> and <em>verso</em> and replace them with consistent strings that we can easily find with a regular expression. The following code looks for lines that are similar to what we know are our page headers to within a certain threshold. It will take some experimentation to find what this threshold is for your text. Since my <em>recto</em> and <em>verso</em> headers are roughly the same length, both have the same similarity score of 26.</p>
+
+<blockquote>
+  <p>NOTA BENE: The <code class="highlighter-rouge">lev()</code> function described above returns a measure of the ‘distance’ between two strings, so, the shorter the page header string, the more likely it is that this trick will not work. If your page header is just “Header”, then any line comprised of a six letter word might give you a string distance of 6, eg: <code class="highlighter-rouge">lev("Header", "Foobar")</code> returns ‘6’, leaving you none the wiser. In our text, however, the header strings are long and complex enough to give you meaningful scores, eg:</p>
+</blockquote>
+
+<p><code class="highlighter-rouge">lev("RANDOM STRING OF SIMILAR LENGTH:    38", 'IL CARTOLARE DI GIOVANNI SCRIBA')</code></p>
+
+<p>returns 33, but one of our header strings, even badly mangled by the OCR, returns 20:</p>
+
+<p><code class="highlighter-rouge">lev("IL CIRTOL4RE DI CIOVINN1 St'Itlltl     269", 'IL CARTOLARE DI GIOVANNI SCRIBA')</code></p>
+
+<p>So we can use <code class="highlighter-rouge">lev()</code> to find and modify our header strings thus:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># At the top, do the importing you need and define the lev() function as described above, and then:</span>
+
+<span class="n">fin</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">"our_base_OCR_result.txt"</span><span class="p">,</span> <span class="s">'r'</span><span class="p">)</span> <span class="c"># read our OCR output text</span>
+<span class="n">fout</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">"out1.txt"</span><span class="p">,</span> <span class="s">'w'</span><span class="p">)</span> <span class="c"># create a new textfile to write to when we're ready</span>
+<span class="n">GScriba</span> <span class="o">=</span> <span class="n">fin</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span> <span class="c"># turn our input file into a list of lines</span>
+
+<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">GScriba</span><span class="p">:</span>
+    <span class="c"># get a Levenshtein distance score for each line in the text</span>
+    <span class="n">recto_lev_score</span> <span class="o">=</span> <span class="n">lev</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="s">'IL CARTOLARE DI GIOVANNI SCRIBA'</span><span class="p">)</span>
+    <span class="n">verso_lev_score</span> <span class="o">=</span> <span class="n">lev</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="s">'MARIO CHIAUDANO - MATTIA MORESCO'</span><span class="p">)</span>
+    
+    <span class="c"># you want to use a score that's as high as possible,</span>
+    <span class="c"># but still finds only potential page header texts.</span>
+    <span class="k">if</span> <span class="n">recto_lev_score</span> <span class="o">&lt;</span> <span class="mi">26</span> <span class="p">:</span>
+        
+        <span class="c"># If we increment a variable 'n' to count the number of headers we've found,</span>
+        <span class="c"># then the value of that variable should be our page number.</span>
+        <span class="n">n</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">print</span> <span class="s">"recto: </span><span class="si">%</span><span class="s">s </span><span class="si">%</span><span class="s">s"</span> <span class="o">%</span> <span class="p">(</span><span class="n">recto_lev_score</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
+        
+        <span class="c"># Once we've figured out our optimal 'lev' score, we can 'uncomment'</span>
+        <span class="c"># all these `fout.write()` lines to write out our new text file,</span>
+        <span class="c"># replacing each header with an easy-to-find string that contains</span>
+        <span class="c"># the page number: our variable 'n'.</span>
+        
+        <span class="c">#fout.write("~~~~~ PAGE %d ~~~~~\n\n" % n)</span>
+    <span class="k">elif</span> <span class="n">verso_lev_score</span> <span class="o">&lt;</span> <span class="mi">26</span> <span class="p">:</span>
+        <span class="n">n</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">print</span> <span class="s">"verso: </span><span class="si">%</span><span class="s">s </span><span class="si">%</span><span class="s">s"</span> <span class="o">%</span> <span class="p">(</span><span class="n">verso_lev_score</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
+        <span class="c">#fout.write("~~~~~ PAGE %d ~~~~~\n\n" % n)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c">#fout.write(line)</span>
+        <span class="k">pass</span>
+
+<span class="k">print</span> <span class="n">n</span>
+</code></pre>
+</div>
+
+<p>There’s a lot of calculation going on in the <code class="highlighter-rouge">lev()</code> function. It isn’t very efficient to call it on every line in our text, so this might take some time, depending on how long our text is. We’ve only got 803 charters in vol. 1. That’s a pretty small number. If it takes 30 seconds, or even a minute, to run our script, so be it.</p>
+
+<p>If we run this script on our OCR output text, we get output that looks like this:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="o">.</span>
+<span class="o">.</span>
+<span class="o">.</span>
+<span class="n">verso</span><span class="p">:</span> <span class="mi">8</span> <span class="mi">426</span>	<span class="n">MARIO</span> <span class="n">CHIAUDANO</span> <span class="n">MAITIA</span> <span class="n">MORESCO</span>
+<span class="n">recto</span><span class="p">:</span> <span class="mi">5</span> <span class="n">IL</span> <span class="n">CARTOLARE</span> <span class="n">DI</span> <span class="n">GIOVANNI</span> <span class="n">SCRIBA</span>	<span class="mi">427</span>
+<span class="n">verso</span><span class="p">:</span> <span class="mi">11</span> <span class="p">,</span> <span class="p">,</span>	<span class="mi">428</span>	<span class="n">MARIO</span> <span class="n">CHIAUDANO</span> <span class="n">MATTIA</span> <span class="n">MORESCO</span>
+<span class="n">recto</span><span class="p">:</span> <span class="mi">5</span> <span class="n">IL</span> <span class="n">CARTOLARE</span> <span class="n">DI</span> <span class="n">GIOVANNI</span> <span class="n">SCRIBA</span>	<span class="mi">499</span>
+<span class="n">verso</span><span class="p">:</span> <span class="mi">7</span> <span class="mi">430</span>	<span class="n">MARIO</span> <span class="n">CHIAUDANO</span> <span class="n">MATTIA</span> <span class="n">MORESCO</span>
+<span class="n">recto</span><span class="p">:</span> <span class="mi">5</span> <span class="n">IL</span> <span class="n">CARTOLARE</span> <span class="n">DI</span> <span class="n">GIOVANNI</span> <span class="n">SCRIBA</span>	<span class="mi">431</span>
+<span class="n">verso</span><span class="p">:</span> <span class="mi">8</span> <span class="mi">432</span>	<span class="n">MARIO</span> <span class="n">CHIAUDASO</span> <span class="n">MATTIA</span> <span class="n">MORESCO</span>
+<span class="mi">430</span>
+</code></pre>
+</div>
+
+<p>For each line, the output tells us that it’s page <em>verso</em> or <em>recto</em>, the Levenshtein “score”, and then the text of the line (complete with all the errors in it. Note that the OCR misread the pg. number for pg. 429). The lower the Levenshtein “score”, the closer the line is to the model you’ve given it.</p>
+
+<p>This tells you that the script found 430 lines that are probably page headers. You know how many pages there should be, so if the script didn’t find all the headers, you can go through the output looking at the page numbers, find the pages it missed, and fix the headers manually, then repeat until the script finds all the page headers.</p>
+
+<p>Once you’ve found and fixed the headers that the script didn’t find, you can then write out the corrected text to a new file that will serve as the basis for the other operations below. So, instead of</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">quicquid</span> <span class="n">volueris</span> <span class="n">sine</span> <span class="n">omni</span> <span class="n">mea</span> <span class="n">et</span>
+<span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="n">Spazio</span> <span class="n">bianco</span> <span class="n">nel</span> <span class="n">ms</span><span class="o">.</span>
+
+<span class="mi">12</span>	<span class="n">MARIO</span> <span class="n">CSIAUDANO</span> <span class="n">MATTIA</span> <span class="n">MORESCO</span>
+<span class="n">heredum</span> <span class="n">meorum</span> <span class="n">contradicione</span><span class="o">.</span> <span class="n">Actum</span> <span class="ow">in</span> <span class="n">capitulo</span> <span class="o">.</span><span class="n">MCLV</span><span class="o">.</span><span class="p">,</span> <span class="n">mensis</span> <span class="n">iulii</span><span class="p">,</span> <span class="n">indicione</span> <span class="n">secunda</span><span class="o">.</span>
+</code></pre>
+</div>
+
+<p>we’ll have a textfile like this:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">quicquid</span> <span class="n">volueris</span> <span class="n">sine</span> <span class="n">omni</span> <span class="n">mea</span> <span class="n">et</span>
+<span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="n">Spazio</span> <span class="n">bianco</span> <span class="n">nel</span> <span class="n">ms</span><span class="o">.</span>
+
+<span class="o">~~~~~</span> <span class="n">PAGE</span> <span class="mi">12</span> <span class="o">~~~~~</span>
+
+<span class="n">heredum</span> <span class="n">meorum</span> <span class="n">contradicione</span><span class="o">.</span> <span class="n">Actum</span> <span class="ow">in</span> <span class="n">capitulo</span> <span class="o">.</span><span class="n">MCLV</span><span class="o">.</span><span class="p">,</span> <span class="n">mensis</span> <span class="n">iulii</span><span class="p">,</span> <span class="n">indicione</span> <span class="n">secunda</span><span class="o">.</span>
+</code></pre>
+</div>
+
+<p>Note that for many of the following operations, we will use <code class="highlighter-rouge">GScriba = fin.readlines()</code> so <code class="highlighter-rouge">GScriba</code> will be a <strong>python list</strong> of the lines in our input text. Keep this firmly in mind, as the <code class="highlighter-rouge">for</code> loops that we will use will depend on the fact that we will iterate through the lines of our text <strong>In Document Order</strong>.</p>
+
+<p>##<a name="charters"></a> Chunk up the text by charter (or sections, or letters, or what-have-you)</p>
+
+<p>The most important functional divisions in our text are signaled by upper case roman numerals on a separate line for each of the charters. So we need a regex to find roman numerals like that. Here’s one: <code class="highlighter-rouge">romstr = re.compile("\s*[IVXLCDM]{2,}")</code>. We’ll put it at the top of our module file as a ‘global’ variable so it will be available to any of the bits of code that come later.</p>
+
+<p>The script below will look for capital roman numerals that appear on a line by themselves. Many of our charter numbers will fail that test and the script will report <code class="highlighter-rouge">there's a charter roman numeral missing?</code>, often because there’s something before or after it on the line; or, <code class="highlighter-rouge">KeyError</code>, often because the OCR has garbled the characters (e.g. CCG for 300, XOII for 492). Run this script repeatedly, correcting <code class="highlighter-rouge">out1.txt</code> as you do until all the charters are accounted for.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># At the top, do the importing you need, then define rom2ar() as described above, and then:</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">romstr</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="nb">compile</span><span class="p">(</span><span class="s">"</span><span class="err">\</span><span class="s">s*[IVXLCDM]{2,}"</span><span class="p">)</span> 
+<span class="n">fin</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">"out1.txt"</span><span class="p">,</span> <span class="s">'r'</span><span class="p">)</span>
+<span class="n">fout</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">"out2.txt"</span><span class="p">,</span> <span class="s">'w'</span><span class="p">)</span>
+<span class="n">GScriba</span> <span class="o">=</span> <span class="n">fin</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">GScriba</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">romstr</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
+        <span class="n">rnum</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s">'.'</span><span class="p">)</span>
+        <span class="c"># each time we find a roman numeral by itself on a line we increment n:</span>
+        <span class="c"># that's our charter number.</span>
+        <span class="n">n</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c"># translate the roman to the arabic and it should be equal to n.</span>
+            <span class="k">if</span> <span class="n">n</span> <span class="o">!=</span> <span class="n">rom2ar</span><span class="p">(</span><span class="n">rnum</span><span class="p">):</span>
+                <span class="c"># if it's not, then alert us</span>
+                <span class="k">print</span> <span class="s">"</span><span class="si">%</span><span class="s">d, there's a charter roman numeral missing?, because line number </span><span class="si">%</span><span class="s">d reads: </span><span class="si">%</span><span class="s">s"</span> <span class="o">%</span> <span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">GScriba</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">line</span><span class="p">),</span> <span class="n">line</span><span class="p">)</span>
+                <span class="c"># then set 'n' to the right number</span>
+                <span class="n">n</span> <span class="o">=</span> <span class="n">rom2ar</span><span class="p">(</span><span class="n">rnum</span><span class="p">)</span>
+        <span class="k">except</span> <span class="nb">KeyError</span><span class="p">:</span>
+            <span class="k">print</span> <span class="n">n</span><span class="p">,</span> <span class="s">"KeyError, line number "</span><span class="p">,</span> <span class="n">GScriba</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">line</span><span class="p">),</span> <span class="s">" reads: "</span><span class="p">,</span> <span class="n">line</span>
+</code></pre>
+</div>
+
+<p>Since we know how many charters there should be. At the end of our loop, the value of n should be the same as the number of charters. And, in any iteration of the loop, if the value of n does not correspond to the next successive charter number, then we know we’ve got a problem somewhere, and the print statements should help us find it.</p>
+
+<p>Here’s a sample of the output our script will give us:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="mi">23</span> <span class="n">there</span><span class="s">'s a charter roman numeral missing?, because line number  156  reads:  XXIV.</span><span class="err">
+</span><span class="s">25 there'</span><span class="n">s</span> <span class="n">a</span> <span class="n">charter</span> <span class="n">roman</span> <span class="n">numeral</span> <span class="n">missing</span><span class="err">?</span><span class="p">,</span> <span class="n">because</span> <span class="n">line</span> <span class="n">number</span>  <span class="mi">186</span>  <span class="n">reads</span><span class="p">:</span>  <span class="n">XXVIII</span><span class="o">.</span>
+<span class="mi">36</span> <span class="nb">KeyError</span><span class="p">,</span> <span class="n">line</span> <span class="n">number</span>  <span class="mi">235</span>  <span class="n">reads</span><span class="p">:</span>  <span class="n">XXXV1</span><span class="o">.</span>
+<span class="mi">37</span> <span class="nb">KeyError</span><span class="p">,</span> <span class="n">line</span> <span class="n">number</span>  <span class="mi">239</span>  <span class="n">reads</span><span class="p">:</span>  <span class="n">XXXV</span> <span class="n">II</span><span class="o">.</span>
+<span class="mi">38</span> <span class="n">there</span><span class="s">'s a charter roman numeral missing?, because line number  252  reads:  XL. </span><span class="err">
+</span><span class="s">41 there'</span><span class="n">s</span> <span class="n">a</span> <span class="n">charter</span> <span class="n">roman</span> <span class="n">numeral</span> <span class="n">missing</span><span class="err">?</span><span class="p">,</span> <span class="n">because</span> <span class="n">line</span> <span class="n">number</span>  <span class="mi">262</span>  <span class="n">reads</span><span class="p">:</span>  <span class="n">XLII</span><span class="o">.</span>
+<span class="mi">43</span> <span class="nb">KeyError</span><span class="p">,</span> <span class="n">line</span> <span class="n">number</span>  <span class="mi">265</span>  <span class="n">reads</span><span class="p">:</span>  <span class="n">XL</span><span class="p">:</span><span class="n">III</span><span class="o">.</span>
+</code></pre>
+</div>
+
+<blockquote>
+  <p>NOTA BENE: Our regex will report an error for the single digit Roman numerals (‘I’,’V’,’X’ etc.). You could test for these in the code, but sometimes leaving a known and regular error is a help to check on the efficacy of what you’re doing. Our aim is to satisfy ourselves that any inconsistencies on the charter number line are understood and accounted for.</p>
+</blockquote>
+
+<p>Once we’ve found, and fixed, all the roman numeral charter headings, then we can write out a new file with an easy-to-find-by-regex string, a ‘slug,’ for each charter in place of the bare roman numeral. Comment out the <code class="highlighter-rouge">for</code> loop above, and replace it with this one:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">GScriba</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">romstr</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
+        <span class="n">rnum</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s">'.'</span><span class="p">)</span>
+        <span class="n">num</span> <span class="o">=</span> <span class="n">rom2ar</span><span class="p">(</span><span class="n">rnum</span><span class="p">)</span>
+        <span class="n">fout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">"[~~~~ GScriba_</span><span class="si">%</span><span class="s">s :::: </span><span class="si">%</span><span class="s">d ~~~~]</span><span class="se">\n</span><span class="s">"</span> <span class="o">%</span> <span class="p">(</span><span class="n">rnum</span><span class="p">,</span> <span class="n">num</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">fout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>While it’s important in itself for us to have our OCR output reliably divided up by page and by charter, the most important thing about these initial operations is that you know how many pages there are, and how many charters there are, and you can use that knowledge to check on subsequent operations. If you want to do something to every charter, you can reliably test whether or not it worked because you can count the number of charters that it worked on.</p>
+
+<h2 id="a-namefoliosa-find-and-normalize-folio-markers"><a name="folios"></a> Find and normalize folio markers</h2>
+
+<p>Our OCR’d text is from the 1935 published edition of <em>Giovanni Scriba</em>. This is a transcription of a manuscript cartulary which was in the form of a bound book. The published edition preserves the pagination of that original by noting where the original pages change: [fo. 16 r.] the face side of the 16th leaf in the book, followed by its reverse [fo. 16 v.]. This is metadata that we want to preserve for each of the charters so that they can be referenced with respect to the original, as well as with respect to the published edition by page number.</p>
+
+<p>Many of the folio markers (e.g. “[fo. 16 v.]”) appear on the same line as the roman numeral for the charter heading. To normalize those charter headings for the operation above, we had to put a line break between the folio marker and the charter number, so many of the folio markers are on their own line already. However, sometimes the folio changes in the middle of the charter text somewhere. We want these markers to stay where they are; we will have to treat those two cases differently. For either case, we need to make sure all the folio markers are free of errors so that we can reliably find them by means of a regular expression. Again, since we know how many folios there are, we can know if we’ve found them all. Note that because we used <code class="highlighter-rouge">.readlines()</code>, <code class="highlighter-rouge">GScriba</code> is a list, so the script below will print the line number from the source file as well as the line itself. This will report all the correctly formated folio markers, so that you can find and fix the ones that are broken.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># note the optional quantifiers '\s?'. We want to find as many as we can, and</span>
+<span class="c"># the OCR is erratic about whitespace, so our regex is permissive. But as</span>
+<span class="c"># you find and correct these strings, you will want to make them consistent.</span>
+<span class="n">fol</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="nb">compile</span><span class="p">(</span><span class="s">"</span><span class="err">\</span><span class="s">[fo</span><span class="err">\</span><span class="s">.</span><span class="err">\</span><span class="s">s?</span><span class="err">\</span><span class="s">d+</span><span class="err">\</span><span class="s">s?[rv]</span><span class="err">\</span><span class="s">.</span><span class="err">\</span><span class="s">s?</span><span class="err">\</span><span class="s">]"</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">GScriba</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">fol</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
+        <span class="c"># since GScriba is a list, we can get the index of any of its members to find the line number in our input file.</span>
+        <span class="k">print</span> <span class="n">GScriba</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">line</span><span class="p">),</span> <span class="n">line</span>
+</code></pre>
+</div>
+
+<p>We would also like to ensure that no line has more than one folio marker. We can test that like this:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">GScriba</span><span class="p">:</span>
+    <span class="nb">all</span> <span class="o">=</span> <span class="n">fol</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">all</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">print</span> <span class="n">GScriba</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">line</span><span class="p">),</span> <span class="n">line</span>
+</code></pre>
+</div>
+
+<p>Again, as before, once you’ve found and corrected all the folio markers in your input file, save it with a new name and use it as the input to the next section.</p>
+
+<h2 id="a-namesummarya-find-and-normalize-the-italian-summary-lines"><a name="summary"></a> Find and normalize the Italian summary lines.</h2>
+<p>This important line is invariably the first one after the charter heading.</p>
+
+<p><img src="../images/gs_italian_summary.png" alt="italian summary line" /></p>
+
+<p>Since those roman numeral headings are now reliably findable with our ‘slug’ regex, we can now isolate the line that appears immediately after it. We also know that the summaries always end with some kind of parenthesized date expression. So, we can compose a regular expression to find the slug and the line following:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">slug_and_firstline</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="nb">compile</span><span class="p">(</span><span class="s">"(</span><span class="err">\</span><span class="s">[~~~~</span><span class="err">\</span><span class="s">sGScriba_)(.*)</span><span class="err">\</span><span class="s">s::::</span><span class="err">\</span><span class="s">s(</span><span class="err">\</span><span class="s">d+)</span><span class="err">\</span><span class="s">s~~~~</span><span class="err">\</span><span class="s">]</span><span class="se">\n</span><span class="s">(.*)(</span><span class="err">\</span><span class="s">(</span><span class="err">\</span><span class="s">d?.*</span><span class="err">\</span><span class="s">d+</span><span class="err">\</span><span class="s">))"</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>Let’s break down that regex using the verbose mode (again, see O’Hara’s <a href="cleaning-ocrd-text-with-regular-expressions.html">tutorial</a>). Our ‘slug’ for each charter takes the form “[~~~~ GScriba_CCVII :::: 207 ~~~~]” for example. The compiled pattern above is exactly equivalent to the folowing (note the re.VERBOSE switch at the end):</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">slug_and_firstline</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="nb">compile</span><span class="p">(</span><span class="s">r"""
+    (</span><span class="err">\</span><span class="s">[~~~~</span><span class="err">\</span><span class="s">sGScriba_)  # matches the "[~~~~ GScriba_" bit
+    (.*)                # matches the charter's roman numeral
+    </span><span class="err">\</span><span class="s">s::::</span><span class="err">\</span><span class="s">s            # matches the " :::: " bit
+    (</span><span class="err">\</span><span class="s">d+)               # matches the arabic charter number
+    </span><span class="err">\</span><span class="s">s~~~~</span><span class="err">\</span><span class="s">]</span><span class="err">\</span><span class="s">n          # matches the last " ~~~~ " bit and the line ending
+    (.*)                # matches all of the next line up to:
+    (</span><span class="err">\</span><span class="s">(</span><span class="err">\</span><span class="s">d?.*</span><span class="err">\</span><span class="s">d+</span><span class="err">\</span><span class="s">))      # the paranthetical expression at the end
+    """</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">VERBOSE</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>the parentheses mark match groups, so each time our regex finds a match, we can refer in our code to specific bits of the match it found:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">match.group(0)</code> is the whole match, both our slug and the line that follows it.</li>
+  <li><code class="highlighter-rouge">match.group(1)</code> = “[~~~~ GScriba_”</li>
+  <li><code class="highlighter-rouge">match.group(2)</code> = the charter’s roman numeral</li>
+  <li><code class="highlighter-rouge">match.group(3)</code> = the arabic charter number</li>
+  <li><code class="highlighter-rouge">match.group(4)</code> = the whole of the Italian summary line up to the parenthesized date expression</li>
+  <li><code class="highlighter-rouge">match.group(5)</code> = the parenthesized date expression. Note the escaped parentheses.</li>
+</ul>
+
+<p>Because our OCR has a lot of mysterious whitespace (OCR software is not good at parsing whitespace and you’re likely to get newlines, tabs, spaces, all mixed up without rhyme or reason), we want to hunt for this regex as substrings of a great big string, so this time we’re going to use <code class="highlighter-rouge">.read()</code> instead of <code class="highlighter-rouge">.readlines()</code>. And we’ll also need a counter to keep track of the lines we find. This script will report the charter numbers where the first line does not conform to our regex model. This will usually happen if there’s no line break after our charter header, or if the Italian summary line has been broken up into multiple lines.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">num_firstlines</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">fin</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">"your_current_source_file.txt"</span><span class="p">,</span> <span class="s">'r'</span><span class="p">)</span>
+<span class="c"># NB: GScriba is not a list of lines this time, but a single big string.</span>
+<span class="n">GScriba</span> <span class="o">=</span> <span class="n">fin</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+<span class="c"># finditer() creates an iterator 'i' that we can do a 'for' loop over.</span>
+<span class="n">i</span> <span class="o">=</span> <span class="n">slug_and_firstline</span><span class="o">.</span><span class="n">finditer</span><span class="p">(</span><span class="n">GScriba</span><span class="p">)</span>
+
+<span class="c"># each element 'x' in that iterator is a regex match object.</span>
+<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">i</span><span class="p">:</span>
+    <span class="c"># count the summary lines we find. Remember, we know how many </span>
+    <span class="c"># there should be, because we know how many charters there are.</span>
+    <span class="n">num_firstlines</span> <span class="o">+=</span> <span class="mi">1</span>
+    
+    <span class="n">chno</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span> <span class="c"># our charter number is a string, we need an integer</span>
+    
+    <span class="c"># chno should equal n + 1, if it doesn't, report to us</span>
+    <span class="k">if</span> <span class="n">chno</span> <span class="o">!=</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">"problem in charter: </span><span class="si">%</span><span class="s">d"</span> <span class="o">%</span> <span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="c">#NB: this will miss consecutive problems.</span>
+    <span class="c"># then set n to the right charter number</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">chno</span>
+
+<span class="c"># print out the number of summary lines we found</span>
+<span class="k">print</span> <span class="s">"number of italian summaries: "</span><span class="p">,</span> <span class="n">num_firstlines</span>
+</code></pre>
+</div>
+
+<p>Again, run the script repeatedly until all the Italian Summary lines are present and correct, then save your input file with a new name and use it the input file for the next bit:</p>
+
+<h2 id="a-namefootnotesa-find-and-normalize-footnote-markers-and-texts"><a name="footnotes"></a> Find and normalize footnote markers and texts</h2>
+
+<p>One of the trickiest bits to untangle, is the infuriating editorial convention of restarting the footnote numbering with each new page. This makes it hard to associate a footnote text (page-bound data), with a footnote marker (charter-bound data). Before we can do that we have to ensure that each footnote text that appears at the bottom of the page, appears in our source file on its own separate line with no leading white-space. And that <strong>none</strong> of the footnote markers within the text appears at the beginning of a line. And we must ensure that every footnote string, “(1)” for example, appears <strong>exactly</strong> twice on a page: once as an in-text marker, and once at the bottom for the footnote text. The following script reports the page number of any page that fails that test, along with a list of the footnote strings it found on that page.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># Don't forget to import the Counter module: </span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+<span class="n">fin</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">"your_current_source_file.txt"</span><span class="p">,</span> <span class="s">'r'</span><span class="p">)</span>
+<span class="n">GScriba</span> <span class="o">=</span> <span class="n">fin</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span> <span class="c"># GScriba is a list again</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="nb">compile</span><span class="p">(</span><span class="s">"</span><span class="err">\</span><span class="s">(</span><span class="err">\</span><span class="s">d{1,2}</span><span class="err">\</span><span class="s">)"</span><span class="p">)</span> <span class="c"># there's lots of ways for OCR to screw this up, so be alert.</span>
+<span class="n">pg</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="nb">compile</span><span class="p">(</span><span class="s">"~~~~~ PAGE </span><span class="err">\</span><span class="s">d+ ~~~~~"</span><span class="p">)</span>
+<span class="n">pgno</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="n">pgfnlist</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="c"># remember, we're processing lines in document order. So for each page</span>
+<span class="c"># we'll populate a temporary container, 'pgfnlist', with values. Then</span>
+<span class="c"># when we come to a new page, we'll report what those values are and</span>
+<span class="c"># then reset our container to the empty list.</span>
+
+<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">GScriba</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">pg</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
+        <span class="c"># if this test is True, then we're starting a new page, so increment pgno</span>
+        <span class="n">pgno</span> <span class="o">+=</span> <span class="mi">1</span>
+        
+        <span class="c"># if we've started a new page, then test our list of footnote markers</span>
+        <span class="k">if</span> <span class="n">pgfnlist</span><span class="p">:</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">pgfnlist</span><span class="p">)</span>
+            
+            <span class="c"># if there are fn markers that do not appear exactly twice,</span>
+            <span class="c"># then report the page number to us</span>
+            <span class="k">if</span> <span class="mi">1</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">values</span><span class="p">():</span> <span class="k">print</span> <span class="n">pgno</span><span class="p">,</span> <span class="n">pgfnlist</span>
+            
+            <span class="c"># then reset our list to empty</span>
+            <span class="n">pgfnlist</span> <span class="o">=</span> <span class="p">[]</span>
+            
+    <span class="c"># for each line, look for ALL occurences of our footnote marker regex</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">finditer</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">mark</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">eval</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">i</span><span class="p">]:</span>
+        <span class="c"># and add them to our list for this page</span>
+        <span class="n">pgfnlist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mark</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<blockquote>
+  <p>Note: the elements in the iterator ‘i’ are string matches. We want the strings that were matched, <code class="highlighter-rouge">group(0)</code>. e.g. “(1)”. And if we do eval(“(1)”) we get an integer that we can add to our list.</p>
+</blockquote>
+
+<p>Our <code class="highlighter-rouge">Counter</code> is a very handy special data structure. We know that we want each value in our <code class="highlighter-rouge">pgfnlist</code> to appear twice. Our <code class="highlighter-rouge">Counter</code> will give us a hash where the keys are the elements that appear, and the values are how many times each element appears. Like this:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">l</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">c</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="n">c</span>
+<span class="n">Counter</span><span class="p">({</span><span class="mi">1</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+</code></pre>
+</div>
+
+<p>So if for a given page we get a list of footnote markers like this <code class="highlighter-rouge">[1,2,3,1,3]</code>, then the test <code class="highlighter-rouge">if 1 in c.values()</code> will indicate a problem because we know each element must appear <strong>exactly twice</strong>:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">l</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">c</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="n">c</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+<span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+</code></pre>
+</div>
+
+<p>whereas, if our footnote marker list for the page is complete <code class="highlighter-rouge">[1,2,3,1,2,3]</code>, then:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">l</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">c</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span> <span class="n">c</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+<span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="c"># i.e. 1 is not in c.values()</span>
+</code></pre>
+</div>
+
+<p>As before, run this script repeatedly, correcting your input file manually as you discover errors, until you are satisfied that all footnotes are present and correct for each page. Then save your corrected input file with a new name.</p>
+
+<p>Our text file still has lots of OCR errors in it, but we have now gone through it and found and corrected all the specific metadata bits that we want in our ordered data set. Now we can use our corrected text file to build a Python dictionary.</p>
+
+<p>#<a name="dictionary"></a> Creating the Dictionary</p>
+
+<p>Now that we’ve cleaned up enough of the OCR that we can successfully differentiate the component parts of the page from each other, we can now sort the various bits of the meta-data, and the charter text itself, into their own separate fields of a Python dictionary.</p>
+
+<p>We have a number of things to do: correctly number each charter as to charter number, folio, and page; separate out the Italian summary and the marginal notation lines; and associate the footnote texts with their appropriate charter. To do all this, sometimes it is convenient to make more than one pass.</p>
+
+<p>##<a name="first-pass"></a> Create a skeleton dictionary.</p>
+
+<p>We’ll start by generating a python dictionary whose keys are the charter numbers, and whose values are a nested dictionary that has fields for some of the metadata we want to store for each charter. So it will have the form:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">charters</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="o">.</span>
+    <span class="o">.</span>
+    <span class="o">.</span>
+    <span class="mi">300</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s">'chid'</span><span class="p">:</span> <span class="s">"our charter ID"</span><span class="p">,</span>
+            <span class="s">'chno'</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+            <span class="s">'footnotes'</span><span class="p">:</span> <span class="p">[],</span> <span class="c"># an empty list for now</span>
+            <span class="s">'folio'</span><span class="p">:</span> <span class="s">"the folio marker for this charter"</span><span class="p">,</span>
+            <span class="s">'pgno'</span><span class="p">:</span> <span class="s">"the page number in the printed edition for this charter,</span><span class="err">
+</span><span class="s">            'text': [] # an empty list for now</span><span class="err">
+</span><span class="s">          },</span><span class="err">
+</span><span class="s">    301: {</span><span class="err">
+</span><span class="s">            'chid': "</span><span class="n">our</span> <span class="n">charter</span> <span class="n">ID</span><span class="s">",</span><span class="err">
+</span><span class="s">            'chno': 301,</span><span class="err">
+</span><span class="s">            'footnotes': [], # an empty list for now</span><span class="err">
+</span><span class="s">            'folio': "</span><span class="n">the</span> <span class="n">folio</span> <span class="n">marker</span> <span class="k">for</span> <span class="n">this</span> <span class="n">charter</span><span class="s">",</span><span class="err">
+</span><span class="s">            'pgno': "</span><span class="n">the</span> <span class="n">page</span> <span class="n">number</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">printed</span> <span class="n">edition</span> <span class="k">for</span> <span class="n">this</span> <span class="n">charter</span><span class="p">,</span>
+            <span class="s">'text'</span><span class="p">:</span> <span class="p">[]</span> <span class="c"># an empty list for now</span>
+          <span class="p">},</span>
+    <span class="o">.</span>
+    <span class="o">.</span>
+    <span class="o">.</span> <span class="n">etc</span><span class="o">.</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>For this first pass, we’ll just create this basic structure and then in subsequent loops we will add to and modify this dictionary until we get a dictionary for each charter, and fields for all the metadata for each charter. Once this loop disposes of the easily searched lines (folio, page, and charter headers) and creates an empty container for footnotes, the fall-through default will be to append the remaining lines to the text field, which is a python list.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">slug</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="nb">compile</span><span class="p">(</span><span class="s">"(</span><span class="err">\</span><span class="s">[~~~~</span><span class="err">\</span><span class="s">sGScriba_)(.*)</span><span class="err">\</span><span class="s">s::::</span><span class="err">\</span><span class="s">s(</span><span class="err">\</span><span class="s">d+)</span><span class="err">\</span><span class="s">s~~~~</span><span class="err">\</span><span class="s">]"</span><span class="p">)</span>
+<span class="n">fol</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="nb">compile</span><span class="p">(</span><span class="s">"</span><span class="err">\</span><span class="s">[fo</span><span class="err">\</span><span class="s">.</span><span class="err">\</span><span class="s">s?</span><span class="err">\</span><span class="s">d+</span><span class="err">\</span><span class="s">s?[rv]</span><span class="err">\</span><span class="s">.</span><span class="err">\</span><span class="s">s?</span><span class="err">\</span><span class="s">]"</span><span class="p">)</span>
+<span class="n">pgbrk</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="nb">compile</span><span class="p">(</span><span class="s">"~~~~~ PAGE (</span><span class="err">\</span><span class="s">d+) ~~~~~"</span><span class="p">)</span>
+
+<span class="n">fin</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">"your_current_source_file.txt"</span><span class="p">,</span> <span class="s">'r'</span><span class="p">)</span>
+<span class="n">GScriba</span> <span class="o">=</span> <span class="n">fin</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+
+<span class="c"># we'll also need these global variables with starting values as we mentioned at the top</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">this_folio</span>  <span class="o">=</span> <span class="s">'[fo. 1 r.]'</span>
+<span class="n">this_page</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="c"># 'charters' is also defined as a global variable. The 'for' loop below</span>
+<span class="c">#  and in the following sections, will build on and modify this dictionary</span>
+<span class="n">charters</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span> 
+
+<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">GScriba</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">fol</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
+        <span class="c"># use this global variable to keep track of the folio number.</span>
+        <span class="c"># we'll create the 'folio' field using the value of this variable</span>
+        <span class="n">this_folio</span> <span class="o">=</span> <span class="n">fol</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">continue</span> <span class="c"># update the variable but otherwise do nothing with this line.</span>
+    <span class="k">if</span> <span class="n">slug</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
+        <span class="c"># if our 'slug' regex matches, we know we have a new charter</span>
+        <span class="c"># so get the data from the match groups</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">slug</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+        <span class="n">chid</span> <span class="o">=</span> <span class="s">"GScriba_"</span> <span class="o">+</span> <span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">chno</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+        
+        <span class="c"># then create an empty nested dictionary</span>
+        <span class="n">charters</span><span class="p">[</span><span class="n">chno</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        
+        <span class="c"># and an empty container for all the lines we won't use on this pass</span>
+        <span class="n">templist</span> <span class="o">=</span> <span class="p">[]</span> <span class="c"># this works because we're proceeding in document order: templist continues to exist as we iterate through each line in the charter, then is reset to the empty list when we start a new charter(slug.match(line))</span>
+        <span class="k">continue</span> <span class="c"># we generate the entry, but do nothing with the text of this line.</span>
+    <span class="k">if</span> <span class="n">chno</span><span class="p">:</span>
+        <span class="c"># if a charter dictionary has been created,</span>
+        <span class="c"># then we can now populate it with data from our slug.match above.</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">charters</span><span class="p">[</span><span class="n">chno</span><span class="p">]</span> <span class="c"># 'd' is just more convenient than 'charters[chno]'</span>
+        <span class="n">d</span><span class="p">[</span><span class="s">'footnotes'</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span> <span class="c"># We'll populate this empty list in a separate operation</span>
+        <span class="n">d</span><span class="p">[</span><span class="s">'chid'</span><span class="p">]</span> <span class="o">=</span> <span class="n">chid</span>
+        <span class="n">d</span><span class="p">[</span><span class="s">'chno'</span><span class="p">]</span> <span class="o">=</span> <span class="n">chno</span>
+        <span class="n">d</span><span class="p">[</span><span class="s">'folio'</span><span class="p">]</span> <span class="o">=</span> <span class="n">this_folio</span>
+        <span class="n">d</span><span class="p">[</span><span class="s">'pgno'</span><span class="p">]</span> <span class="o">=</span> <span class="n">this_page</span>
+        
+        <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s">'^</span><span class="err">\</span><span class="s">(</span><span class="err">\</span><span class="s">d+</span><span class="err">\</span><span class="s">)'</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+            <span class="c"># this line is footnote text, because it has a footnote marker</span>
+            <span class="c"># like "(1)" at the beginning. So we'll deal with it later</span>
+            <span class="k">continue</span> 
+        <span class="k">if</span> <span class="n">pgbrk</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
+            <span class="c"># if line is a pagebreak, update the variable</span>
+            <span class="n">this_page</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">pgbrk</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> 
+        <span class="k">elif</span> <span class="n">fol</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
+            <span class="c"># if folio changes within the charter text, update the variable</span>
+            <span class="n">this_folio</span> <span class="o">=</span> <span class="n">fol</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">line</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> 
+            <span class="n">templist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c"># any line not otherwise accounted for, add to our temporary container</span>
+            <span class="n">templist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+        <span class="c"># add the temporary container to the dictionary after using</span>
+        <span class="c"># a list comprehension to strip out any empty lines.</span>
+        <span class="n">d</span><span class="p">[</span><span class="s">'text'</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">templist</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">x</span> <span class="o">==</span> <span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">]</span> <span class="c"># strip empty lines</span>
+        
+</code></pre>
+</div>
+
+<h2 id="a-namesecond-passa-add-the-marginal-notation-and-italian-summary-lines-to-the-dictionary"><a name="second-pass"></a> Add the ‘marginal notation’ and Italian summary lines to the dictionary</h2>
+<p>When we generated the dictionary of dictionaries above, we assigned fields for footnotes (just an empty list for now), charterID, charter number, the folio, and the page number. All remaining lines were appended to a list and assigned to the field ‘text’. In all cases, the first line of each charter’s text field should be the Italian summary as we have insured above. The second line in MOST cases, represents a kind of marginal notation usually ended by the ‘]’ character (which OCR misreads a lot). We have to find the cases that do not meet this criterion, supply or correct the missing ‘]’, and in the cases where there is no marginal notation I’ve supplied “no marginal]” in my working text. The following diagnostic script will print the charter number and first two lines of the text field for those charters that do not meet these criteria. Run this script separately against the <code class="highlighter-rouge">charters</code> dictionary, and correct and update your canonical text accordingly.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">ch</span> <span class="ow">in</span> <span class="n">charters</span><span class="p">:</span>
+    <span class="n">txt</span> <span class="o">=</span> <span class="n">charters</span><span class="p">[</span><span class="n">ch</span><span class="p">][</span><span class="s">'text'</span><span class="p">]</span> <span class="c"># remember: the text field is a python list of strings</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">line1</span> <span class="o">=</span> <span class="n">txt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">line2</span> <span class="o">=</span> <span class="n">txt</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">line2</span> <span class="ow">and</span> <span class="s">']'</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">line2</span><span class="p">:</span>
+            <span class="n">n</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">print</span> <span class="s">"charter: </span><span class="si">%</span><span class="s">d</span><span class="se">\n</span><span class="s">text, line 1: </span><span class="si">%</span><span class="s">s</span><span class="se">\n</span><span class="s">text, line 2: </span><span class="si">%</span><span class="s">s"</span> <span class="o">%</span> <span class="p">(</span><span class="n">ch</span><span class="p">,</span> <span class="n">line1</span><span class="p">,</span> <span class="n">line2</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">print</span> <span class="n">ch</span><span class="p">,</span> <span class="s">"oops"</span> <span class="c"># to pass the charters from the missing page 214</span>
+</code></pre>
+</div>
+
+<blockquote>
+  <p>Note: The <code class="highlighter-rouge">try: except:</code> blocks are made necessary by the fact that in my OCR output, the data for pg 214 somehow got missed out. This often happens. Scanning or photographing each page of a 600 page book is tedious in the extreme. It’s very easy to skip a page. You will inevitably have anomalies like this in your text that you will have to isolate and work around. The Python <code class="highlighter-rouge">try: except:</code> pattern makes this easy. Python is also very helpful here in that you can do a lot more in the <code class="highlighter-rouge">except:</code> clause beyond just printing “oops”. You could call a function that performs a whole separate operation on those anomalous bits.</p>
+</blockquote>
+
+<p>Once we’re satisfied that line 1 and line 2 in the ‘text’ field for each charter in the <code class="highlighter-rouge">charters</code> dictionary are the Italian summary and the marginal notation respectively, we can make another iteration of the <code class="highlighter-rouge">charters</code> dictionary, removing those lines from the text field and creating new fields in the charter entry for them.</p>
+
+<blockquote>
+  <p>NOTA BENE: we are now modifying a data structure in memory rather than editing successive text files. So this script should be <strong>added</strong> to the one above that created your skeleton dictionary. That script creates the <code class="highlighter-rouge">charters</code> dictionary in memory, and this one modifies it</p>
+</blockquote>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">for</span> <span class="n">ch</span> <span class="ow">in</span> <span class="n">charters</span><span class="p">:</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">charters</span><span class="p">[</span><span class="n">ch</span><span class="p">]</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">d</span><span class="p">[</span><span class="s">'summary'</span><span class="p">]</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s">'text'</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="n">d</span><span class="p">[</span><span class="s">'marginal'</span><span class="p">]</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s">'text'</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="k">except</span> <span class="nb">IndexError</span><span class="p">:</span> <span class="c"># this will report that the charters on p 214 are missing</span>
+        <span class="k">print</span> <span class="s">"missing charter "</span><span class="p">,</span> <span class="n">ch</span>
+</code></pre>
+</div>
+
+<h2 id="a-namethird-passa-assign-footnotes-to-their-respective-charters-and-add-to-dictionary"><a name="third-pass"></a> Assign footnotes to their respective charters and add to dictionary</h2>
+<p>The trickiest part is to get the footnote texts appearing at the bottom of the page associated with their appropriate charters. Since we are, perforce, analyzing our text line by line, we’re faced with the problem of associating a given footnote reference with its appropriate footnote text when there are perhaps many lines intervening.</p>
+
+<p>For this we go back to the same list of lines that we built the dictionary from. We’re depending on all the footnote markers appearing within the charter text, i.e. none of them are at the beginning of a line. And, each of the footnote texts is on a separate line beginning with ‘(1)’ etc. We design regexes that can distinguish between the two and construct a container to hold them as we iterate over the lines. As we iterate over the lines of the text file, we find and assign markers and texts to our temporary container, and then, each time we reach a page break, we assign them to their appropriate fields in our existing Python dictionary <code class="highlighter-rouge">charters</code> and reset our temporary container to the empty <code class="highlighter-rouge">dict</code>.</p>
+
+<p>Note how we construct that temporary container. <code class="highlighter-rouge">fndict</code> starts out as an empty dictionary. As we iterate through the lines of our input text, if we find footnote markers within the line, we create an entry in <code class="highlighter-rouge">fndict</code> whose key is the footnote number, and whose value is another dictionary. In that dictionary we record the id of the charter that the footnote belongs to, and we create an empty field for the footnote text. When we find the footnote texts (<code class="highlighter-rouge">ntexts</code>) at the bottom of the page, we look up the footnote number in our container <code class="highlighter-rouge">fndict</code> and write the text of the line to the empty field we made. So when we come to the end of the page, we have a dictionary of footnotes that looks like this:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="p">{</span><span class="s">'chid'</span><span class="p">:</span> <span class="mi">158</span><span class="p">,</span> <span class="s">'fntext'</span><span class="p">:</span> <span class="s">'Nel ms. de due volte e ripa cancellato.'</span><span class="p">},</span>
+ <span class="mi">2</span><span class="p">:</span> <span class="p">{</span><span class="s">'chid'</span><span class="p">:</span> <span class="mi">158</span><span class="p">,</span> <span class="s">'fntext'</span><span class="p">:</span> <span class="s">'Sic nel ms.'</span><span class="p">},</span>
+ <span class="mi">3</span><span class="p">:</span> <span class="p">{</span><span class="s">'chid'</span><span class="p">:</span> <span class="mi">159</span><span class="p">,</span> <span class="s">'fntext'</span><span class="p">:</span> <span class="s">'genero cancellato nel ms.'</span><span class="p">}}</span>
+</code></pre>
+</div>
+
+<p>Now we have all the necessary information to assign the footnotes to the empty ‘footnotes’ list in the <code class="highlighter-rouge">charters</code> dictionary: the number of the footnote (the key), the charter it belongs to (chid), and the text of the footnote (fntext).</p>
+
+<p>This is a common pattern in programming, and very useful: in an iterative process of some kind, you use an accumulator (our <code class="highlighter-rouge">fndict</code>) to gather bits of data, then when your sentinel encounters a specified condition (the pagebreak) it does something with the data.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">fin</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">"your_current_source_file.txt"</span><span class="p">,</span> <span class="s">'r'</span><span class="p">)</span>
+<span class="n">GScriba</span> <span class="o">=</span> <span class="n">fin</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+
+<span class="c"># in notemark, note the 'lookbehind' expression '?&lt;!' to insure that</span>
+<span class="c"># the marker '(1)' does not begin the string</span>
+<span class="n">notemark</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="nb">compile</span><span class="p">(</span><span class="s">r"</span><span class="err">\</span><span class="s">(</span><span class="err">\</span><span class="s">d+</span><span class="err">\</span><span class="s">)(?&lt;!^</span><span class="err">\</span><span class="s">(</span><span class="err">\</span><span class="s">d+</span><span class="err">\</span><span class="s">))"</span><span class="p">)</span> 
+<span class="n">notetext</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="nb">compile</span><span class="p">(</span><span class="s">r"^</span><span class="err">\</span><span class="s">(</span><span class="err">\</span><span class="s">d+</span><span class="err">\</span><span class="s">)"</span><span class="p">)</span>
+<span class="n">this_charter</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">pg</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="nb">compile</span><span class="p">(</span><span class="s">"~~~~~ PAGE </span><span class="err">\</span><span class="s">d+ ~~~~~"</span><span class="p">)</span>
+<span class="n">pgno</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">fndict</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">GScriba</span><span class="p">:</span>
+    <span class="n">nmarkers</span> <span class="o">=</span> <span class="n">notemark</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+    <span class="n">ntexts</span> <span class="o">=</span> <span class="n">notetext</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">pg</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
+        <span class="c"># This is our 'sentinel'. We've come to the end of a page,</span>
+        <span class="c"># so we record our accumulated footnote data in the 'charters' dict.</span>
+        <span class="k">for</span> <span class="n">fn</span> <span class="ow">in</span> <span class="n">fndict</span><span class="p">:</span>
+            <span class="n">chid</span> <span class="o">=</span> <span class="n">fndict</span><span class="p">[</span><span class="n">fn</span><span class="p">][</span><span class="s">'chid'</span><span class="p">]</span>
+            <span class="n">fntext</span> <span class="o">=</span> <span class="n">fndict</span><span class="p">[</span><span class="n">fn</span><span class="p">][</span><span class="s">'fntext'</span><span class="p">]</span>
+            <span class="n">charters</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">chid</span><span class="p">)][</span><span class="s">'footnotes'</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">fn</span><span class="p">,</span> <span class="n">fntext</span><span class="p">))</span>  
+        <span class="n">pgno</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">fndict</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c"># and then re-initialize our temporary container   </span>
+    <span class="k">if</span> <span class="n">slug</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">):</span> <span class="c"># here's the beginning of a charter, so update the variable.</span>
+        <span class="n">this_charter</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">slug</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">line</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">nmarkers</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">marker</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">eval</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">nmarkers</span><span class="p">]:</span>
+            <span class="c"># create an entry with the charter's id and an empty text field</span>
+            <span class="n">fndict</span><span class="p">[</span><span class="n">marker</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s">'chid'</span><span class="p">:</span><span class="n">this_charter</span><span class="p">,</span> <span class="s">'fntext'</span><span class="p">:</span> <span class="s">''</span><span class="p">}</span>
+    <span class="k">if</span> <span class="n">ntexts</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">eval</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ntexts</span><span class="p">]:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="c"># fill in the appropriate empty field.</span>
+                <span class="n">fndict</span><span class="p">[</span><span class="n">text</span><span class="p">][</span><span class="s">'fntext'</span><span class="p">]</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">'</span><span class="err">\</span><span class="s">(</span><span class="err">\</span><span class="s">d+</span><span class="err">\</span><span class="s">)'</span><span class="p">,</span> <span class="s">''</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="k">except</span> <span class="nb">KeyError</span><span class="p">:</span>
+                <span class="k">print</span> <span class="s">"printer's error? "</span><span class="p">,</span> <span class="s">"pgno:"</span><span class="p">,</span> <span class="n">pgno</span><span class="p">,</span> <span class="n">line</span>
+</code></pre>
+</div>
+
+<p>Note that the <code class="highlighter-rouge">try: except:</code> blocks come to the rescue again here. The loop above kept breaking because in 3 instances it emerged that there existed footnotes at the bottom of a page for which there were no markers within the text. This was an editorial oversight in the published edition, not an OCR error. The result was that when I tried to address the non-existent entry in <code class="highlighter-rouge">fndict</code>, I got a <code class="highlighter-rouge">KeyError</code>. My <code class="highlighter-rouge">except:</code> clause allowed me to find and look at the error, and determine that the error was in the original and nothing I could do anything about, so when generating the final version of <code class="highlighter-rouge">charters</code> I replaced the <code class="highlighter-rouge">print</code> statement with <code class="highlighter-rouge">pass</code>. Texts made by humans are messy; no getting around it. <code class="highlighter-rouge">try: except:</code> exists to deal with that reality.</p>
+
+<blockquote>
+  <p>NOTA BENE: Again, bear in mind that we are modifying a data structure in memory rather than editing successive text files. So this loop should be <strong>added</strong> to your script <strong>below</strong> the summary and marginal loop, which is <strong>below</strong> the loop that created your skeleton dictionary.</p>
+</blockquote>
+
+<p>##<a name="fourth-pass"></a> Parse Dates and add to the dictionary
+Dates are hard. Students of British history cling to <a href="http://www.worldcat.org/oclc/41238508">Cheyney</a> as to a spar on a troubled ocean. And, given the way the Gregorian calendar was adopted so gradually, and innumerable other local variations, correct date reckoning for medieval sources will always require care and local knowledge. Nevertheless, here too Python can be of some help.</p>
+
+<p>Our Italian summary line invariably contains a date drawn from the text, and it’s conveniently set off from the rest of the line by parentheses. So we can parse them and create Python <code class="highlighter-rouge">date</code> objects. Then, if we want, we can do some simple calendar arithmetic.</p>
+
+<p>First we have to find and correct all the dates in the same way as we have done for the other metadata elements. Devise a diagnostic script that will iterate over your <code class="highlighter-rouge">charters</code> dictionary, report the location of errors in your canonical text, and then fix them in your canonical text manually. Something like this:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">summary_date</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="nb">compile</span><span class="p">(</span><span class="s">'</span><span class="err">\</span><span class="s">((</span><span class="err">\</span><span class="s">d{1,2})?(.*?)(</span><span class="err">\</span><span class="s">d{1,4})?</span><span class="err">\</span><span class="s">)'</span><span class="p">)</span> <span class="c"># we want to catch them all, and some have no day or month, hence the optional quantifiers: `?`.</span>
+
+<span class="c"># And we want to make Python speak Italian:</span>
+<span class="n">ital2int</span> <span class="o">=</span> <span class="p">{</span><span class="s">'gennaio'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">'febbraio'</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s">'marzo'</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s">'aprile'</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s">'maggio'</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s">'giugno'</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="s">'luglio'</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span> <span class="s">'agosto'</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="s">'settembre'</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span> <span class="s">'ottobre'</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s">'novembre'</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span> <span class="s">'dicembre'</span><span class="p">:</span> <span class="mi">12</span><span class="p">}</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="k">for</span> <span class="n">ch</span> <span class="ow">in</span> <span class="n">charters</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">charters</span><span class="p">[</span><span class="n">ch</span><span class="p">]</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">summary_date</span><span class="o">.</span><span class="n">finditer</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s">'summary'</span><span class="p">])</span>
+        <span class="n">dt</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">i</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="c"># Always the last parenthetical expression, in case there is more than one.</span>
+        <span class="k">if</span> <span class="n">dt</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ital2int</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">print</span> <span class="s">"chno. </span><span class="si">%</span><span class="s">d fix the month </span><span class="si">%</span><span class="s">s"</span> <span class="o">%</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s">'chno'</span><span class="p">],</span> <span class="n">dt</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">print</span> <span class="n">d</span><span class="p">[</span><span class="s">'chno'</span><span class="p">],</span> <span class="s">"The usual suspects "</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()[:</span><span class="mi">2</span><span class="p">]</span>
+</code></pre>
+</div>
+<blockquote>
+  <p>Note: When using <code class="highlighter-rouge">try/except</code> blocks, you should usually trap <strong>specific</strong> errors in the except clause, like <code class="highlighter-rouge">ValueError</code> and the like; however, in <em>ad hoc</em> scripts like this, using <code class="highlighter-rouge">sys.exc_info</code> is a quick and dirty way to get information about any exception that may be raised. (The <a href="http://pymotw.com/2/sys/index.html#module-sys">sys</a> module is full of such stuff, useful for debugging)</p>
+</blockquote>
+
+<p>Once you’re satisfied that all the parenthetical date expressions are present and correct, and conform to your regular expression, you can parse them and add them to your data structure as dates rather than just strings. For this you can use the <code class="highlighter-rouge">datetime</code> module.</p>
+
+<p>This module is part of the standard library, is a deep subject, and ought to be the subject of its own tutorial, given the importance of dates for historians. As with a lot of other python modules, a good introduction is Doug Hellmann’s <a href="http://pymotw.com/2/datetime/">PyMOTW</a>(module of the week). An even more able extension library is <a href="http://www.egenix.com/products/python/mxBase/mxDateTime/">mxDateTime</a>. Suffice it here to say that the <code class="highlighter-rouge">datetime.date</code> module expects parameters like this:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">date</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">dt</span> <span class="o">=</span> <span class="n">date</span><span class="p">(</span><span class="mi">1160</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">dt</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
+<span class="s">'1160-12-25'</span>
+</code></pre>
+</div>
+
+<p>So here’s our loop to parse the dates at the end of the Italian summary lines and store them in our <code class="highlighter-rouge">charters</code> dictionary (remembering again that we want to modify our in-memory data structure <code class="highlighter-rouge">charters</code> created above):</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">summary_date</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="nb">compile</span><span class="p">(</span><span class="s">'</span><span class="err">\</span><span class="s">((</span><span class="err">\</span><span class="s">d{1,2})?(.*?)(</span><span class="err">\</span><span class="s">d{1,4})?</span><span class="err">\</span><span class="s">)'</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">date</span>
+<span class="k">for</span> <span class="n">ch</span> <span class="ow">in</span> <span class="n">charters</span><span class="p">:</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">charters</span><span class="p">[</span><span class="n">ch</span><span class="p">]</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">summary_date</span><span class="o">.</span><span class="n">finditer</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="s">'summary'</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">i</span><span class="p">:</span>
+        <span class="c"># remember 'i' is an iterator so even if there is more than one</span>
+        <span class="c"># parenthetical expression in c['summary'], the try clause will</span>
+        <span class="c"># succeed on the last one, or fail on all of them.</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">yr</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+            <span class="n">mo</span> <span class="o">=</span> <span class="n">ital2int</span><span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()]</span>
+            <span class="n">day</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+            <span class="n">c</span><span class="p">[</span><span class="s">'date'</span><span class="p">]</span> <span class="o">=</span> <span class="n">date</span><span class="p">(</span><span class="n">yr</span><span class="p">,</span> <span class="n">mo</span><span class="p">,</span> <span class="n">day</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">c</span><span class="p">[</span><span class="s">'date'</span><span class="p">]</span> <span class="o">=</span> <span class="s">"date won't parse, see summary line"</span>
+</code></pre>
+</div>
+
+<p>Out of 803 charters, 29 wouldn’t parse, mostly because the date included only month and year. You can store these as strings, but then you have two data types claiming to be dates. Or you could supply a 01 as the default day and thus store a Python date object, but Jan. 1, 1160 isn’t the same thing as Jan. 1160 and thus distorts your metadata. Or you could just do as I have done and refer to the relevant source text: the Italian summary line in the printed edition.</p>
+
+<p>Once you’ve got date objects, you can do date arithmetic. Supposing we wanted to find all the charters dated to within 3 weeks of Christmas, 1160.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># Let's import the whole thing and use dot notation: datetime.date() etc.</span>
+<span class="kn">import</span> <span class="nn">datetime</span> 
+
+<span class="c"># a timedelta is a span of time</span>
+<span class="n">week</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">weeks</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">ch</span> <span class="ow">in</span> <span class="n">charters</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">dt</span> <span class="o">=</span> <span class="n">charters</span><span class="p">[</span><span class="n">ch</span><span class="p">][</span><span class="s">'date'</span><span class="p">]</span>
+        <span class="n">christmas</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">1160</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">25</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">dt</span> <span class="o">-</span> <span class="n">christmas</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">week</span> <span class="o">*</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">"chno: </span><span class="si">%</span><span class="s">s, date: </span><span class="si">%</span><span class="s">s"</span> <span class="o">%</span> <span class="p">(</span><span class="n">charters</span><span class="p">[</span><span class="n">ch</span><span class="p">][</span><span class="s">'chno'</span><span class="p">],</span> <span class="n">dt</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">pass</span> <span class="c"># avoid this idiom in production code</span>
+</code></pre>
+</div>
+
+<p>Which will give us this result:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">chno</span><span class="p">:</span> <span class="mi">790</span><span class="p">,</span> <span class="n">date</span><span class="p">:</span> <span class="mi">1160</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">14</span>
+<span class="n">chno</span><span class="p">:</span> <span class="mi">791</span><span class="p">,</span> <span class="n">date</span><span class="p">:</span> <span class="mi">1160</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">15</span>
+<span class="n">chno</span><span class="p">:</span> <span class="mi">792</span><span class="p">,</span> <span class="n">date</span><span class="p">:</span> <span class="mi">1161</span><span class="o">-</span><span class="mo">01</span><span class="o">-</span><span class="mo">01</span>
+<span class="n">chno</span><span class="p">:</span> <span class="mi">793</span><span class="p">,</span> <span class="n">date</span><span class="p">:</span> <span class="mi">1161</span><span class="o">-</span><span class="mo">01</span><span class="o">-</span><span class="mo">04</span>
+<span class="n">chno</span><span class="p">:</span> <span class="mi">794</span><span class="p">,</span> <span class="n">date</span><span class="p">:</span> <span class="mi">1161</span><span class="o">-</span><span class="mo">01</span><span class="o">-</span><span class="mo">05</span>
+<span class="n">chno</span><span class="p">:</span> <span class="mi">795</span><span class="p">,</span> <span class="n">date</span><span class="p">:</span> <span class="mi">1161</span><span class="o">-</span><span class="mo">01</span><span class="o">-</span><span class="mo">05</span>
+<span class="n">chno</span><span class="p">:</span> <span class="mi">796</span><span class="p">,</span> <span class="n">date</span><span class="p">:</span> <span class="mi">1161</span><span class="o">-</span><span class="mo">01</span><span class="o">-</span><span class="mi">10</span>
+<span class="n">chno</span><span class="p">:</span> <span class="mi">797</span><span class="p">,</span> <span class="n">date</span><span class="p">:</span> <span class="mi">1161</span><span class="o">-</span><span class="mo">01</span><span class="o">-</span><span class="mi">10</span>
+<span class="n">chno</span><span class="p">:</span> <span class="mi">798</span><span class="p">,</span> <span class="n">date</span><span class="p">:</span> <span class="mi">1161</span><span class="o">-</span><span class="mo">01</span><span class="o">-</span><span class="mo">06</span>
+</code></pre>
+</div>
+
+<p>Cool, huh?</p>
+
+<h1 id="a-namecompleted-dicta-our-completed-data-structure"><a name="completed-dict"></a> Our completed data structure</h1>
+
+<p>Now we’ve corrected our canonical text as much as we need to to differentiate between the various bits of meta-data that we want to capture, and we’ve created a data structure in memory, our <code class="highlighter-rouge">charters</code> dictionary, by making 4 passes, each one extending and modifying the dictionary in memory.</p>
+
+<ol>
+  <li>create the skeleton</li>
+  <li>separate out the <code class="highlighter-rouge">summary</code> and <code class="highlighter-rouge">marginal</code> lines and create dictionary fields for them.</li>
+  <li>collect and assign footnotes to their respective charters</li>
+  <li>parse the dates in the <code class="highlighter-rouge">summary</code> field, and add them to their respective charters</li>
+</ol>
+
+<p>Print out our resulting dictionary using <code class="highlighter-rouge">pprint(charters)</code> and you’ll see something like this:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span>
+<span class="o">.</span>
+<span class="o">.</span>
+<span class="o">.</span> 
+ <span class="mi">52</span><span class="p">:</span> <span class="p">{</span><span class="s">'chid'</span><span class="p">:</span> <span class="s">'GScriba_LII'</span><span class="p">,</span>
+      <span class="s">'chno'</span><span class="p">:</span> <span class="mi">52</span><span class="p">,</span>
+      <span class="s">'date'</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">1156</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">27</span><span class="p">),</span>
+      <span class="s">'folio'</span><span class="p">:</span> <span class="s">'[fo. 6 r.]'</span><span class="p">,</span>
+      <span class="s">'footnotes'</span><span class="p">:</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="s">'Cancellato: m.'</span><span class="p">)],</span>
+      <span class="s">'marginal'</span><span class="p">:</span> <span class="s">'no marginal]'</span><span class="p">,</span>
+      <span class="s">'pgno'</span><span class="p">:</span> <span class="mi">29</span><span class="p">,</span>
+      <span class="s">'summary'</span><span class="p">:</span> <span class="s">'I consoli di Genova riconoscono con sentenza il diritto di Romano di Casella di pagarsi sui beni di Gerardo Confector per un credito che aveva verso il medesimo (27 marzo 1156).'</span><span class="p">,</span>
+      <span class="s">'text'</span><span class="p">:</span> <span class="p">[</span><span class="s">'    In pontili capituli consules E. Aurie, W. Buronus, Ogerius Ventus laudaverunt quod Romanus de Casella haberet in bonis Gerardi Confectoris s. .xxvi. denariorum et possit eos accipere sine contradicione eius et omnium pro eo. Hoc ideo quia, cum; Romanus ante ipsos inde conquereretur, ipso Gerardo debitum non negante, sed quod de usura esset obiiciendo, iuravit nominatus Romanus quod capitalis erat (1) et non de usura, unde ut supra laudaverunt , .MCLVI., sexto kalendas aprilis, indicione tercia.</span><span class="se">\n</span><span class="s">'</span><span class="p">]},</span>
+ <span class="mi">53</span><span class="p">:</span> <span class="p">{</span><span class="s">'chid'</span><span class="p">:</span> <span class="s">'GScriba_LIII'</span><span class="p">,</span>
+      <span class="s">'chno'</span><span class="p">:</span> <span class="mi">53</span><span class="p">,</span>
+      <span class="s">'date'</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">1156</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">27</span><span class="p">),</span>
+      <span class="s">'folio'</span><span class="p">:</span> <span class="s">'[fo. 6 r.]'</span><span class="p">,</span>
+      <span class="s">'footnotes'</span><span class="p">:</span> <span class="p">[],</span>
+      <span class="s">'marginal'</span><span class="p">:</span> <span class="s">'Belmusti]'</span><span class="p">,</span>
+      <span class="s">'pgno'</span><span class="p">:</span> <span class="mi">29</span><span class="p">,</span>
+      <span class="s">'summary'</span><span class="p">:</span> <span class="s">"Maestro Arnaldo e Giordan nipote del fu Giovanni di Piacenza si obbligano di pagare una somma nell'ottava della prossima Pasqua, per merce ricevuta (27 marzo 1156)."</span><span class="p">,</span>
+      <span class="s">'text'</span><span class="p">:</span> <span class="p">[</span><span class="s">'  Testes Conradus Porcellus, Albericus, Vassallus Gambalixa, Petrus Artodi. Nos Arnaldus magister et Iordan nepos quondam Iohannis Placentie accepimus a te Belmusto tantum bracile unde promittimus dare tibi vel tuo certo misso lb. .xLIII. denariorum usque octavam proximi pasce, quod si non fecerimus penam dupli tibi stipulanti promittimus, bona pignori, possis unumquemque convenire de toto. Actum prope campanile Sancti Laurentii, millesimo centesimo .Lv., sexto kalendas aprilis, indictione tercia.</span><span class="se">\n</span><span class="s">'</span><span class="p">]},</span>
+<span class="o">.</span>
+<span class="o">.</span>
+<span class="o">.</span> <span class="n">etc</span><span class="o">.</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>Printing out your Python dictionary as a literal string is not a bad thing to do. For a text this size, the resulting file is perfectly manageable, can be mailed around usefully and read into a python repl session very simply using <code class="highlighter-rouge">eval()</code>, or pasted directly into a Python module file. On the other hand, if you want an even more reliable way to serialize it in an exclusively Python context, look into <a href="https://docs.python.org/2/library/pickle.html"><code class="highlighter-rouge">Pickle</code></a>. If you need to move it to some other context, JavaScript for example, or some <code class="highlighter-rouge">RDF</code> triple stores, Python’s <a href="https://docs.python.org/2/library/json.html#module-json"><code class="highlighter-rouge">json</code></a> module will translate effectively. If you have to get some kind of XML output, I will be very sorry for you, but the <a href="http://lxml.de/"><code class="highlighter-rouge">lxml</code></a> python module may ease the pain a little.</p>
+
+<h2 id="a-nameapplicationsa-order-from-disorder-huzzah"><a name="applications"></a> Order from disorder, huzzah.</h2>
+<p>Now that we have an ordered data structure, we can do many things with it. As a very simple example, let’s append some code that just prints <code class="highlighter-rouge">charters</code> out as html for display on a web-site:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">fout</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">"your_page.html"</span><span class="p">,</span> <span class="s">'w'</span><span class="p">)</span> <span class="c"># create a text file to write the html to</span>
+
+<span class="c"># write to the file your html header with some CSS formatting declarations</span>
+<span class="n">fout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">"""
+&lt;!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"&gt;
+
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;Giovanni Scriba Vol. I&lt;/title&gt;
+  &lt;style&gt;
+    h1 {text-align: center; color: #800; font-size: 16pt; margin-bottom: 0px; margin-top: 16px;}
+    ul {list-style-type: none;}
+    .sep {color: #800; text-align: center}
+    .charter {width: 650px; margin-left: auto; margin-right: auto; margin-top: 60px; border-top: double #800;}
+    .folio {color: #777;}
+    .summary {color: #777; margin: 12px 0px 12px 12px;}
+    .marginal {color: red}
+    .charter-text {margin-left: 16px}
+    .footnotes
+    .page-number {font-size: 60</span><span class="si">%</span><span class="s">}
+  &lt;/style&gt;&lt;/head&gt;
+
+&lt;body&gt;
+"""</span><span class="p">)</span>
+
+<span class="c"># a loop that will write out a blob of html code for each of the charters in our dictionary:</span>
+<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">charters</span><span class="p">:</span>
+    
+    <span class="c"># use a shallow copy so that charters[x] is not modified for this specialized purpose</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">charters</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s">'footnotes'</span><span class="p">]:</span> 
+            <span class="c"># remember, this is a list of tuples. So you can feed them directly</span>
+            <span class="c"># to the string interpolation operator in the list comprehension.</span>
+            <span class="n">fnlist</span> <span class="o">=</span> <span class="p">[</span><span class="s">"&lt;li&gt;(</span><span class="si">%</span><span class="s">s) </span><span class="si">%</span><span class="s">s&lt;/li&gt;"</span> <span class="o">%</span> <span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">d</span><span class="p">[</span><span class="s">'footnotes'</span><span class="p">]]</span>
+            <span class="n">d</span><span class="p">[</span><span class="s">'footnotes'</span><span class="p">]</span> <span class="o">=</span> <span class="s">"&lt;ul&gt;"</span> <span class="o">+</span> <span class="s">''</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fnlist</span><span class="p">)</span> <span class="o">+</span> <span class="s">"&lt;/ul&gt;"</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">d</span><span class="p">[</span><span class="s">'footnotes'</span><span class="p">]</span> <span class="o">=</span> <span class="s">""</span>
+        
+        <span class="n">d</span><span class="p">[</span><span class="s">'text'</span><span class="p">]</span> <span class="o">=</span> <span class="s">' '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s">'text'</span><span class="p">])</span> <span class="c"># d['text'] is a list of strings</span>
+        
+        <span class="n">blob</span> <span class="o">=</span> <span class="s">"""
+            &lt;div&gt;
+                &lt;div class="charter"&gt;
+                    &lt;h1&gt;</span><span class="si">%(chid)</span><span class="s">s&lt;/h1&gt;
+                    &lt;div class="folio"&gt;</span><span class="si">%(folio)</span><span class="s">s (pg. </span><span class="si">%(pgno)</span><span class="s">d)&lt;/div&gt;
+                    &lt;div class="summary"&gt;</span><span class="si">%(summary)</span><span class="s">s&lt;/div&gt;
+                    &lt;div class="marginal"&gt;</span><span class="si">%(marginal)</span><span class="s">s&lt;/div&gt;
+                    &lt;div class="text"&gt;</span><span class="si">%(text)</span><span class="s">s&lt;/div&gt;
+                    &lt;div class="footnotes"&gt;</span><span class="si">%(footnotes)</span><span class="s">s&lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            """</span>
+        
+        <span class="n">fout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">blob</span> <span class="o">%</span> <span class="n">d</span><span class="p">)</span>
+
+        <span class="c"># `string % dictionary` is a neat trick for html templating</span>
+        <span class="c"># that makes use of python's string interpolation syntax</span>
+        <span class="c"># see: http://www.diveintopython.net/html_processing/dictionary_based_string_formatting.html</span>
+            
+        <span class="n">fout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">"</span><span class="se">\n\n</span><span class="s">"</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="c"># insert entries noting the absence of charters on the missing pg. 214</span>
+        <span class="n">erratum</span> <span class="o">=</span> <span class="s">"""
+            &lt;div&gt;
+                &lt;div class="charter"&gt;
+                    &lt;h1&gt;Charter no. </span><span class="si">%</span><span class="s">d is missing because the scan for Pg. 214 was ommited&lt;/h1&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            """</span>  <span class="o">%</span> <span class="n">d</span><span class="p">[</span><span class="s">'chno'</span><span class="p">]</span>
+            
+        <span class="n">fout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">erratum</span><span class="p">)</span>
+        
+<span class="n">fout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">"""&lt;/body&gt;&lt;/html&gt;"""</span><span class="p">)</span>
+
+</code></pre>
+</div>
+
+<p>Drop the resulting file on a web browser, and you’ve got a nicely formated electronic edition.</p>
+
+<p><img src="../images/gs_gscriba207.png" alt="html formatted charter example" /></p>
+
+<p>Being able to do this with your, still mostly uncorrected, OCR output is not a trivial advantage. If you’re serious about creating a clean, error free, electronic edition of anything, you’ve got to do some serious proofreading. Having a source text formatted for reading is crucial; moreover, if your proofreader can change the font, spacing, color, layout, and so forth at will, you can increase their accuracy and productivity substantially. With this example in a modern web browser, tweaking those parameters with some simple CSS declarations is easy. Also, with some ordered HTML to work with, you might crowd-source the OCR error correction, instead of hiring that army of illiterate street urchins.</p>
+
+<p>And, our original problem, OCR cleanup, is now much more tractable because we can target regular expressions for the specific sorts of metadata we have: errors in the Italian summary or in the Latin text? Or we could design search-and-replace routines just for specific charters, or groups of charters.</p>
+
+<p>Beyond this though, there’s lots you can do with an ordered data set, including feeding it back through a markup tool like the <a href="http://brat.nlplab.org">brat</a> as we did for the ChartEx project. Domain experts can then start adding layers of semantic tagging even if you don’t do any further OCR error correction. Moreover, with an ordered dataset we can get all sorts of output, some other flavor of XML (if you must) for example: TEI (Text Encoding Initiative), or EAD (Encoded Archival Description). Or you could read your dataset directly into a relational database, or some kind of key/value store. All of these things are essentially impossible if you’re working simply with a plain text file.</p>
+
+<p>The bits of code above are in no way a turn-key solution for cleaning arbitrary OCR output. There is no such magic wand. The Google approach to scanning the contents of research libraries threatens to drown us in an ocean of bad data. Worse, it elides a fundamental fact of digital scholarship: digital sources are hard to get. Reliable, flexible, and useful digital texts require careful redaction and persistent curation. Google, Amazon, Facebook, <em>et alia</em> do not have to concern themselves with the quality of their data, just its quantity. Historians, on the other hand, must care first for the integrity of their sources.</p>
+
+<p>The vast 18th and 19th century publishing projects, the <em>Rolls Series</em>, the <em>Monumenta Germaniae Historica</em>, and many others, bequeathed a treasure trove of source material to us by dint of a huge amount of very painstaking and detailed work by armies of dedicated and knowledgeable scholars. Their task was the same as ours: to faithfully transmit history’s legacy from its earlier forms into a more modern form, thereby making it more widely accessible. We can do no less. We have powerful tools at our disposal, but while that may change the scale of the task, it does not change its nature.</p>
+
+	        </div>
+
+            
+
+	        <div class="author-info">
+	   	        <p class="author-name">About the author</p>
+			    <div class="author-description"><p>
+                
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                       Jon Crump is an independent scholar and freelance digital humanist based in Seattle, Washington.
+&nbsp;
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+		        </p>
+			    </div>
+	        </div>
+          <div class="citation-info">
+            <p class="citation-head">Suggested Citation</p>
+            <div class="suggested-citation">
+              <p>
+              
+  
+        Jon Crump
+  
+  , 
+              "Generating an Ordered Data Set from an OCR Text File," 
+              <em>Programming Historian</em> 
+              (25 November 2014), 
+              http://programminghistorian.org/lessons/generating-an-ordered-data-set-from-an-OCR-text-file
+              </p>
+            </div>
+          </div>
+        </article>
+    </div>
+
+    </div> <!-- end below-nav -->
+
+<footer role="contentinfo">
+
+          <div class="additional">
+          <ul id="menu-main-menu" class="additional">
+            <li class="menu-item"><a href="../index.html">About</a></li>
+            <li class="menu-item"><a href="index.html">Lessons</a></li>
+            <li class="menu-item"><a href="../contribute.html">Contribute</a></li>
+            <li class="menu-item"><a href="../project-team.html">Project Team</a></li>
+            <li class="menu-item"><a href="../blog.html">Blog</a></li>
+          </ul>
+        </div>
+
+
+<p><em>The Programming Historian</em> ISSN 2397-2068, is released under the <a href="http://creativecommons.org/licenses/by/2.0/" rel="license">CC-BY</a> license.</p>
+<p>The project is published by the <em>Editorial Board of the Programming Historian</em>, and first appeared in July 2012. It was last updated on 20 March 2016.</p>
+<p class="github">
+        <a href="https://github.com/programminghistorian/jekyll">Hosted on GitHub <img src="../images/GitHub-Mark-32px.png" title="GitHub logo"></a> 
+		<a href="https://github.com/programminghistorian/jekyll/commits/gh-pages/lessons/generating-an-ordered-data-set-from-an-OCR-text-file.md">Previous Versions</a>&nbsp;&#183;&nbsp;
+		<a href="../feedback.html">Give Feedback</a>
+</p>
+
+</footer>
+
+
+    </body>
+</html>
