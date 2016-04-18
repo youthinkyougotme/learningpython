@@ -4,72 +4,89 @@ import re
 import types
 import json
 import requests
+import difflib
 
-us_states = {
-        'alaska': '',
-        'alabama': '',
-        'arkansas': '',
-        'american samoa': '',
-        'arizona': '',
-        'california': '',
-        'colorado': '',
-        'connecticut': '',
-        'district of columbia': '',
-        'delaware': '',
-        'florida': '',
-        'georgia': '',
-        'guam': '',
-        'hawaii': '',
-        'iowa': '',
-        'idaho': '',
-        'illinois': '',
-        'indiana': '',
-        'kansas': '',
-        'kentucky': '',
-        'louisiana': '',
-        'massachusetts': '',
-        'maryland': '',
-        'maine': '',
-        'michigan': '',
-        'minnesota': '',
-        'missouri': '',
-        'northern mariana islands': '',
-        'nississippi': '',
-        'nontana': '',
-        'national': '',
-        'north carolina': '',
-        'north dakota': '',
-        'nebraska': '',
-        'new hampshire': '',
-        'new jersey': '',
-        'new mexico': '',
-        'nevada': '',
-        'new york': '',
-        'ohio': '',
-        'oklahoma': '',
-        'oregon': '',
-        'pennsylvania': '',
-        'puerto rico': '',
-        'rhode island': '',
-        'south carolina': '',
-        'south dakota': '',
-        'tennessee': '',
-        'texas': '',
-        'utah': '',
-        'virginia': '',
-        'virgin islands': '',
-        'vermont': '',
-        'washington': '',
-        'wisconsin': '',
-        'west virginia': '',
-        'wyoming': '',
-}
+
+verbose = False
+
+
+official_us_states = [
+    'Alaska',
+    'Alabama',
+    'Arkansas',
+    'American Samoa',
+    'Arizona',
+    'California',
+    'Colorado',
+    'Connecticut',
+    'District of Columbia',
+    'Delaware',
+    'Florida',
+    'Georgia',
+    'Guam',
+    'Hawaii',
+    'Iowa',
+    'Idaho',
+    'Illinois',
+    'Indiana',
+    'Kansas',
+    'Kentucky',
+    'Louisiana',
+    'Massachusetts',
+    'Maryland',
+    'Maine',
+    'Michigan',
+    'Minnesota',
+    'Missouri',
+    'Northern Mariana Islands',
+    'Mississippi',
+    'Montana',
+    'National',
+    'North Carolina',
+    'North Dakota',
+    'Nebraska',
+    'New Hampshire',
+    'New Jersey',
+    'New Mexico',
+    'Nevada',
+    'New York',
+    'Ohio',
+    'Oklahoma',
+    'Oregon',
+    'Pennsylvania',
+    'Puerto Rico',
+    'Rhode Island',
+    'South Carolina',
+    'South Dakota',
+    'Tennessee',
+    'Texas',
+    'Utah',
+    'Virginia',
+    'Virgin Islands',
+    'Vermont',
+    'Washington',
+    'Wisconsin',
+    'West Virginia',
+    'Wyoming'
+]
+i = 0
+us_states = []
+for state in official_us_states:
+    state = re.sub('\s','',state)
+    us_states.append(state.lower())
+    i = i + 1
+print us_states
+
+
+
 # --------- function definitions ---------
 
 # return a diction of the city, state in the file
 def getLocations(file) :
+    clean_state = ''
     error_count = 0
     success_count = 0
+    states_not_found = 0
     states = dict()
 
     print '\nGetting cities and states'
@@ -109,36 +126,98 @@ def getLocations(file) :
                     if len(stud_addre) == 2 :
 
                         # clean up city state, replace begin/ending spaces and lowercase
-                        stud_city = stud_addre[0].lower().strip()
-                        stud_state = stud_addre[1].lower().strip()
+                        stud_city = stud_addre[0].lower()
+                        stud_city = re.sub('\s', '', stud_city)
+
+                        stud_state = stud_addre[1].lower()
+                        stud_state = re.sub('\s', '', stud_state)
+
                         #print stud_city
                         #print stud_state
 
-                        # add state to states dictionary if not there already
-                        if stud_state not in states :
-                            states[stud_state] = dict()
+                        # if student state matches states list, good!, proceed
+                        if stud_state == '' :
+                            states_not_found = states_not_found + 1
+
+                            if verbose :
+                                print 'empty state!\nstates not found: {0}'.format(states_not_found)
+                                raw_input('continue...')
 
 
-                        if stud_city not in states[stud_state] :
-                            #print states[stud_state]
-                            states[stud_state][stud_city] = dict()
-                            states[stud_state][stud_city]["count"] = 1;
+                        elif stud_state in us_states :
+                            print stud_state
+                            # raw_input('match found')
+
+                            clean_state = stud_state
+
+
                         else :
-                            current_count = states[stud_state][stud_city]["count"]
-                            states[stud_state][stud_city]["count"] = current_count + 1
+                            state_matches = difflib.get_close_matches(stud_state, us_states)
 
-                        # print states[stud_state]
-                        # raw_input('continue...')
+                            if verbose :
+                                print stud_state
 
-                        success_count = success_count + 1
-                        #print 'Success! {0}'.format(success_count)
+                            if len(state_matches) != 0 :
+
+                                if verbose :
+                                    print state_matches
+                                    print 'suggested state above'
+                                    raw_input('continue...')
+
+                                clean_state = state_matches[0]
+
+                            else :
+                                states_not_found = states_not_found + 1
+
+                                if verbose :
+                                    print 'no suggested matches!\nstates not found: {0}'.format(states_not_found)
+                                    raw_input('continue...')
+
+                        if clean_state != '' :
+                            print stud_state
+                            print clean_state
+
+                            if verbose :
+                                print stud_state
+                                print clean_state
+                            #raw_input('results, continue...')
+
+
+                            # add state to states dictionary if not there already
+                            if clean_state not in states :
+                                states[stud_state] = dict()
+
+                            if verbose :
+                                print states[clean_state]
+
+                            print stud_city
+                            if stud_city not in states[clean_state] :
+                                #print states[clean_state]
+                                states[clean_state][stud_city] = dict()
+                                states[clean_state][stud_city]["count"] = 1;
+                            else :
+                                current_count = states[clean_state][stud_city]["count"]
+                                states[clean_state][stud_city]["count"] = current_count + 1
+
+                            # print states[clean_state]
+                            # raw_input('continue...')
+
+                            success_count = success_count + 1
+                            #print 'Success! {0}'.format(success_count)
+
+
+                        else :
+                            if verbose :
+                                print 'no clean state'
+                                raw_input('continue...')
 
                     else :
 
                         error_count = error_count + 1
                         #print 'error! {0}'.format(error_count)
 
-    print '\nDone getting cities and states'
+    print '\nDone getting cities and states...'
+    print 'States not found: {0}'.format(states_not_found)
     print 'Succeeded: {0}'.format(success_count)
     print 'Errors: {0}'.format(error_count)
 
@@ -219,21 +298,19 @@ def setCounty() :
 
 states = getLocations('2014.txt')
 
-print states
+# print states
 
-setCounty()
+# setCounty()
 
-# for state in states :
-#
-#     print state
-#     # print states[state]
-#
-#     for city in states[state] :
-#         count = states[state][city]["count"]
-#         print '     {0}: {1}'.format(city, count)
+for state in states :
+    print state
+    # print states[state]
+    for city in states[state] :
+        count = states[state][city]["count"]
+        print '     {0}: {1}'.format(city, count)
 
 
 
-loc = 'holland+mi'
-locCounty = getCounty(loc)
-print locCounty
+# loc = 'holland+mi'
+# locCounty = getCounty(loc)
+# print locCounty
