@@ -1,57 +1,60 @@
-Alaska
 Alabama
-Arkansas
-American Samoa
+Alaska
 Arizona
+Arkansas
 California
 Colorado
 Connecticut
-District of Columbia
 Delaware
+District of Columbia
 Florida
 Georgia
-Guam
 Hawaii
-Iowa
 Idaho
 Illinois
 Indiana
+Iowa
 Kansas
 Kentucky
 Louisiana
-Massachusetts
-Maryland
 Maine
+Maryland
+Massachusetts
 Michigan
 Minnesota
-Missouri
-Northern Mariana Islands
 Mississippi
+Missouri
 Montana
-National
-North Carolina
-North Dakota
 Nebraska
+Nevada
 New Hampshire
 New Jersey
 New Mexico
-Nevada
 New York
+North Carolina
+North Dakota
 Ohio
 Oklahoma
 Oregon
 Pennsylvania
-Puerto Rico
 Rhode Island
 South Carolina
 South Dakota
 Tennessee
 Texas
 Utah
-Virginia
-Virgin Islands
 Vermont
+Virginia
 Washington
-Wisconsin
 West Virginia
+Wisconsin
 Wyoming
+America Samoa
+Federated States of Micronesia
+Guam
+Marshall Islands
+Northern Mariana Islands
+Palau
+Puerto Rico
+U.S. Minor Outlying Islands
+Virgin Islands of the United States

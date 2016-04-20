@@ -1,9 +1,10 @@
 import re
 import json
 import requests
+import time
 
 # get the county name using google maps api
-def google_it(loc) :
+def get_county(loc) :
     ## location variable
     # format: '<cityname>+<stateabbre>'
     # loc = 'holland+mi';
@@ -45,6 +46,7 @@ def google_it(loc) :
 
 def set_counties(states) :
 
+    count = 0
     for state in states :
 
         for city in states[state] :
@@ -57,7 +59,19 @@ def set_counties(states) :
             loc = '{0}+{1}'.format(city,state)
 
             # look up the locaiton using google maps api
-            county_name = google_it(loc)
+            county_name = get_county(loc)
+
+            # increment the count
+            count = count + 1
+            print count
+
+            # divide count by 12
+            remainder = count % 10
+            # if count is divisible by 12
+            if remainder == 0 :
+                # pause calling to the google api for a bit
+                print "waiting..."
+                time.sleep(1.5)
 
             # remove county and township words from county name
             county_name = re.sub('\sCounty','',county_name)
