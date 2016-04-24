@@ -1,28 +1,50 @@
 import re
+from decimal import *
+getcontext().prec = 8
 
-def get_world_countries() :
+# function to create list from line seperated file
+def get_list_from_line_file(file) :
 
-    world_countries = []
+    output_list = []
 
-    with open('lists/world_countries.txt') as countries_file :
-        for line in countries_file:
-            line = re.sub('\s', '', line).lower()
-            world_countries.append(line)
+    with open(file) as file :
 
-    return world_countries
-
-
-def get_us_states() :
-
-    us_states = []
-
-    with open('lists/us_states.txt') as us_states_file :
-        for line in us_states_file :
+        for line in file :
             line = re.sub('\s','',line)
-            us_states.append(line.lower())
+            output_list.append(line.lower())
 
-    return us_states
+    return output_list
 
+
+
+def get_county_ids_ratios(file) :
+
+    joined_lines = ''
+    county_ids_ratios = {}
+
+    with open(file) as county_ids_names_file :
+
+        for line in county_ids_names_file :
+
+            line = line.rstrip()
+
+            if line != '#' :
+
+                line_parts = re.split('\t', line)
+                county_id = int(line_parts[0])
+                county_name = line_parts[1]
+
+                if county_id % 1000 != 0 :
+                    county_ids_ratios[county_id] = float(0)
+
+
+    return county_ids_ratios
+
+
+def create_json_file(dictionary, file_path) :
+
+    json.dump(dictionary, open(file_path,'w'), sort_keys=True)
+    
 
 
 def get_us_counties(file) :
