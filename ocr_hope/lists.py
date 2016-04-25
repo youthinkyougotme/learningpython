@@ -21,6 +21,7 @@ def get_county_ids_ratios(file) :
 
     joined_lines = ''
     county_ids_ratios = {}
+    county_names_id = {}
 
     with open(file) as county_ids_names_file :
 
@@ -37,14 +38,16 @@ def get_county_ids_ratios(file) :
                 if county_id % 1000 != 0 :
                     county_ids_ratios[county_id] = float(0)
 
+                    county_names_id[county_name] = county_id
 
-    return county_ids_ratios
+
+    return (county_ids_ratios, county_names_id)
 
 
 def create_json_file(dictionary, file_path) :
 
     json.dump(dictionary, open(file_path,'w'), sort_keys=True)
-    
+
 
 
 def get_us_counties(file) :

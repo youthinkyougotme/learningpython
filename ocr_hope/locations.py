@@ -1,5 +1,9 @@
 import re
 import difflib
+import time
+
+from googleapi import get_county
+
 
 def key_value_to_dictionary(this_key, this_value, this_dict) :
 
@@ -19,19 +23,51 @@ def key_value_to_dictionary(this_key, this_value, this_dict) :
         this_dict[this_key][this_value]["count"] = current_count + 1
 
 
+def set_county_info(dictionary, state, city, county_names_id, student_locations_bad_counties) :
+
+    # get and set county name according to the city and state provided
+    county_name = get_county(city, state)
+
+    # remove county and township words from county name
+    county_name = re.sub('\sCounty','',county_name)
+    county_name = re.sub('\sTownship','',county_name)
+
+
+    if county_name in county_names_id :
+        # add the county name and id to the city in dicitonary
+        dictionary[state][city]["county_name"] = county_name
+        dictionary[state][city]["county_id"] = county_names_id[county_name]
+
+    else :
+        bad_county = {}
+        bad_county["city"] = city
+        bad_county["state"] = state
+        bad_county["county_name"] = county_name
+        student_locations_bad_counties.append(bad_county)
+
+
+
 # return a dictionary of states with cities from the provided file
-def get_student_locations(text_file, us_states_list, world_countries_list) :
+def get_student_locations(text_file, us_states_list, world_countries_list, county_names_id_dict) :
 
     us_states = us_states_list
     world_countries = world_countries_list
+    county_names_id = county_names_id_dict
 
     student_locations_us = {}
     student_locations_world = {}
     student_locations_bad_states = {}
     student_locations_bad_cities = {}
     student_locations_errors_other = []
+    student_locations_bad_counties = []
+
+    commencement_line_count = 0
 
     with open(text_file) as students_list :
+
+        api_call_count = 1
+        api_call_interval = 10
+        api_call_wait_time = 1.75
 
         for line in students_list :
 
@@ -42,6 +78,8 @@ def get_student_locations(text_file, us_states_list, world_countries_list) :
                 section_title = re.findall('CANDIDATES FOR THE BACHELOR', line)
 
                 if len(section_title) == 0 :
+
+                    commencement_line_count = commencement_line_count + 1
 
                     # add space between (period)(alpha) patterns
                     line = re.sub('\.([a-zA-Z])', r'. \1', line)
@@ -55,6 +93,7 @@ def get_student_locations(text_file, us_states_list, world_countries_list) :
 
                     # split address into city and state
                     student_city_state = re.split(',|\.', student_city_state)
+
 
                     if len(student_city_state) == 2 :
 
@@ -71,8 +110,9 @@ def get_student_locations(text_file, us_states_list, world_countries_list) :
                             if student_state == '' :
 
                                 # if student state is empty
-                                student_state = 'empty'
-                                student_locations_bad_states[student_state] = student_city
+                                student_state = "empty"
+                                key_value_to_dictionary(student_state, student_city, student_locations_bad_states)
+
 
                             if student_state != '' :
                                 # the student state is not empty
@@ -81,6 +121,14 @@ def get_student_locations(text_file, us_states_list, world_countries_list) :
                                 if student_state in us_states :
                                     # there is a direct match with the us_states list
                                     key_value_to_dictionary(student_state, student_city, student_locations_us)
+
+                                    if api_call_count % api_call_interval == 0 :
+                                        print "waiting {0} secs...".format(api_call_wait_time)
+                                        # time.sleep(api_call_wait_time)
+
+                                    set_county_info(student_locations_us, student_state, student_city, county_names_id, student_locations_bad_counties)
+                                    api_call_count = api_call_count + 1
+
 
                                 elif student_state in world_countries :
                                     # there is a direct match with the us_states list
@@ -102,7 +150,8 @@ def get_student_locations(text_file, us_states_list, world_countries_list) :
 
                                     else :
                                         # there were not matches for the student state
-                                        student_locations_bad_states[student_state] = student_city
+                                        key_value_to_dictionary(student_state, student_city, student_locations_bad_states)
+
                         else :
 
                             if student_state != '' :
@@ -113,7 +162,12 @@ def get_student_locations(text_file, us_states_list, world_countries_list) :
 
                             student_locations_bad_cities[student_city] = student_state
 
+                        print api_call_count
+                        # raw_input('print api call count')
+
+
                     else :
                         student_locations_errors_other.append(student_city_state)
 
-    return (student_locations_us, student_locations_world, student_locations_bad_states, student_locations_bad_cities, student_locations_errors_other)
+
+    return (student_locations_us, student_locations_world, student_locations_bad_states, student_locations_bad_cities, student_locations_errors_other, student_locations_bad_counties, commencement_line_count)
