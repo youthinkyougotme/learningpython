@@ -21,7 +21,7 @@ def get_county_ids_ratios(file) :
 
     joined_lines = ''
     county_ids_ratios = {}
-    county_names_id = {}
+    state_county_names_ids = {}
 
     with open(file) as county_ids_names_file :
 
@@ -35,13 +35,19 @@ def get_county_ids_ratios(file) :
                 county_id = int(line_parts[0])
                 county_name = line_parts[1]
 
+                if county_id % 1000 == 0 :
+                    state = county_name
+                    state = re.sub('\s','',state)
+                    state = state.lower()
+                    state_county_names_ids[state] = {}
+
                 if county_id % 1000 != 0 :
                     county_ids_ratios[county_id] = float(0)
 
-                    county_names_id[county_name] = county_id
+                    state_county_names_ids[state][county_name] = county_id
 
 
-    return (county_ids_ratios, county_names_id)
+    return (county_ids_ratios, state_county_names_ids)
 
 
 def create_json_file(dictionary, file_path) :
