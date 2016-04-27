@@ -16,6 +16,8 @@ def export_tsv_ids_rates(county_ids_ratios, student_locations_us, tsv_export_pat
     raw_input('total_count')
 
     max_rate = float(0)
+    rate_sum = float(0)
+    county_count = 0
     # copy the county_ids_ratios dictionary for manipulation and value replacement
     student_county_ids_ratios = county_ids_ratios
     # run through student locations and replace rates in student_county_ids_ratios
@@ -33,7 +35,10 @@ def export_tsv_ids_rates(county_ids_ratios, student_locations_us, tsv_export_pat
 
                 if county_rate > max_rate :
                     max_rate = county_rate
-            
+
+                rate_sum = rate_sum + county_rate
+                county_count = county_count + 1
+
 
     print student_county_ids_ratios
     raw_input('student_county_ids_ratios')
@@ -49,6 +54,9 @@ def export_tsv_ids_rates(county_ids_ratios, student_locations_us, tsv_export_pat
 
 
     print '\n\nMax rate: {0}'.format(max_rate)
+    print 'Rate sum: {0}'.format(rate_sum)
+    print 'County count: {0}'.format(county_count)
+    print 'Average rate: {0}'.format(float(rate_sum)/float(county_rate))
 
     file_full_path = tsv_export_path + tsv_file_name
     save_file = open(file_full_path, 'w')

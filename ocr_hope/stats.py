@@ -1,6 +1,6 @@
 
 def get_child_key_count(dictionary) :
-    dictionary_count = 0
+    dictionary_count =
 
     for parent_key in dictionary :
 

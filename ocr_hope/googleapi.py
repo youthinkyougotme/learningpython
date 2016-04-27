@@ -83,7 +83,7 @@ def get_county(city, state) :
             print 'target address component index: {0}'.format(county_name_index)
 
             # extract county name
-            api_county = api_data["results"][0]["address_components"][county_name_index]["short_name"]
+            api_county = api_data["results"][0]["address_components"][county_name_index]["long_name"]
             print 'county found: {0}'.format(api_county)
             # print type(api_county)
 

@@ -18,7 +18,7 @@ from stats import run_stats
 from file_exports import export_tsv_ids_rates
 
 ##### GLOBAL VARIABLES ####
-
+exports_root_path = 'lists/export/'
 list_root_path = 'lists/sources/'
 student_list_path = list_root_path + '2014.txt'
 us_states_file_path = list_root_path + 'us_states.txt'
@@ -54,39 +54,135 @@ print_request = raw_input('Print state_county_names_ids? y or n? ')
 if print_request == 'y' :
     print state_county_names_ids
 
-raw_input('\n\nFile to be parsed: ' + student_list_path)
+run_new = print_request = raw_input('\nRe-run entire analysis? y or n? ')
 
-student_locations_us, student_locations_world, student_locations_bad_states, student_locations_bad_cities, student_locations_errors_other, student_locations_bad_counties, commencement_line_count = get_student_locations(student_list_path, us_states, world_countries, state_county_names_ids)
+if run_new == 'y':
 
-print 'Created student_locations_us [dict], student_locations_world [dict], student_locations_bad_states [dict], student_locations_bad_cities [dict], and student_locations_errors_other [list]'
+    raw_input('\n\nFile to be parsed: ' + student_list_path)
 
-print_request = raw_input('\nPrint student_locations_us? y or n? ')
-if print_request == 'y' :
-    print student_locations_us
+    student_locations_us, student_locations_world, student_locations_bad_states, student_locations_bad_cities, student_locations_errors_other, student_locations_bad_counties, commencement_line_count = get_student_locations(student_list_path, us_states, world_countries, state_county_names_ids)
 
-save_request = raw_input('\nSave student_locations_us? y or n? ')
-if save_request == 'y' :
-    json.dump(student_locations_us, open("lists/export/student_locations_us.json",'w'), sort_keys=True)
+    print 'Created student_locations_us [dict], student_locations_world [dict], student_locations_bad_states [dict], student_locations_bad_cities [dict], and student_locations_errors_other [list]'
 
-print_request = raw_input('\nPrint student_locations_world? y or n? ')
-if print_request == 'y' :
-    print student_locations_world
+    print_request = raw_input('\nPrint student_locations_us? y or n? ')
+    if print_request == 'y' :
+        print student_locations_us
 
-print_request = raw_input('\nPrint student_locations_bad_states? y or n? ')
-if print_request == 'y' :
-    print student_locations_bad_states
+    save_request = raw_input('\nSave student_locations_us? y or n? ')
+    if save_request == 'y' :
+        path = exports_root_path + 'student_locations_us.json'
+        json.dump(student_locations_us, open(path,'w'), sort_keys=True)
 
-print_request = raw_input('\nPrint student_locations_bad_cities? y or n? ')
-if print_request == 'y' :
-    print student_locations_bad_cities
 
-print_request = raw_input('\nPrint student_locations_errors_other? y or n? ')
-if print_request == 'y' :
-    print student_locations_errors_other
+    print_request = raw_input('\nPrint student_locations_world? y or n? ')
+    if print_request == 'y' :
+        print student_locations_world
 
-print_request = raw_input('\nPrint student_locations_bad_counties? y or n? ')
-if print_request == 'y' :
-    print student_locations_bad_counties
+    save_request = raw_input('\nSave student_locations_world? y or n? ')
+    if save_request == 'y' :
+        path = exports_root_path + 'student_locations_world.json'
+        json.dump(student_locations_world, open(path,'w'), sort_keys=True)
+
+
+    print_request = raw_input('\nPrint student_locations_bad_states? y or n? ')
+    if print_request == 'y' :
+        print student_locations_bad_states
+
+    save_request = raw_input('\nSave student_locations_bad_states? y or n? ')
+    if save_request == 'y' :
+        path = exports_root_path + 'student_locations_bad_states.json'
+        json.dump(student_locations_bad_states, open(path,'w'), sort_keys=True)
+
+
+    print_request = raw_input('\nPrint student_locations_bad_cities? y or n? ')
+    if print_request == 'y' :
+        print student_locations_bad_cities
+
+    save_request = raw_input('\nSave student_locations_bad_cities? y or n? ')
+    if save_request == 'y' :
+        path = exports_root_path + 'student_locations_bad_cities.json'
+        json.dump(student_locations_bad_cities, open(path,'w'), sort_keys=True)
+
+
+    print_request = raw_input('\nPrint student_locations_errors_other? y or n? ')
+    if print_request == 'y' :
+        print student_locations_errors_other
+
+    save_request = raw_input('\nSave student_locations_errors_other? y or n? ')
+    if save_request == 'y' :
+        path = exports_root_path + 'student_locations_errors_other.json'
+        json.dump(student_locations_errors_other, open(path,'w'), sort_keys=True)
+
+
+    print_request = raw_input('\nPrint student_locations_bad_counties? y or n? ')
+    if print_request == 'y' :
+        print student_locations_bad_counties
+
+    save_request = raw_input('\nSave student_locations_bad_counties? y or n? ')
+    if save_request == 'y' :
+        path = exports_root_path + 'student_locations_bad_counties.json'
+        json.dump(student_locations_bad_counties, open(path,'w'), sort_keys=True)
+
+else :
+    print "loading dictionaries and lists from json files..."
+
+    path = exports_root_path
+    with open("lists/us_states_counties_ids.json") as json_file:
+        us_states_counties_ids = json.load(json_file)
+
+    path = exports_root_path + 'student_locations_us.json'
+    with open(path) as json_file:
+        student_locations_us = json.load(json_file)
+
+    path = exports_root_path + 'student_locations_world.json'
+    with open(path) as json_file:
+        student_locations_world = json.load(json_file)
+
+    path = exports_root_path + 'student_locations_bad_states.json'
+    with open(path) as json_file:
+        student_locations_bad_states = json.load(json_file)
+
+    path = exports_root_path + 'student_locations_bad_cities.json'
+    with open(path) as json_file:
+        student_locations_bad_cities = json.load(json_file)
+
+    path = exports_root_path + 'student_locations_errors_other.json'
+    with open(path) as json_file:
+        student_locations_errors_other = json.load(json_file)
+
+    path = exports_root_path + 'student_locations_bad_counties.json'
+    with open(path) as json_file:
+        student_locations_bad_counties = json.load(json_file)
+
+
+
+    print_request = raw_input('\nPrint student_locations_us? y or n? ')
+    if print_request == 'y' :
+        print student_locations_us
+
+    print_request = raw_input('\nPrint student_locations_world? y or n? ')
+    if print_request == 'y' :
+        print student_locations_world
+
+    print_request = raw_input('\nPrint student_locations_bad_states? y or n? ')
+    if print_request == 'y' :
+        print student_locations_bad_states
+
+    print_request = raw_input('\nPrint student_locations_bad_cities? y or n? ')
+    if print_request == 'y' :
+        print student_locations_bad_cities
+
+    print_request = raw_input('\nPrint student_locations_errors_other? y or n? ')
+    if print_request == 'y' :
+        print student_locations_errors_other
+
+    print_request = raw_input('\nPrint student_locations_bad_counties? y or n? ')
+    if print_request == 'y' :
+        print student_locations_bad_counties
+
+
+
+
 
 run_stats(commencement_line_count, student_locations_us, student_locations_world, student_locations_bad_states, student_locations_bad_cities, student_locations_errors_other, student_locations_bad_counties)
 
