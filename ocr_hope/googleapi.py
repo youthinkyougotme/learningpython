@@ -110,7 +110,8 @@ def get_county(city, state) :
 
 
 # take the state as parent, the city as child, the
-def set_city_info(dictionary, state, city, state_county_names_ids, student_locations_bad_counties, student_locations_bad_cities, main_run_index) :
+def set_city_info(dictionary, state, city, state_county_names_ids, student_locations_bad_counties, student_locations_bad_cities) :
+
 
     print 'Main runs: {0}'.format(main_run_index)
 

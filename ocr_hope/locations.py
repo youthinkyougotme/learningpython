@@ -99,7 +99,7 @@ def get_student_locations(student_list_text_file_path, us_states, world_countrie
                                     # there is a valid state, and a non empty city field
                                     # pass the two along to the google api
                                     # depending on the response, add the state city pair to the appropriate dict or list
-                                    set_city_info(student_locations_us, student_state, student_city, state_county_names_ids, student_locations_bad_counties, student_locations_bad_cities, main_run_index)
+                                    set_city_info(student_locations_us, student_state, student_city, state_county_names_ids, student_locations_bad_counties, student_locations_bad_cities)
 
                                     # an api call was made, increment the count
                                     api_call_count = api_call_count + 1
@@ -136,7 +136,7 @@ def get_student_locations(student_list_text_file_path, us_states, world_countrie
                                         # there is a valid state, and a non empty city field
                                         # pass the two along to the google api
                                         # depending on the response, add the state city pair to the appropriate dict or list
-                                        set_city_info(student_locations_us, student_state_match, student_city, state_county_names_ids, student_locations_bad_counties, student_locations_bad_cities, main_run_index)
+                                        set_city_info(student_locations_us, student_state_match, student_city, state_county_names_ids, student_locations_bad_counties, student_locations_bad_cities)
 
                                         # an api call was made, increment the count
                                         api_call_count = api_call_count + 1
