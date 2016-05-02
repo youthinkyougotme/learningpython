@@ -7,7 +7,7 @@ from googleapi import set_city_info
 
 
 # return a dictionary of states with cities from the provided file
-def get_student_locations(student_list_text_file_path, us_states, world_countries, state_county_names_ids, main_run_index) :
+def get_student_locations(student_list_text_file_path, us_states, world_countries, state_county_names_ids, main_run_index, google_city_state_county_responses) :
 
     # variables for google api call parameters
     api_call_count = 0
@@ -99,7 +99,7 @@ def get_student_locations(student_list_text_file_path, us_states, world_countrie
                                     # there is a valid state, and a non empty city field
                                     # pass the two along to the google api
                                     # depending on the response, add the state city pair to the appropriate dict or list
-                                    set_city_info(student_locations_us, student_state, student_city, state_county_names_ids, student_locations_bad_counties, student_locations_bad_cities)
+                                    set_city_info(student_locations_us, student_state, student_city, state_county_names_ids, student_locations_bad_counties, student_locations_bad_cities, main_run_index, google_city_state_county_responses)
 
                                     # an api call was made, increment the count
                                     api_call_count = api_call_count + 1
@@ -136,7 +136,7 @@ def get_student_locations(student_list_text_file_path, us_states, world_countrie
                                         # there is a valid state, and a non empty city field
                                         # pass the two along to the google api
                                         # depending on the response, add the state city pair to the appropriate dict or list
-                                        set_city_info(student_locations_us, student_state_match, student_city, state_county_names_ids, student_locations_bad_counties, student_locations_bad_cities)
+                                        set_city_info(student_locations_us, student_state_match, student_city, state_county_names_ids, student_locations_bad_counties, student_locations_bad_cities, main_run_index, google_city_state_county_responses)
 
                                         # an api call was made, increment the count
                                         api_call_count = api_call_count + 1
@@ -158,11 +158,11 @@ def get_student_locations(student_list_text_file_path, us_states, world_countrie
                                     student_state = 'empty'
 
                             # add empty city to this dict
-                            student_locations_bad_cities[student_city] = student_state
+                            student_locations_bad_cities.append(bad_state_city)
 
 
                         # print the number of api counts thus far
-                        print '\nGoogle API calls: {0}\n'.format(api_call_count)
+                        print '\nGoogle API calls: {0}\n\n'.format(api_call_count)
 
                     # uh oh, the city state address has more than two elements, lets keep track of it
                     # not fit for a google api call
@@ -172,3 +172,39 @@ def get_student_locations(student_list_text_file_path, us_states, world_countrie
 
 
     return (student_locations_us, student_locations_world, student_locations_bad_states, student_locations_bad_cities, student_locations_errors_other, student_locations_bad_counties, commencement_line_count)
+
+def register_google_city_state_county_responses(student_locations_us, saved_google_city_state_county_responses) :
+
+    # run through locations and collect cities count into county ids
+    for state in student_locations_us :
+        # print state
+        for city in student_locations_us[state] :
+            #print city
+
+            # if there is a county_id, just to make sure
+            if 'county_id' in student_locations_us[state][city] :
+
+                # get the county id, name and count values
+                county_id = student_locations_us[state][city]["county_id"]
+                county_name = student_locations_us[state][city]["county_name"]
+
+                # print county_id
+                # print county_name
+
+                # save the city, state, county id and name for future reference to reduce google api calls
+
+                if state not in saved_google_city_state_county_responses :
+
+                    saved_google_city_state_county_responses[state] = {}
+
+                else :
+
+                    if city not in saved_google_city_state_county_responses[state] :
+                        saved_google_city_state_county_responses[state][city] = {}
+
+                    else :
+                        
+                        saved_google_city_state_county_responses[state][city]["county_name"] = county_name
+                        saved_google_city_state_county_responses[state][city]["county_id"] = county_id
+
+    return saved_google_city_state_county_responses

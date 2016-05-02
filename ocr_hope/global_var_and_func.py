@@ -8,7 +8,9 @@ world_countries_file_path = lists_root_path + 'world_countries.txt'
 county_ids_ratios_file_path = lists_root_path + 'us_county_ids_names.tsv'
 
 global offline_mode
-offline_mode = True
+offline_mode = False
+
+saved_google_city_state_county_responses = {}
 
 def key_value_to_dictionary(this_key, this_value, this_dict) :
 

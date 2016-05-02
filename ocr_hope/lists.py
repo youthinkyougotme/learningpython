@@ -53,3 +53,4 @@ def get_county_ids_ratios(file) :
 def create_json_file(dictionary, file_path) :
 
     json.dump(dictionary, open(file_path,'w'), sort_keys=True)
+    

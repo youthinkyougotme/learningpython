@@ -14,7 +14,7 @@ def get_county(city, state) :
     # loc = 'holland+michigan'
 
     loc = city + '+' + state
-    print '\nGoogle API locaiton lookup: {0}'.format(loc)
+    print '\nGoogle API location lookup: {0}'.format(loc)
     ## setup api get requests
     # format example:
     # http://maps.googleapis.com/maps/api/geocode/json?address=holland+mi
@@ -85,7 +85,7 @@ def get_county(city, state) :
                 # end of loop, increment the index value
                 list_index = list_index + 1
 
-            print 'The address component index of interest: {0}'.format(county_name_index)
+            print '\nThe address component index of interest: {0}'.format(county_name_index)
 
             # extract the county name from the address components
             api_county = api_data["results"][0]["address_components"][county_name_index]["long_name"]
@@ -110,17 +110,39 @@ def get_county(city, state) :
 
 
 # take the state as parent, the city as child, the
-def set_city_info(dictionary, state, city, state_county_names_ids, student_locations_bad_counties, student_locations_bad_cities) :
+def set_city_info(dictionary, state, city, state_county_names_ids, student_locations_bad_counties, student_locations_bad_cities, main_run_index, google_city_state_county_responses) :
 
+    if state not in google_city_state_county_responses :
 
-    print 'Main runs: {0}'.format(main_run_index)
+        print '{0} state is not in google_city_state_county_responses'.format(state)
 
-    # get and set county name according to the city and state provided
-    county_name = get_county(city, state)
+        # get and set county name according to the city and state provided
+        county_name = get_county(city, state)
 
-    # remove county and possible township words from full county name
-    county_name = re.sub('\sCounty','',county_name)
-    # county_name = re.sub('\sTownship','',county_name)
+        # remove county and possible township words from full county name
+        county_name = re.sub('\sCounty','',county_name)
+        # county_name = re.sub('\sTownship','',county_name)
+
+    else :
+
+        if city not in google_city_state_county_responses[state] :
+
+            print '{0} state is in google_city_state_county_responses but {1} city is not in the state'.format(state, city)
+
+            # get and set county name according to the city and state provided
+            county_name = get_county(city, state)
+
+            # remove county and possible township words from full county name
+            county_name = re.sub('\sCounty','',county_name)
+            # county_name = re.sub('\sTownship','',county_name)
+
+        else:
+            print '{0} state is in google_city_state_county_responses and {1} city is in the state'.format(state, city)
+
+            county_name = google_city_state_county_responses[state][city]["county_name"]
+            print 'the county name: {0}'.format(county_name)
+
+            raw_input('state city matched in google_city_state_county_responses')
 
 
     # if the county_name is not empty
