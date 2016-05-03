@@ -1,0 +1,104 @@
+https://gist.github.com/mbostock/4090846#file-us-county-names-tsv
+http://coastwatch.pfeg.noaa.gov/erddap/convert/fipscounty.html
+http://code.activestate.com/recipes/577305-python-dictionary-of-us-states-and-territories/
+
+https://en.wikipedia.org/wiki/List_of_U.S._municipalities_in_multiple_counties
+http://stackoverflow.com/questions/7129313/zip-code-lookup-api
+http://www.zipcodeapi.com/API#locToZips
+
+
+http://stackoverflow.com/questions/4749706/lookup-city-and-state-by-zip-google-geocode-api
+
+
+
+
+http://maps.googleapis.com/maps/api/geocode/json?address=holland+mi&sensor=true
+
+http://stackoverflow.com/questions/6386308/http-requests-and-json-parsing-in-python
+http://stackoverflow.com/questions/16877422/parsing-json-responses
+http://stackoverflow.com/questions/13921910/python-urllib2-receive-json-response-from-url
+
+
+
+Sample Google API returns
+{u'status': u'OK', u'results': [{u'geometry': {u'location_type': u'APPROXIMATE', u'bounds': {u'northeast': {u'lat': 42.80256680000001, u'lng': -86.0470248}, u'southwest': {u'lat': 42.7293419, u'lng': -86.166938}}, u'viewport': {u'northeast': {u'lat': 42.80256680000001, u'lng': -86.0470248}, u'southwest': {u'lat': 42.7293419, u'lng': -86.166938}}, u'location': {u'lat': 42.7875235, u'lng': -86.1089301}}, u'address_components': [{u'long_name': u'Holland', u'types': [u'locality', u'political'], u'short_name': u'Holland'}, {u'long_name': u'Ottawa County', u'types': [u'administrative_area_level_2', u'political'], u'short_name': u'Ottawa County'}, {u'long_name': u'Michigan', u'types': [u'administrative_area_level_1', u'political'], u'short_name': u'MI'}, {u'long_name': u'United States', u'types': [u'country', u'political'], u'short_name': u'US'}, {u'long_name': u'49423', u'types': [u'postal_code'], u'short_name': u'49423'}], u'place_id': u'ChIJ8VmPob6SGYgR0lkjpqYF53A', u'formatted_address': u'Holland, MI 49423, USA', u'types': [u'locality', u'political']}]}
+
+
+{
+   "results" : [
+      {
+         "address_components" : [
+            {
+               "long_name" : "Holland",
+               "short_name" : "Holland",
+               "types" : [ "locality", "political" ]
+            },
+            {
+               "long_name" : "Ottawa County",
+               "short_name" : "Ottawa County",
+               "types" : [ "administrative_area_level_2", "political" ]
+            },
+            {
+               "long_name" : "Michigan",
+               "short_name" : "MI",
+               "types" : [ "administrative_area_level_1", "political" ]
+            },
+            {
+               "long_name" : "United States",
+               "short_name" : "US",
+               "types" : [ "country", "political" ]
+            },
+            {
+               "long_name" : "49423",
+               "short_name" : "49423",
+               "types" : [ "postal_code" ]
+            }
+         ],
+         "formatted_address" : "Holland, MI 49423, USA",
+         "geometry" : {
+            "bounds" : {
+               "northeast" : {
+                  "lat" : 42.80256680000001,
+                  "lng" : -86.0470248
+               },
+               "southwest" : {
+                  "lat" : 42.7293419,
+                  "lng" : -86.166938
+               }
+            },
+            "location" : {
+               "lat" : 42.7875235,
+               "lng" : -86.10893009999999
+            },
+            "location_type" : "APPROXIMATE",
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 42.80256680000001,
+                  "lng" : -86.0470248
+               },
+               "southwest" : {
+                  "lat" : 42.7293419,
+                  "lng" : -86.166938
+               }
+            }
+         },
+         "place_id" : "ChIJ8VmPob6SGYgR0lkjpqYF53A",
+         "types" : [ "locality", "political" ]
+      }
+   ],
+   "status" : "OK"
+}
+
+
+
+{ state_name_dict : {
+
+	city_name_dict : {
+		
+		count : int,
+		zipcode : int,
+		county_code : int,
+		county_name : string,
+		
+	}
+}

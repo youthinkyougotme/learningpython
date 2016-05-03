@@ -212,31 +212,37 @@ def main(exports_root_path, main_run_index) :
 
             path = exports_root_path + 'student_locations_us.json'
             with open(path) as json_file:
+                global student_locations_us
                 student_locations_us = json.load(json_file)
 
 
             path = exports_root_path + 'student_locations_world.json'
             with open(path) as json_file:
+                global student_locations_world
                 student_locations_world = json.load(json_file)
 
 
             path = exports_root_path + 'student_locations_bad_states.json'
             with open(path) as json_file:
+                global student_locations_bad_states
                 student_locations_bad_states = json.load(json_file)
 
 
             path = exports_root_path + 'student_locations_bad_cities.json'
             with open(path) as json_file:
+                global student_locations_bad_cities
                 student_locations_bad_cities = json.load(json_file)
 
 
             path = exports_root_path + 'student_locations_errors_other.json'
             with open(path) as json_file:
+                global student_locations_errors_other
                 student_locations_errors_other = json.load(json_file)
 
 
             path = exports_root_path + 'student_locations_bad_counties.json'
             with open(path) as json_file:
+                global student_locations_bad_counties
                 student_locations_bad_counties = json.load(json_file)
 
         load_data_from_files()
@@ -296,6 +302,13 @@ def main(exports_root_path, main_run_index) :
     print_request = raw_input('Printing google_city_state_county_responses... (enter \'n\' to escape) ')
     if print_request != 'n' :
         print json.dumps(google_city_state_county_responses, indent=4)
+
+    google_saved_count = 0
+    for state in google_city_state_county_responses :
+        for city in google_city_state_county_responses :
+            google_saved_count = google_saved_count + 1
+
+    raw_input('Printed google_city_state_county_responses, quantity: {0}'.format(google_saved_count))
 
     # set the tsv file parameters
     tsv_file_name = 'students_by_county_' + year + '.tsv'

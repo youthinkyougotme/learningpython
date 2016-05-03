@@ -1,6 +1,7 @@
 import re
 import difflib
 import time
+import unicodedata
 
 from global_var_and_func import offline_mode, key_value_to_dictionary
 from googleapi import set_city_info
@@ -53,6 +54,9 @@ def get_student_locations(student_list_text_file_path, us_states, world_countrie
                     # clean up the address, remove period at beginning of city
                     student_city_state = line_parts[-1]
 
+                    student_city_state = unicode(student_city_state, "utf-8")
+                    student_city_state = unicodedata.normalize('NFKD', student_city_state).encode('ASCII', 'ignore')
+
                     # split address into city and state
                     student_city_state = re.split(',|\.', student_city_state)
 
@@ -63,10 +67,10 @@ def get_student_locations(student_list_text_file_path, us_states, world_countrie
                         # replace begin/ending spaces and lowercase
 
                         student_city = student_city_state[0].lower()
-                        student_city = re.sub('\s', '', student_city)
+                        student_city = re.sub('\s|;|\'', '', student_city)
 
                         student_state = student_city_state[1].lower()
-                        student_state = re.sub('\s', '', student_state)
+                        student_state = re.sub('\s|;|\'', '', student_state)
 
                         # check if there is a city element
                         if student_city != '' :
@@ -99,10 +103,7 @@ def get_student_locations(student_list_text_file_path, us_states, world_countrie
                                     # there is a valid state, and a non empty city field
                                     # pass the two along to the google api
                                     # depending on the response, add the state city pair to the appropriate dict or list
-                                    set_city_info(student_locations_us, student_state, student_city, state_county_names_ids, student_locations_bad_counties, student_locations_bad_cities, main_run_index, google_city_state_county_responses)
-
-                                    # an api call was made, increment the count
-                                    api_call_count = api_call_count + 1
+                                    api_call_count = set_city_info(student_locations_us, student_state, student_city, state_county_names_ids, student_locations_bad_counties, student_locations_bad_cities, main_run_index, google_city_state_county_responses, api_call_count)
 
 
                                 # is the student state in the list of world countries?
@@ -136,10 +137,7 @@ def get_student_locations(student_list_text_file_path, us_states, world_countrie
                                         # there is a valid state, and a non empty city field
                                         # pass the two along to the google api
                                         # depending on the response, add the state city pair to the appropriate dict or list
-                                        set_city_info(student_locations_us, student_state_match, student_city, state_county_names_ids, student_locations_bad_counties, student_locations_bad_cities, main_run_index, google_city_state_county_responses)
-
-                                        # an api call was made, increment the count
-                                        api_call_count = api_call_count + 1
+                                        api_call_count = set_city_info(student_locations_us, student_state_match, student_city, state_county_names_ids, student_locations_bad_counties, student_locations_bad_cities, main_run_index, google_city_state_county_responses, api_call_count)
 
                                     # there were no matches for the student state in the us states list
                                     # not fit for a google api call
@@ -158,7 +156,7 @@ def get_student_locations(student_list_text_file_path, us_states, world_countrie
                                     student_state = 'empty'
 
                             # add empty city to this dict
-                            student_locations_bad_cities.append(bad_state_city)
+                            student_locations_bad_cities.append(student_city_state)
 
 
                         # print the number of api counts thus far
@@ -192,19 +190,23 @@ def register_google_city_state_county_responses(student_locations_us, saved_goog
                 # print county_name
 
                 # save the city, state, county id and name for future reference to reduce google api calls
-
                 if state not in saved_google_city_state_county_responses :
 
+                    # state not in the saved responses, add it
                     saved_google_city_state_county_responses[state] = {}
 
                 else :
+                    # state is already in the saved responses
 
+                    # check for city in responses, if not
                     if city not in saved_google_city_state_county_responses[state] :
+
+                        # city not in the state of saved responses, add it
                         saved_google_city_state_county_responses[state][city] = {}
 
-                    else :
-                        
-                        saved_google_city_state_county_responses[state][city]["county_name"] = county_name
-                        saved_google_city_state_county_responses[state][city]["county_id"] = county_id
+                    # add city county names and ids to the saved responses
+                    saved_google_city_state_county_responses[state][city]["county_name"] = county_name
+                    saved_google_city_state_county_responses[state][city]["county_id"] = county_id
+
 
     return saved_google_city_state_county_responses

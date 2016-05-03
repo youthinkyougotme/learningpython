@@ -110,7 +110,7 @@ def get_county(city, state) :
 
 
 # take the state as parent, the city as child, the
-def set_city_info(dictionary, state, city, state_county_names_ids, student_locations_bad_counties, student_locations_bad_cities, main_run_index, google_city_state_county_responses) :
+def set_city_info(dictionary, state, city, state_county_names_ids, student_locations_bad_counties, student_locations_bad_cities, main_run_index, google_city_state_county_responses, api_call_count) :
 
     if state not in google_city_state_county_responses :
 
@@ -122,6 +122,8 @@ def set_city_info(dictionary, state, city, state_county_names_ids, student_locat
         # remove county and possible township words from full county name
         county_name = re.sub('\sCounty','',county_name)
         # county_name = re.sub('\sTownship','',county_name)
+
+        api_call_count = api_call_count + 1
 
     else :
 
@@ -136,13 +138,16 @@ def set_city_info(dictionary, state, city, state_county_names_ids, student_locat
             county_name = re.sub('\sCounty','',county_name)
             # county_name = re.sub('\sTownship','',county_name)
 
+            # an api call was made, increment the count
+            api_call_count = api_call_count + 1
+
         else:
             print '{0} state is in google_city_state_county_responses and {1} city is in the state'.format(state, city)
 
             county_name = google_city_state_county_responses[state][city]["county_name"]
             print 'the county name: {0}'.format(county_name)
 
-            raw_input('state city matched in google_city_state_county_responses')
+            # raw_input('state city matched in google_city_state_county_responses')
 
 
     # if the county_name is not empty
@@ -186,3 +191,6 @@ def set_city_info(dictionary, state, city, state_county_names_ids, student_locat
         bad_county["state"] = state
         bad_county["county_name"] = county_name
         student_locations_bad_counties.append(bad_county)
+
+
+    return api_call_count
