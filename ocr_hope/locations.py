@@ -191,22 +191,17 @@ def register_google_city_state_county_responses(student_locations_us, saved_goog
 
                 # save the city, state, county id and name for future reference to reduce google api calls
                 if state not in saved_google_city_state_county_responses :
-
                     # state not in the saved responses, add it
                     saved_google_city_state_county_responses[state] = {}
 
-                else :
-                    # state is already in the saved responses
+                # check for city in responses, if not
+                if city not in saved_google_city_state_county_responses[state] :
+                    # city not in the state of saved responses, add it
+                    saved_google_city_state_county_responses[state][city] = {}
 
-                    # check for city in responses, if not
-                    if city not in saved_google_city_state_county_responses[state] :
-
-                        # city not in the state of saved responses, add it
-                        saved_google_city_state_county_responses[state][city] = {}
-
-                    # add city county names and ids to the saved responses
-                    saved_google_city_state_county_responses[state][city]["county_name"] = county_name
-                    saved_google_city_state_county_responses[state][city]["county_id"] = county_id
+                # add city county names and ids to the saved responses
+                saved_google_city_state_county_responses[state][city]["county_name"] = county_name
+                saved_google_city_state_county_responses[state][city]["county_id"] = county_id
 
 
     return saved_google_city_state_county_responses

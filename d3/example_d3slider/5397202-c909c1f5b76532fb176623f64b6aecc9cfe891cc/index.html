@@ -21,11 +21,11 @@
 		<input id="slider" type="range" min="1987" max="2010" value="1987" step="1" />
 
 		<span id="range">1987</span>
-		<script src="http://d3js.org/d3.v3.min.js"></script>
-		<script src="http://d3js.org/topojson.v1.min.js"></script>
-		<script src="https://raw.github.com/fryn/html5slider/master/html5slider.js"></script>
+		<script src="d3.v3.min.js"></script>
+		<script src="topojson.v1.min.js"></script>
+		<script src="html5slider.js"></script>
 		<script type="text/javascript">
-	
+
 onload = function() {
   var $ = function(id) { return document.getElementById(id); };
   $('slider').oninput = function() { $('range').innerHTML = this.value; };

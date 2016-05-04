@@ -308,7 +308,7 @@ def main(exports_root_path, main_run_index) :
         for city in google_city_state_county_responses :
             google_saved_count = google_saved_count + 1
 
-    raw_input('Printed google_city_state_county_responses, quantity: {0}'.format(google_saved_count))
+    raw_input('\nThe google_city_state_county_responses city count: {0}\n'.format(google_saved_count))
 
     # set the tsv file parameters
     tsv_file_name = 'students_by_county_' + year + '.tsv'

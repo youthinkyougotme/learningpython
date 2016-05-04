@@ -1,1 +1,0 @@
-A continuation of my original post. This time with student teacher ratio and an expanded timeline. I'm going to be upgrading this one to version 2.0 of a time slider with a map. Data courtesy of the <a href="http://okpolicy.org/resources/county-level-data">Oklahoma Policy Institute</a>. 

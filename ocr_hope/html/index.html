@@ -1,162 +1,41 @@
 <!DOCTYPE html>
-<meta charset="utf-8">
-<style>
+<html>
 
-.counties {
-  fill: none;
-}
+  <head>
+    <link rel="stylesheet" type="text/css" href="files/foundation/css/app.css">
+    <link rel="stylesheet" type="text/css" href="files/foundation/css/foundation.min.css">
+    <link rel="stylesheet" type="text/css" href="files/css/style.css">
+  </head>
 
-.states {
-  fill: none;
-  stroke: #fff;
-  stroke-linejoin: round;
-}
+  <body>
 
+    <ul class="tabs" data-tabs id="example-tabs">
+      <li class="tabs-title is-active" role="presentation"><a href="#panel0" role="tab" tabindex="0" aria-selected="true" aria-controls="panel0"><strong>2011</strong></a></li>
+      <li class="tabs-title" role="presentation"><a href="#panel1" role="tab" tabindex="0" aria-selected="true" aria-controls="panel1"><strong>2012</strong></a></li>
+      <li class="tabs-title" role="presentation"><a href="#panel2" role="tab" tabindex="0" aria-selected="true" aria-controls="panel2"><strong>2013</strong></a></li>
+      <li class="tabs-title" role="presentation"><a href="#panel3" role="tab" tabindex="0" aria-selected="true" aria-controls="panel3"><strong>2014</strong></a></li>
+    </ul>
 
+    <ul class="tabs-content" data-tabs-content="example-tabs">
+      <li class="tabs-panel is-active" id="panel0">
+        <iframe id="year_2011" style="border-style: none; border-color: inherit; border-width: 0px; height:720px; width:100%;" src="2011.html"></iframe>
+      </li>
+      <li class="tabs-panel is-active" id="panel1">
+        <iframe id="year_2012" style="border-style: none; border-color: inherit; border-width: 0px; height:720px; width:100%;" src="2012.html"></iframe>
+      </li>
+      <li class="tabs-panel" id="panel2">
+        <iframe id="year_2013" style="border-style: none; border-color: inherit; border-width: 0px; height:720; width:100%;" src="2013.html"></iframe>
+      </li>
+      <li class="tabs-panel" id="panel3">
+        <iframe id="year_2014" style="border-style: none; border-color: inherit; border-width: 0px; height:720; width:100%;" src="2014.html"></iframe>
+      </li>
+    </ul>
 
-/*
-.q0-9 { fill:rgb(247,251,255); }
-.q1-9 { fill:rgb(235,245,254); }
-.q2-9 { fill:rgb(222,235,247); }
-.q3-9 { fill:rgb(198,219,239); }
-.q4-9 { fill:rgb(158,202,225); }
-.q5-9 { fill:rgb(107,174,214); }
-.q6-9 { fill:rgb(66,146,198); }
-.q7-9 { fill:rgb(33,113,181); }
-.q8-9 { fill:rgb(8,81,156); }
-.q9-9 { fill:rgb(8,48,107); }
-*/
+    <script src="files/foundation/js/vendor/jquery.js"></script>
+    <script src="files/foundation/js/vendor/foundation.min.js"></script>
+    <script src="files/foundation/js/vendor/what-input.js"></script>
+    <script src="files/foundation/js/app.js"></script>
 
+  </body>
 
-.q0-9 { fill: #f7fbff; }
-.q1-9 { fill: #d9e6f3; }
-.q2-9 { fill: #bdd1e6; }
-.q3-9 { fill: #a2bdda; }
-.q4-9 { fill: #8aaace; }
-.q5-9 { fill: #7397c1; }
-.q6-9 { fill: #5e86b5; }
-.q7-9 { fill: #4b75a9; }
-.q8-9 { fill: #3a659c; }
-.q9-9 { fill: #2b5690; }
-.q10-9 { fill: #1d4884; }
-.q11-9 { fill: #123c77; }
-.q12-9 { fill: #08306b; }
-
-/*
-.q0-9{fill: #F7FBFF;}
-.q1-9{fill: #F1F6FB;}
-.q2-9{fill: #ECF1F8;}
-.q3-9{fill: #E7EDF5;}
-.q4-9{fill: #E1E8F1;}
-.q5-9{fill: #DCE4EE;}
-.q6-9{fill: #D7DFEB;}
-.q7-9{fill: #D1DBE7;}
-.q8-9{fill: #CCD6E4;}
-.q9-9{fill: #C7D2E1;}
-.q10-9{fill: #C1CDDE;}
-.q11-9{fill: #BCC9DA;}
-.q12-9{fill: #B7C4D7;}
-.q13-9{fill: #B1C0D4;}
-.q14-9{fill: #ACBBD0;}
-.q15-9{fill: #A7B7CD;}
-.q16-9{fill: #A2B2CA;}
-.q17-9{fill: #9CAEC7;}
-.q18-9{fill: #97A9C3;}
-.q19-9{fill: #92A5C0;}
-.q20-9{fill: #8CA0BD;}
-.q21-9{fill: #879CB9;}
-.q22-9{fill: #8297B6;}
-.q23-9{fill: #7C93B3;}
-.q24-9{fill: #778EB0;}
-.q25-9{fill: #728AAC;}
-.q26-9{fill: #6C85A9;}
-.q27-9{fill: #6781A6;}
-.q28-9{fill: #627CA2;}
-.q29-9{fill: #5C789F;}
-.q30-9{fill: #57739C;}
-.q31-9{fill: #526F99;}
-.q32-9{fill: #4D6A95;}
-.q33-9{fill: #476692;}
-.q34-9{fill: #42618F;}
-.q35-9{fill: #3D5D8B;}
-.q36-9{fill: #375888;}
-.q37-9{fill: #325485;}
-.q38-9{fill: #2D4F82;}
-.q39-9{fill: #274B7E;}
-.q40-9{fill: #22467B;}
-.q41-9{fill: #1D4278;}
-.q42-9{fill: #173D74;}
-.q43-9{fill: #123971;}
-.q44-9{fill: #0D346E;}
-.q45-9{fill: #08306B;}*/
-
-
-/*
-.q0-9 { fill:rgb(247,251,255); }
-.q1-9 { fill:rgb(235,245,254); }
-.q2-9 { fill:rgb(222,235,247); }
-.q3-9 { fill:rgb(198,219,239); }
-.q4-9 { fill:rgb(158,202,225); }
-.q5-9 { fill:rgb(107,174,214); }
-.q6-9 { fill:rgb(66,146,198); }
-.q7-9 { fill:rgb(33,113,181); }
-.q8-9 { fill:rgb(8,81,156); }
-.q9-9 { fill:rgb(8,48,107); }
-*/
-
-
-
-
-
-</style>
-<body>
-<script src="files/d3.v3.min.js"></script>
-<script src="files/queue.v1.min.js"></script>
-<script src="files/topojson.v1.min.js"></script>
-<script>
-
-var width = 1152,
-    height = 720;
-
-var rateById = d3.map();
-
-var quantize = d3.scale.quantize()
-    .domain([0, 0.02])
-    .range(d3.range(13).map(function(i) { return "q" + i + "-9"; }));
-
-var projection = d3.geo.albersUsa()
-    .scale(1280)
-    .translate([width / 2, height / 2]);
-
-var path = d3.geo.path()
-    .projection(projection);
-
-var svg = d3.select("body").append("svg")
-    .attr("width", width)
-    .attr("height", height);
-
-queue()
-    .defer(d3.json, "files/us.json")
-    .defer(d3.tsv, "files/students_by_county_2014.tsv", function(d) { rateById.set(d.id, +d.rate); })
-    .await(ready);
-
-function ready(error, us) {
-  if (error) throw error;
-
-  svg.append("g")
-      .attr("class", "counties")
-    .selectAll("path")
-      .data(topojson.feature(us, us.objects.counties).features)
-    .enter().append("path")
-      .attr("class", function(d) { return quantize(rateById.get(d.id)); })
-      .attr("d", path);
-
-  svg.append("path")
-      .datum(topojson.mesh(us, us.objects.states, function(a, b) { return a !== b; }))
-      .attr("class", "states")
-      .attr("d", path);
-}
-
-d3.select(self.frameElement).style("height", height + "px");
-
-</script>
+</html>
