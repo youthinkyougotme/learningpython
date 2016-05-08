@@ -1,0 +1,40 @@
+body {
+  margin: 0 !important;
+  background-color: #e6e6e6;
+}
+
+ul {
+  margin: 0 !important;
+  padding: 0 !important;
+  list-style-type: none !important;
+}
+
+
+.q0-9 { fill: #f7fbff; }
+.q1-9 { fill: #d9e6f3; }
+.q2-9 { fill: #bdd1e6; }
+.q3-9 { fill: #a2bdda; }
+.q4-9 { fill: #8aaace; }
+.q5-9 { fill: #7397c1; }
+.q6-9 { fill: #5e86b5; }
+.q7-9 { fill: #4b75a9; }
+.q8-9 { fill: #3a659c; }
+.q9-9 { fill: #2b5690; }
+.q10-9 { fill: #1d4884; }
+.q11-9 { fill: #123c77; }
+.q12-9 { fill: #08306b; }
+
+
+.counties {
+  fill: none;
+}
+
+.states {
+  fill: none;
+  stroke: #fff;
+  stroke-linejoin: round;
+}
+
+.tabs-panel {
+  padding: 0;
+}

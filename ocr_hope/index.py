@@ -340,7 +340,10 @@ while run_main == 'y' :
     main(exports_root_path, main_run_index)
 
     # prompt for another run
-    run_main = raw_input('Want to run the program again, y or n ? ')
+    run_main = ''
+    while run_main == '' :
+        run_main = raw_input('Want to run the program again, y or n ? ')
+        
 
     # increment run count
     main_run_index = main_run_index + 1
